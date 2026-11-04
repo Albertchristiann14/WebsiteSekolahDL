@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import {
   TENANTS,
   TenantConfig,
@@ -8,6 +8,7 @@ import {
   resolveTenantId,
   getTenantUrl,
 } from "@/config/tenants";
+import { TenantStore } from "@/lib/tenantStore";
 
 interface TenantContextValue {
   tenantId: TenantId;
@@ -97,7 +98,29 @@ export function TenantProvider({
     }
   };
 
-  const tenant = TENANTS[tenantId] || TENANTS.portal;
+  const [tenant, setTenant] = useState<TenantConfig>(() => TenantStore.getMergedConfig(tenantId));
+
+  // Sync tenant config when tenantId changes or when appearance is saved in CMS
+  const refreshTenantConfig = useCallback(() => {
+    setTenant(TenantStore.getMergedConfig(tenantId));
+  }, [tenantId]);
+
+  useEffect(() => {
+    refreshTenantConfig();
+
+    const handleAppearanceUpdate = (e: any) => {
+      if (!e.detail || e.detail === tenantId) {
+        refreshTenantConfig();
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("dl_tenant_appearance_updated", handleAppearanceUpdate);
+      return () => {
+        window.removeEventListener("dl_tenant_appearance_updated", handleAppearanceUpdate);
+      };
+    }
+  }, [tenantId, refreshTenantConfig]);
 
   // Injeksi variabel CSS dinamis sesuai jenjang aktif (--primary, --primary-foreground, --accent, --surface, --muted)
   useEffect(() => {

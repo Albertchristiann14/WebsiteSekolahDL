@@ -18,8 +18,9 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  role: "super_admin" | "school_admin" | "editor";
+  role: "super_admin" | "school_admin" | "editor" | "spmb_officer" | "content_editor" | "finance";
   role_name?: string;
+  tenant_id?: string | null;
   is_active: boolean;
   avatar_url?: string;
 }

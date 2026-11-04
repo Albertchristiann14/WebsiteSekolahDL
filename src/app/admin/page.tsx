@@ -22,6 +22,7 @@ import {
   Download,
   Share2,
   Sparkles,
+  Palette,
 } from "lucide-react";
 
 export default function AdminDashboardPage() {
@@ -89,6 +90,13 @@ export default function AdminDashboardPage() {
       }`}
       actions={
         <div className="flex items-center gap-2">
+          <Link
+            href="/admin/appearance"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs sm:text-sm font-bold hover:bg-indigo-100 transition cursor-pointer"
+          >
+            <Palette className="w-4 h-4 text-indigo-600" />
+            <span className="hidden sm:inline">Desain Web Jenjang</span>
+          </Link>
           <Link
             href="/admin/admissions"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-royal text-white text-xs sm:text-sm font-bold shadow-sm shadow-royal/20 hover:bg-royal-dark transition cursor-pointer"

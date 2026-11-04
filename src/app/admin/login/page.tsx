@@ -204,32 +204,68 @@ function LoginFormContent() {
             <div className="flex items-center gap-2 mb-3">
               <Sparkles className="w-4 h-4 text-royal" />
               <span className="text-xs sm:text-sm font-bold text-primary-950">
-                Akses Instan Demo (Klik 1x untuk Langsung Masuk):
+                Pilih Akun Demo (Klik 1x untuk Langsung Masuk):
               </span>
             </div>
-            <div className="grid grid-cols-3 gap-2.5">
+
+            <div className="mb-2.5">
               <button
                 type="button"
                 onClick={() => handleQuickFillAndLogin("superadmin@dharmaloka.sch.id")}
-                className="px-3 py-3 rounded-xl bg-royal text-white hover:bg-royal-dark text-xs font-bold text-center transition cursor-pointer shadow-xs"
+                className="w-full py-2.5 px-3 rounded-xl bg-royal text-white hover:bg-royal-dark text-xs font-black text-center transition cursor-pointer shadow-xs flex items-center justify-center gap-2"
               >
-                ⚡ Super Admin
+                <span>🏛️ Super Admin Yayasan (Semua Jenjang)</span>
+              </button>
+            </div>
+
+            <p className="text-[11px] font-bold text-slate-500 mb-1.5 uppercase tracking-wider">
+              Admin Khusus Unit Jenjang:
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => handleQuickFillAndLogin("admin.tk@dharmaloka.sch.id")}
+                className="px-2.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-500 hover:text-white border border-rose-200 text-xs font-bold text-rose-700 text-center transition cursor-pointer"
+              >
+                🧸 Admin TK
               </button>
               <button
                 type="button"
-                onClick={() => handleQuickFillAndLogin("admin@dharmaloka.sch.id")}
-                className="px-3 py-3 rounded-xl bg-blue-50 hover:bg-royal hover:text-white border border-blue-200 text-xs font-bold text-royal text-center transition cursor-pointer"
+                onClick={() => handleQuickFillAndLogin("admin.sd@dharmaloka.sch.id")}
+                className="px-2.5 py-2 rounded-xl bg-sky-50 hover:bg-sky-600 hover:text-white border border-sky-200 text-xs font-bold text-sky-700 text-center transition cursor-pointer"
               >
-                ⚡ School Admin
+                🎒 Admin SD
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickFillAndLogin("admin.smp@dharmaloka.sch.id")}
+                className="px-2.5 py-2 rounded-xl bg-teal-50 hover:bg-teal-600 hover:text-white border border-teal-200 text-xs font-bold text-teal-700 text-center transition cursor-pointer"
+              >
+                🔬 Admin SMP
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickFillAndLogin("admin.sma@dharmaloka.sch.id")}
+                className="px-2.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-600 hover:text-white border border-indigo-200 text-xs font-bold text-indigo-700 text-center transition cursor-pointer"
+              >
+                🎓 Admin SMA
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickFillAndLogin("admin.smk@dharmaloka.sch.id")}
+                className="px-2.5 py-2 rounded-xl bg-orange-50 hover:bg-orange-600 hover:text-white border border-orange-200 text-xs font-bold text-orange-700 text-center transition cursor-pointer"
+              >
+                ⚙️ Admin SMK
               </button>
               <button
                 type="button"
                 onClick={() => handleQuickFillAndLogin("editor@dharmaloka.sch.id")}
-                className="px-3 py-3 rounded-xl bg-blue-50 hover:bg-royal hover:text-white border border-blue-200 text-xs font-bold text-royal text-center transition cursor-pointer"
+                className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-700 hover:text-white border border-slate-200 text-xs font-bold text-slate-700 text-center transition cursor-pointer"
               >
-                ⚡ Editor
+                📝 Editor Konten
               </button>
             </div>
+
             <p className="mt-2.5 text-xs text-slate-500 text-center">
               Password didukung: <code className="font-mono font-semibold text-royal">DharmaLoka@2026!</code> atau <code className="font-mono font-semibold text-royal">password</code>
             </p>

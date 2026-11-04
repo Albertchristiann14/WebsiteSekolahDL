@@ -38,6 +38,8 @@ import {
   Building2,
   FolderDown,
   Loader2,
+  Palette,
+  Lock,
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -82,9 +84,16 @@ export function AdminLayout({
   const pathname = usePathname();
   const router = useRouter();
 
-  // Load active tenant filter from AdminStore
+  // Load active tenant filter and lock tenant if user is assigned to a specific unit
   useEffect(() => {
-    setActiveTenant(AdminStore.getActiveTenantFilter());
+    if (user?.tenant_id && user.tenant_id in TENANTS) {
+      const unitCode = user.tenant_id as TenantCode;
+      setActiveTenant(unitCode);
+      AdminStore.setActiveTenantFilter(unitCode);
+    } else {
+      setActiveTenant(AdminStore.getActiveTenantFilter());
+    }
+
     const applicants = AdminStore.getApplicants();
     const pendingDocs = applicants.filter((a) => a.documentStatus === "pending").length;
     const pendingPayments = applicants.filter((a) => a.paymentStatus === "pending_approval").length;
@@ -93,9 +102,13 @@ export function AdminLayout({
       pendingDocs,
       pendingPayments,
     }));
-  }, []);
+  }, [user]);
 
   const handleSelectTenant = (code: TenantCode) => {
+    // If unit admin is locked to their tenant, don't allow changing
+    if (user?.tenant_id && user.tenant_id in TENANTS) {
+      return;
+    }
     setActiveTenant(code);
     AdminStore.setActiveTenantFilter(code);
     setTenantDropdownOpen(false);
@@ -188,8 +201,16 @@ export function AdminLayout({
       ],
     },
     {
-      title: "Manajemen Konten (CMS)",
+      title: "Manajemen Konten & Desain",
       items: [
+        {
+          href: "/admin/appearance",
+          label: "Tampilan Web Jenjang",
+          icon: Palette,
+          badge: "Visual & Hero",
+          badgeColor: "bg-indigo-100 text-indigo-800 border-indigo-200",
+          visible: true,
+        },
         {
           href: "/admin/news",
           label: "Berita & Artikel",
@@ -403,13 +424,13 @@ export function AdminLayout({
         {/* Footer Actions */}
         <div className="p-4 border-t border-slate-200 bg-slate-50/60 space-y-2">
           <Link
-            href="/?jenjang=portal"
+            href={user?.tenant_id ? `/?jenjang=${user.tenant_id}` : `/?jenjang=${activeTenant}`}
             target="_blank"
             className="flex items-center justify-between w-full px-3 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-royal hover:bg-white border border-transparent hover:border-slate-200 transition"
           >
             <span className="flex items-center gap-2">
               <ExternalLink className="w-3.5 h-3.5 text-royal" />
-              Website Publik
+              Website {user?.tenant_id ? `Unit ${user.tenant_id.toUpperCase()}` : "Publik"}
             </span>
             <span className="text-[10px] text-slate-400">Tab Baru ↗</span>
           </Link>
@@ -441,49 +462,59 @@ export function AdminLayout({
               <Menu className="w-5 h-5" />
             </button>
 
-            {/* Tenant Selector Popover */}
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setTenantDropdownOpen(!tenantDropdownOpen)}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100/90 hover:bg-slate-200/80 border border-slate-200 text-xs sm:text-sm font-extrabold text-slate-900 transition cursor-pointer"
-                title="Pilih unit jenjang untuk memfilter data"
-              >
+            {/* Tenant Selector: Locked for Unit Admin, Switcher for Super Admin */}
+            {user?.tenant_id && user.tenant_id in TENANTS ? (
+              <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs sm:text-sm font-extrabold text-slate-800 shadow-2xs">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span>{currentTenantObj.label}</span>
-                <ChevronDown className="w-4 h-4 text-slate-500" />
-              </button>
+                <span className="inline-flex items-center gap-1 ml-1 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-blue-100 text-royal border border-blue-200">
+                  <Lock className="w-3 h-3" /> Unit Terkunci
+                </span>
+              </div>
+            ) : (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setTenantDropdownOpen(!tenantDropdownOpen)}
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100/90 hover:bg-slate-200/80 border border-slate-200 text-xs sm:text-sm font-extrabold text-slate-900 transition cursor-pointer"
+                  title="Pilih unit jenjang untuk memfilter data"
+                >
+                  <span>{currentTenantObj.label}</span>
+                  <ChevronDown className="w-4 h-4 text-slate-500" />
+                </button>
 
-              {tenantDropdownOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setTenantDropdownOpen(false)}
-                  />
-                  <div className="absolute left-0 mt-2 w-72 rounded-2xl bg-white border border-slate-200 shadow-xl p-2 z-50 space-y-1">
-                    <p className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 px-3 py-1">
-                      Pilih Filter Unit Jenjang
-                    </p>
-                    {TENANT_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onClick={() => handleSelectTenant(opt.id)}
-                        className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition cursor-pointer ${
-                          activeTenant === opt.id
-                            ? "bg-royal text-white"
-                            : "text-slate-700 hover:bg-slate-100"
-                        }`}
-                      >
-                        <span>{opt.label}</span>
-                        {activeTenant === opt.id && (
-                          <CheckCircle2 className="w-4 h-4 text-white" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
+                {tenantDropdownOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setTenantDropdownOpen(false)}
+                    />
+                    <div className="absolute left-0 mt-2 w-72 rounded-2xl bg-white border border-slate-200 shadow-xl p-2 z-50 space-y-1">
+                      <p className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 px-3 py-1">
+                        Pilih Filter Unit Jenjang
+                      </p>
+                      {TENANT_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => handleSelectTenant(opt.id)}
+                          className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition cursor-pointer ${
+                            activeTenant === opt.id
+                              ? "bg-royal text-white"
+                              : "text-slate-700 hover:bg-slate-100"
+                          }`}
+                        >
+                          <span>{opt.label}</span>
+                          {activeTenant === opt.id && (
+                            <CheckCircle2 className="w-4 h-4 text-white" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Center: Global Search Bar */}
