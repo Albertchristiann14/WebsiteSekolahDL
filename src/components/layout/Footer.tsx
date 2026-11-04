@@ -22,7 +22,7 @@ export function Footer() {
   const { tenant, setTenantId } = useTenant();
   const currentYear = new Date().getFullYear();
 
-  if (pathname?.startsWith("/admin")) {
+  if (pathname?.startsWith("/admin") || (pathname === "/" && tenant.id === "portal")) {
     return null;
   }
 

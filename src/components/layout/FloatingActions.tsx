@@ -18,7 +18,7 @@ export function FloatingActions() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (pathname?.startsWith("/admin")) {
+  if (pathname?.startsWith("/admin") || (pathname === "/" && tenant.id === "portal")) {
     return null;
   }
 

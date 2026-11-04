@@ -7,7 +7,7 @@
  * data kepala sekolah, statistik, kurikulum, dan kuota SPMB masing-masing.
  */
 
-export type TenantId = "portal" | "tk" | "sd" | "smp" | "sma";
+export type TenantId = "portal" | "tk" | "sd" | "smp" | "sma" | "smk";
 
 export interface TenantThemeColors {
   primary: string;
@@ -844,6 +844,144 @@ export const TENANTS: Record<TenantId, TenantConfig> = {
       },
     ],
   },
+
+  smk: {
+    id: "smk",
+    levelCode: "SMK",
+    name: "SMK Dharma Loka Pekanbaru",
+    shortName: "SMK Dharma Loka",
+    subdomain: "smk.dharmaloka.sch.id",
+    hostnameExample: "smk.dharmaloka.sch.id",
+    tagline: "Kompetensi Vokasi Teknologi, Bisnis Digital & Siap Kerja Global",
+    heroTitle: "Pendidikan Vokasi Unggul Berstandar Industri & Wirausaha Teknologi",
+    heroSubtitle:
+      "SMK Dharma Loka membekali siswa dengan keahlian praktis Rekayasa Perangkat Lunak, Jaringan Komputer, dan Bisnis Digital yang terhubung langsung dengan mitra industri.",
+    description:
+      "SMK Dharma Loka Pekanbaru (Terakreditasi A) mengintegrasikan sertifikasi kompetensi industri, praktik kerja lapangan terarah, dan penguasaan bahasa asing untuk mencetak lulusan siap kerja maupun kuliah.",
+    accreditation: "Terakreditasi A (Unggul) — Nilai 95",
+    npsn: "10403985",
+    skIzinOperasional: "SK Dinas Pendidikan Provinsi Riau No. 421.5/Disdik-SMK/112",
+    establishedYear: 2005,
+    theme: {
+      primary: "#0B5ED7",
+      primaryForeground: "#FFFFFF",
+      accent: "#D97706",
+      surface: "#F8FAFC",
+      muted: "#475569",
+      primaryLight: "#EFF6FF",
+      borderSubtle: "#BFDBFE",
+    },
+    contact: {
+      phone: "(0761) 859219",
+      whatsapp: "6281275008895",
+      whatsappFormatted: "+62 812-7500-8895",
+      whatsappDefaultText:
+        "Halo Admin SMK Dharma Loka Pekanbaru, saya ingin menanyakan informasi jurusan dan SPMB jenjang SMK.",
+      email: "smk@dharmaloka.sch.id",
+      address: "Kampus SMK Dharma Loka, Jl. Tuanku Tambusai Komp. Taman Anggrek, Pekanbaru",
+      officeHours: "Senin – Jumat: 07.00 – 16.00 WIB | Sabtu: 07.15 – 12.30 WIB",
+    },
+    stats: {
+      students: 380,
+      teachers: 32,
+      achievements: 65,
+      establishedYear: 2005,
+    },
+    principal: {
+      name: "Ir. Budi Santoso, M.Kom.",
+      title: "Kepala SMK Dharma Loka Pekanbaru",
+      photo:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
+      quote:
+        "Lulusan SMK Dharma Loka tidak hanya mahir secara teknis, tetapi juga memiliki etos kerja profesional, kecakapan komunikasi 3 bahasa, dan jiwa wirausaha mandiri.",
+      fullGreeting: [
+        "Selamat datang di portal resmi SMK Dharma Loka Pekanbaru. Kami menyelenggarakan pendidikan kejuruan berbasis Teaching Factory yang selaras dengan kebutuhan industri teknologi dan bisnis modern.",
+        "Melalui laboratorium jaringan berstandar enterprise, studio pengembangan perangkat lunak, dan inkubator bisnis digital, siswa dibimbing untuk menghasilkan karya nyata dan mengantongi sertifikasi kompetensi nasional maupun internasional.",
+      ],
+      education: "S2 Ilmu Komputer — Pengalaman Industri & Pendidikan Vokasi 16 Tahun",
+    },
+    spmb: {
+      isOpen: true,
+      activeWave: "Gelombang 1 (Jalur Prestasi & Vokasi)",
+      wavePeriod: "1 Januari – 31 Maret 2026",
+      deadlineIso: "2026-03-31T23:59:59+07:00",
+      quotaTotal: 120,
+      quotaFilled: 88,
+      fees: {
+        registrationForm: 300000,
+        developmentFee: 9500000,
+        monthlyTuition: 950000,
+        annualActivity: 2100000,
+        uniformPackage: 1750000,
+      },
+      ageRequirement: "Lulusan SMP/MTs sederajat, maksimal berusia 20 tahun pada 1 Juli 2026",
+      documentRequirements: [
+        "Scan Rapor SMP/MTs Semester 1 s/d 5",
+        "Scan Akta Kelahiran & Kartu Keluarga (KK)",
+        "Pas foto berwarna ukuran 3x4",
+        "Surat Keterangan Sehat (tidak buta warna untuk jurusan TI)",
+      ],
+    },
+    heroSlides: [
+      {
+        id: "smk-1",
+        image:
+          "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1400&q=80",
+        badge: "SMK Dharma Loka • Vokasi Teknologi & Bisnis",
+        title: "Laboratorium Praktik Berstandar Industri & Sertifikasi Kompetensi",
+        caption: "Praktik jaringan server, cloud computing, dan rekayasa perangkat lunak.",
+      },
+      {
+        id: "smk-2",
+        image:
+          "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80",
+        badge: "Mitra Industri & Kewirausahaan",
+        title: "Program Magang Terarah & Inkubator Wirausaha Muda Digital",
+        caption: "Lulusan siap berkarir di perusahaan teknologi maupun melanjutkan kuliah.",
+      },
+    ],
+    featuredPrograms: [
+      {
+        title: "IT Network Systems & Cloud Administration",
+        description:
+          "Pembelajaran administrasi jaringan enterprise, keamanan siber, dan persiapan sertifikasi MikroTik/Cisco.",
+        iconName: "Award",
+        badge: "Teknik Jaringan",
+      },
+      {
+        title: "Software Engineering & Web Development",
+        description:
+          "Pembuatan aplikasi web & mobile full-stack dengan proyek nyata bersama mitra industri.",
+        iconName: "Bot",
+        badge: "Rekayasa Perangkat Lunak",
+      },
+      {
+        title: "Digital Business & E-Commerce Mandarin-English",
+        description:
+          "Pemasaran digital, manajemen bisnis modern, dan korespondensi perdagangan internasional.",
+        iconName: "Globe",
+        badge: "Bisnis Digital",
+      },
+    ],
+    extracurriculars: [
+      { name: "IT Club, Cyber Security & LKS Network", category: "Sains & Teknologi", schedule: "Selasa & Kamis, 15.00 WIB", achievementHighlight: "Juara 1 LKS SMK Tingkat Provinsi Riau 2026" },
+      { name: "Startup & Digital Marketing Club", category: "Bahasa & Kepemimpinan", schedule: "Rabu, 15.00 WIB" },
+      { name: "English & Mandarin Conversation Club", category: "Bahasa & Kepemimpinan", schedule: "Jumat, 14.30 WIB" },
+      { name: "Basket, Futsal & E-Sports Akademik", category: "Olahraga", schedule: "Sabtu, 08.00 WIB" },
+    ],
+    testimonials: [
+      {
+        id: "t-smk-1",
+        name: "Derry Pratama",
+        role: "Siswa Kelas 12 SMK Dharma Loka",
+        childClassOrGradYear: "Juara 1 LKS SMK Provinsi Riau Bidang IT Network Systems",
+        avatar:
+          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+        quote:
+          "Fasilitas laboratorium jaringan di SMK Dharma Loka sangat lengkap. Kami terbiasa praktik langsung dengan perangkat server dan router standar industri.",
+      },
+    ],
+  },
 };
 
 export const TENANT_LIST: TenantConfig[] = [
@@ -852,6 +990,7 @@ export const TENANT_LIST: TenantConfig[] = [
   TENANTS.sd,
   TENANTS.smp,
   TENANTS.sma,
+  TENANTS.smk,
 ];
 
 export const UNIT_TENANTS: TenantConfig[] = [
@@ -859,6 +998,7 @@ export const UNIT_TENANTS: TenantConfig[] = [
   TENANTS.sd,
   TENANTS.smp,
   TENANTS.sma,
+  TENANTS.smk,
 ];
 
 /**
@@ -882,6 +1022,7 @@ export function resolveTenantId(
     if (host.startsWith("sd.")) return "sd";
     if (host.startsWith("smp.")) return "smp";
     if (host.startsWith("sma.")) return "sma";
+    if (host.startsWith("smk.")) return "smk";
   }
 
   return "portal";

@@ -39,6 +39,7 @@ import { admissionFAQs } from "@/data/admissions";
 import { CountUp } from "@/components/ui/CountUp";
 import { Accordion, Badge, Card } from "@/components/ui/DesignSystem";
 import { publicApi } from "@/lib/api";
+import { PancaDharmaGateway } from "./PancaDharmaGateway";
 
 export function MultiTenantHome() {
   const { tenant, tenantId, setTenantId, isPortal } = useTenant();
@@ -104,6 +105,10 @@ export function MultiTenantHome() {
       currency: "IDR",
       maximumFractionDigits: 0,
     }).format(num);
+
+  if (isPortal) {
+    return <PancaDharmaGateway onSelectUnit={(unit) => setTenantId(unit)} />;
+  }
 
   return (
     <div className="bg-white">

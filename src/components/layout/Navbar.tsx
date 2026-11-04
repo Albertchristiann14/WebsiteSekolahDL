@@ -51,8 +51,8 @@ export function Navbar() {
     setOpenDropdown(null);
   }, [pathname]);
 
-  // Jangan tampilkan Navbar publik di halaman Admin CMS
-  if (pathname?.startsWith("/admin")) {
+  // Jangan tampilkan Navbar publik di halaman Admin CMS atau di halaman Portal Utama (Gateway)
+  if (pathname?.startsWith("/admin") || (pathname === "/" && tenantId === "portal")) {
     return null;
   }
 
@@ -95,7 +95,7 @@ export function Navbar() {
                       : "text-slate-600 hover:bg-slate-200/70 hover:text-primary-950"
                   }`}
                 >
-                  {item.id === "portal" ? "Semua Jenjang" : item.levelCode}
+                  {item.id === "portal" ? "← Portal Utama" : item.levelCode}
                 </button>
               );
             })}
@@ -380,7 +380,7 @@ export function Navbar() {
                   }`}
                 >
                   <span className="block font-extrabold">
-                    {item.id === "portal" ? "Semua Jenjang" : item.levelCode}
+                    {item.id === "portal" ? "← Portal Utama" : item.levelCode}
                   </span>
                   <span
                     className={`block text-[11px] truncate ${
