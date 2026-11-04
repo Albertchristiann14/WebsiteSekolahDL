@@ -1,98 +1,94 @@
 import React from "react";
-import { 
-  Award, 
-  HeartHandshake, 
-  Cpu, 
-  Languages, 
-  Compass, 
-  Building2 
+import {
+  Languages,
+  Award,
+  Heart,
+  Cpu,
+  ShieldCheck,
+  GraduationCap,
 } from "lucide-react";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { DemoBadge } from "@/components/ui/DemoBadge";
+
+const differentiators = [
+  {
+    icon: <Heart className="w-6 h-6 text-royal" />,
+    title: "Pendidikan Karakter & Budi Pekerti",
+    description:
+      "Pembiasaan sopan santun, empati, disiplin, dan rasa hormat kepada orang tua serta guru dalam keseharian siswa di sekolah.",
+  },
+  {
+    icon: <Languages className="w-6 h-6 text-royal" />,
+    title: "Ekosistem Trilingual (3 Bahasa)",
+    description:
+      "Penguasaan aktif Bahasa Indonesia, Bahasa Inggris, dan Bahasa Mandarin sebagai bekal studi lanjut dan komunikasi global.",
+  },
+  {
+    icon: <Award className="w-6 h-6 text-royal" />,
+    title: "Bina Prestasi & Olimpiade",
+    description:
+      "Pendampingan terarah bagi siswa berbakat di bidang Matematika, Sains, Coding, Debat, Seni Budaya, dan Olahraga.",
+  },
+  {
+    icon: <Cpu className="w-6 h-6 text-royal" />,
+    title: "Inovasi STEAM & Robotika",
+    description:
+      "Fasilitas laboratorium komputer dan sains modern yang melatih logika pemrograman, riset, dan pemecahan masalah nyata.",
+  },
+  {
+    icon: <ShieldCheck className="w-6 h-6 text-royal" />,
+    title: "Lingkungan Aman & Bebas Perundungan",
+    description:
+      "Kawasan kampus terpantau CCTV dengan pengawasan penuh dan budaya sekolah yang hangat, ramah anak, serta inklusif.",
+  },
+  {
+    icon: <GraduationCap className="w-6 h-6 text-royal" />,
+    title: "Pendidikan Terpadu Satu Atap",
+    description:
+      "Keberlanjutan kurikulum dari jenjang TK, SD, SMP, hingga SMA dan SMK yang memberikan ketenangan jangka panjang bagi orang tua.",
+  },
+];
 
 export function WhyDharmaLoka() {
-  const pillars = [
-    {
-      icon: Award,
-      title: "Keunggulan Akademik Berstandar Tinggi",
-      description: "Didukung kurikulum mendalam yang mempersiapkan siswa menguasai sains, matematika bernalar analitis, dan bimbingan sukses seleksi perguruan tinggi negeri maupun dunia.",
-    },
-    {
-      icon: HeartHandshake,
-      title: "Pembinaan Budi Pekerti & Karakter Utuh",
-      description: "Pendidikan budi pekerti diterapkan secara konsisten dalam pembiasaan harian, menumbuhkan rasa hormat, welas asih, integritas moral, dan empati sosial.",
-    },
-    {
-      icon: Languages,
-      title: "Kefasihan Trilingual Terintegrasi",
-      description: "Penguasaan aktif Bahasa Indonesia sebagai jati diri bangsa, Bahasa Inggris sebagai bahasa pergaulan global, serta Bahasa Mandarin berjenjang HSK.",
-    },
-    {
-      icon: Cpu,
-      title: "Kurikulum Sains, Coding & Robotika Abad 21",
-      description: "Laboratorium STEM dan AI yang membiasakan siswa memecahkan masalah kontekstual melalui proyek riset ilmiah nyata sejak jenjang dini.",
-    },
-    {
-      icon: Building2,
-      title: "Fasilitas Kampus Terpadu & Modern",
-      description: "Kompleks pembelajaran mandiri yang lengkap dengan perpustakaan digital, sport hall indoor, auditorium teater, dan laboratorium lengkap.",
-    },
-    {
-      icon: Compass,
-      title: "Pengembangan Minat & Bakat Multidimensi",
-      description: "Lebih dari 20 ragam klub ekstrakurikuler meliputi orkestra musik, robotika, debat internasional, wushu bela diri, dan karya ilmiah remaja.",
-    },
-  ];
-
   return (
-    <section className="py-20 lg:py-28 bg-primary-950 text-white relative overflow-hidden" aria-labelledby="why-heading">
-      {/* Decorative gradient glow */}
-      <div 
-        className="absolute top-0 right-1/4 w-96 h-96 bg-royal/20 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true" 
-      />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+    <section
+      className="py-24 lg:py-36 bg-white"
+      aria-labelledby="why-dharmaloka-heading"
+    >
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
+        <div className="mb-16 lg:mb-20">
           <SectionHeader
-            tag="Keunggulan Sekolah"
-            title="Mengapa Mempercayakan Masa Depan Putra-Putri Anda di Dharma Loka?"
-            subtitle="Kami menghadirkan lingkungan belajar yang menantang secara intelektual, menguatkan secara moral, dan aman secara emosional."
             align="center"
-            theme="dark"
+            tag="Mengapa Memilih Dharma Loka"
+            title="6 Keunggulan Utama bagi Masa Depan Putra-Putri Anda"
+            subtitle="Kami memahami bahwa memilih sekolah adalah keputusan besar bagi setiap keluarga. Berikut adalah komitmen nyata yang kami hadirkan setiap hari."
           />
-          <div className="mt-4 flex justify-center">
-            <DemoBadge label="Pilar Keunggulan Berdasarkan Rancangan Kurikulum Sekolah" />
-          </div>
         </div>
 
-        {/* 6 Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {pillars.map((pillar, idx) => {
-            const Icon = pillar.icon;
-            return (
-              <div
-                key={pillar.title}
-                className="p-8 rounded-xl bg-primary-900/60 border border-primary-800/80 hover:border-gold/50 transition-all duration-200 hover:-translate-y-1 group"
-              >
-                <div className="w-12 h-12 rounded-lg bg-primary-800 text-gold flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-primary-950 transition-colors">
-                  <Icon className="w-6 h-6" aria-hidden="true" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+          {differentiators.map((item, idx) => (
+            <div
+              key={idx}
+              className="p-8 lg:p-10 rounded-3xl bg-blue-50/40 hover:bg-blue-50/80 border border-blue-100 hover:border-blue-200 transition-all duration-300 flex flex-col justify-between"
+            >
+              <div>
+                <div className="w-14 h-14 rounded-2xl bg-white border border-blue-100 shadow-sm flex items-center justify-center mb-6">
+                  {item.icon}
                 </div>
-                <h3 className="text-lg font-bold text-white font-sans mb-3 group-hover:text-gold-light transition-colors">
-                  {pillar.title}
+                <h3 className="text-xl font-extrabold text-primary-950 mb-3">
+                  {item.title}
                 </h3>
-                <p className="text-sm text-slate-300 leading-relaxed font-normal">
-                  {pillar.description}
+                <p className="text-base text-slate-600 leading-relaxed">
+                  {item.description}
                 </p>
               </div>
-            );
-          })}
+              <div className="mt-8 pt-4 border-t border-blue-100/80 flex items-center justify-between text-xs font-bold text-royal uppercase tracking-wider">
+                <span>Pilar Keunggulan 0{idx + 1}</span>
+                <span>Dharma Loka</span>
+              </div>
+            </div>
+          ))}
         </div>
-
       </div>
     </section>
   );
 }
-

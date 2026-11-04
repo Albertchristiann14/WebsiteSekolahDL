@@ -1,213 +1,237 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { 
-  GraduationCap, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  ArrowUpRight, 
-  ExternalLink,
+import {
+  GraduationCap,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  ArrowUpRight,
+  Instagram,
+  Facebook,
+  Youtube,
   ShieldCheck,
-  Heart
+  LayoutDashboard,
 } from "lucide-react";
 import { schoolInfo } from "@/data/schoolInfo";
 import { academicLevels } from "@/data/academics";
 
 export function Footer() {
-  const pathname = usePathname();
+  const currentYear = new Date().getFullYear();
 
-  // Hide public footer on admin CMS dashboard routes
-  if (pathname?.startsWith("/admin")) {
-    return null;
-  }
   return (
-    <footer className="bg-primary-950 text-slate-300 border-t border-primary-900" aria-labelledby="footer-heading">
-      <h2 id="footer-heading" className="sr-only">Footer Sekolah Dharma Loka</h2>
-
+    <footer className="bg-gradient-to-b from-blue-50/70 via-blue-50/40 to-white text-slate-600 border-t border-blue-100">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
-          
-          {/* Column 1: School Identity & Philosophy (Col span 2) */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-lg bg-primary-900 border border-gold/40 flex items-center justify-center text-gold shadow-sm">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10 pt-20 pb-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-10">
+          {/* Column 1: School Identity (4 cols) */}
+          <div className="lg:col-span-4 space-y-6">
+            <Link href="/" className="flex items-center gap-3.5 group">
+              <div className="w-12 h-12 rounded-xl bg-royal flex items-center justify-center text-white shadow-md shadow-royal/20">
                 <GraduationCap className="w-7 h-7" aria-hidden="true" />
               </div>
               <div>
-                <span className="font-serif text-2xl font-bold text-white tracking-tight block">
-                  Dharma Loka
+                <span className="block font-bold text-xl text-primary-950 tracking-tight leading-none">
+                  SEKOLAH DHARMA LOKA
                 </span>
-                <span className="text-xs uppercase tracking-widest text-gold-light font-semibold block">
-                  Sekolah Terpadu Pekanbaru
+                <span className="block text-xs font-bold tracking-wider text-royal uppercase mt-1.5">
+                  Pekanbaru • Riau
                 </span>
               </div>
-            </div>
+            </Link>
 
-            <p className="text-sm text-slate-300 leading-relaxed max-w-md">
-              Institusi pendidikan terpadu di Pekanbaru yang berdedikasi melahirkan generasi unggul berlandaskan kebajikan moral, kecerdasan nalar kritis, dan wawasan global sejak tahun 1988.
+            <p className="text-base text-slate-600 leading-relaxed">
+              Institusi pendidikan terpadu jenjang TK, SD, SMP, SMA, dan SMK di Kota Pekanbaru yang berfokus pada keunggulan akademik, pembinaan budi pekerti luhur, kefasihan multibahasa, dan kesiapan masa depan.
             </p>
 
-            {/* Accreditation Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-primary-900/80 border border-primary-800 text-xs text-slate-200">
-              <ShieldCheck className="w-4 h-4 text-gold" aria-hidden="true" />
-              <span>{schoolInfo.accreditation}</span>
+            <div className="pt-1">
+              <p className="text-xs uppercase tracking-wider text-royal font-bold mb-1">
+                Semboyan Luhur
+              </p>
+              <p className="font-serif italic text-primary-950 text-base font-medium">
+                &ldquo;{schoolInfo.motto}&rdquo; — {schoolInfo.mottoTranslation}
+              </p>
             </div>
 
-            {/* Motto Callout */}
-            <div className="p-4 rounded-lg bg-primary-900/40 border-l-2 border-gold text-xs space-y-1">
-              <div className="font-serif italic text-gold font-semibold text-sm">
-                "{schoolInfo.motto}"
-              </div>
-              <div className="text-slate-400">
-                {schoolInfo.mottoTranslation}
-              </div>
+            {/* Social Links */}
+            <div className="flex items-center gap-3 pt-2">
+              <a
+                href={schoolInfo.socialMedia.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram Resmi Sekolah Dharma Loka"
+                className="w-10 h-10 rounded-xl bg-white hover:bg-royal text-slate-600 hover:text-white flex items-center justify-center transition-colors border border-blue-100 shadow-sm"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a
+                href={schoolInfo.socialMedia.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook Resmi Sekolah Dharma Loka"
+                className="w-10 h-10 rounded-xl bg-white hover:bg-royal text-slate-600 hover:text-white flex items-center justify-center transition-colors border border-blue-100 shadow-sm"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a
+                href={schoolInfo.socialMedia.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube Resmi Sekolah Dharma Loka"
+                className="w-10 h-10 rounded-xl bg-white hover:bg-royal text-slate-600 hover:text-white flex items-center justify-center transition-colors border border-blue-100 shadow-sm"
+              >
+                <Youtube className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
-          {/* Column 2: Academic Programs */}
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-gold" aria-hidden="true" />
-              <span>Jenjang Pendidikan</span>
+          {/* Column 2: Quick Navigation (2 cols) */}
+          <div className="lg:col-span-2 space-y-5">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-primary-950">
+              Eksplorasi
             </h3>
-            <ul className="space-y-2.5 text-sm">
-              {academicLevels.map((lvl) => (
-                <li key={lvl.slug}>
-                  <Link
-                    href={`/academics/${lvl.slug}`}
-                    className="text-slate-300 hover:text-gold transition-colors flex items-center justify-between group"
-                  >
-                    <span>{lvl.name}</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 text-gold transition-opacity" aria-hidden="true" />
-                  </Link>
-                </li>
-              ))}
-              <li className="pt-2">
-                <Link
-                  href="/academics"
-                  className="text-xs text-gold-light hover:text-white font-semibold flex items-center gap-1 transition-colors"
-                >
-                  <span>Ikhtisar Kurikulum</span>
-                  <span>→</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Quick Navigation */}
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-gold" aria-hidden="true" />
-              <span>Informasi Kampus</span>
-            </h3>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-3 text-base">
               <li>
-                <Link href="/about" className="text-slate-300 hover:text-gold transition-colors">
-                  Tentang & Sejarah
+                <Link href="/about" className="text-slate-600 hover:text-royal transition-colors font-medium">
+                  Tentang Sekolah
                 </Link>
               </li>
               <li>
-                <Link href="/facilities" className="text-slate-300 hover:text-gold transition-colors">
-                  Sarana & Prasarana
+                <Link href="/academics" className="text-slate-600 hover:text-royal transition-colors font-medium">
+                  Program Akademik
                 </Link>
               </li>
               <li>
-                <Link href="/achievements" className="text-slate-300 hover:text-gold transition-colors">
+                <Link href="/achievements" className="text-slate-600 hover:text-royal transition-colors font-medium">
                   Prestasi Siswa
                 </Link>
               </li>
               <li>
-                <Link href="/gallery" className="text-slate-300 hover:text-gold transition-colors">
-                  Galeri Kehidupan Kampus
+                <Link href="/facilities" className="text-slate-600 hover:text-royal transition-colors font-medium">
+                  Fasilitas Kampus
                 </Link>
               </li>
               <li>
-                <Link href="/news" className="text-slate-300 hover:text-gold transition-colors">
+                <Link href="/news" className="text-slate-600 hover:text-royal transition-colors font-medium">
                   Berita & Pengumuman
                 </Link>
               </li>
               <li>
-                <Link href="/admissions" className="text-gold font-semibold hover:text-gold-light transition-colors">
-                  Pendaftaran PPDB 2027/2028
+                <Link href="/gallery" className="text-slate-600 hover:text-royal transition-colors font-medium">
+                  Galeri Kegiatan
+                </Link>
+              </li>
+              <li>
+                <Link href="/admissions" className="text-slate-600 hover:text-royal transition-colors font-medium">
+                  Info Pendaftaran (PPDB)
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-slate-600 hover:text-royal transition-colors font-medium">
+                  Hubungi Kami
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Contact & Secretariat */}
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-gold" aria-hidden="true" />
-              <span>Sekretariat & Lokasi</span>
+          {/* Column 3: Academic Levels (3 cols) */}
+          <div className="lg:col-span-3 space-y-5">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-primary-950">
+              Jenjang Pendidikan
             </h3>
-            <ul className="space-y-3 text-xs text-slate-300">
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-gold shrink-0 mt-0.5" aria-hidden="true" />
-                <span>
-                  {schoolInfo.address.street}, {schoolInfo.address.subDistrict}, {schoolInfo.address.city}, {schoolInfo.address.province} {schoolInfo.address.postalCode}
-                </span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
-                <a href={`tel:${schoolInfo.contact.phone.replace(/[^0-9]/g, "")}`} className="hover:text-white transition-colors">
-                  {schoolInfo.contact.phone}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
-                <a href={`mailto:${schoolInfo.contact.email.split(" ")[0]}`} className="hover:text-white transition-colors">
-                  {schoolInfo.contact.email}
-                </a>
-              </li>
-              <li className="flex items-start gap-2.5 pt-1 border-t border-primary-900 text-[11px] text-slate-400">
-                <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" aria-hidden="true" />
-                <div>
-                  <div>{schoolInfo.contact.officeHours}</div>
-                  <div>{schoolInfo.contact.weekendHours}</div>
-                </div>
-              </li>
+            <ul className="space-y-3.5 text-base">
+              {academicLevels.map((prog) => (
+                <li key={prog.slug}>
+                  <Link
+                    href={`/academics/${prog.slug}`}
+                    className="group flex items-center justify-between text-slate-600 hover:text-royal transition-colors"
+                  >
+                    <span className="font-medium">{prog.name}</span>
+                    <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-royal" />
+                  </Link>
+                  <span className="block text-xs text-slate-500 mt-0.5">{prog.levelBadge}</span>
+                </li>
+              ))}
             </ul>
           </div>
 
-        </div>
+          {/* Column 4: Contact & Admin Portal Access (3 cols) */}
+          <div className="lg:col-span-3 space-y-5">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-primary-950">
+              Alamat & Layanan Orang Tua
+            </h3>
+            <ul className="space-y-4 text-sm sm:text-base">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-royal shrink-0 mt-0.5" aria-hidden="true" />
+                <span className="text-slate-600 leading-relaxed">
+                  {schoolInfo.address.street}, {schoolInfo.address.subDistrict},{" "}
+                  {schoolInfo.address.city}, {schoolInfo.address.province}{" "}
+                  {schoolInfo.address.postalCode}
+                </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-royal shrink-0" aria-hidden="true" />
+                <span className="text-slate-700 font-medium">{schoolInfo.contact.phone}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-royal shrink-0" aria-hidden="true" />
+                <span className="text-slate-700 font-medium">{schoolInfo.contact.email}</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Clock className="w-5 h-5 text-royal shrink-0 mt-0.5" aria-hidden="true" />
+                <div className="text-sm text-slate-600 space-y-0.5">
+                  <p>{schoolInfo.contact.officeHours}</p>
+                  <p>{schoolInfo.contact.weekendHours}</p>
+                </div>
+              </li>
+            </ul>
 
-        {/* Demo Disclaimer Box (Mandatory Client Proposal Requirement) */}
-        <div className="mt-12 p-4 rounded-lg bg-primary-900/50 border border-primary-800 text-xs text-slate-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold uppercase tracking-wider border border-amber-500/30">
-              Catatan Proposal Klien
-            </span>
-            <span>
-              Seluruh teks bertanda <code className="text-amber-200 bg-primary-950 px-1 py-0.5 rounded">[DEMO / OFFICIAL REQUIRED]</code> merupakan data peraga yang disiapkan oleh tim pengembang Krevia Digital dan siap diperbarui dengan arsip resmi sekolah.
-            </span>
-          </div>
-          <Link
-            href="/contact"
-            className="text-gold hover:underline whitespace-nowrap text-xs font-medium"
-          >
-            Hubungi Pengembang →
-          </Link>
-        </div>
-
-        {/* Bottom Sub-footer */}
-        <div className="mt-8 pt-8 border-t border-primary-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <div>
-            © {new Date().getFullYear()} {schoolInfo.name}. Seluruh Hak Cipta Dilindungi Undang-Undang.
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-slate-400">
-              Dirancang dengan standar estetika editorial oleh <span className="text-slate-200 font-semibold">Krevia Digital</span>
-            </span>
+            {/* Dedicated Admin CMS Card inside Footer */}
+            <div className="pt-3">
+              <Link
+                href="/admin"
+                className="flex items-center justify-between p-4 rounded-2xl bg-white hover:bg-blue-50 border border-blue-200/80 shadow-sm transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-royal flex items-center justify-center group-hover:bg-royal group-hover:text-white transition-colors">
+                    <LayoutDashboard className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-primary-950 group-hover:text-royal transition-colors">
+                      Portal Admin & CMS
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      Login Pengelola & Staf Sekolah
+                    </p>
+                  </div>
+                </div>
+                <ArrowUpRight className="w-4 h-4 text-royal group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
+            </div>
           </div>
         </div>
+      </div>
 
+      {/* Bottom Copyright Bar */}
+      <div className="border-t border-blue-100 bg-white">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+          <p>
+            © {currentYear} {schoolInfo.foundation}. Hak Cipta Dilindungi Undang-Undang.
+          </p>
+          <div className="flex items-center gap-6">
+            <Link href="/admissions" className="hover:text-royal transition-colors font-medium">
+              Pendaftaran Siswa Baru
+            </Link>
+            <Link href="/contact" className="hover:text-royal transition-colors font-medium">
+              Hubungi Sekretariat
+            </Link>
+            <Link href="/admin" className="inline-flex items-center gap-1.5 text-royal hover:text-royal-dark font-bold">
+              <ShieldCheck className="w-4 h-4" />
+              <span>Admin CMS</span>
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );
 }
-

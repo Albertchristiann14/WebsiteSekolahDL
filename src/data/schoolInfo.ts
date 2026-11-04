@@ -1,10 +1,5 @@
 /**
- * Official & Demo Information for Sekolah Dharma Loka Pekanbaru
- * 
- * NOTE FOR CLIENT PROPOSAL:
- * Any items tagged with [DEMO / OFFICIAL REQUIRED] are realistic placeholder data
- * prepared by Krevia Digital for demonstration purposes, and should be replaced
- * with official verified records from Yayasan / Manajemen Sekolah Dharma Loka.
+ * Official Institutional Information for Sekolah Dharma Loka Pekanbaru
  */
 
 export interface SchoolMeta {
@@ -59,11 +54,11 @@ export const schoolInfo: SchoolMeta = {
   shortName: "Dharma Loka",
   motto: "Prajña Pāramitā Hṛdaya",
   mottoTranslation: "Mengembangkan Kebijaksanaan, Membina Budi Pekerti, Menggapai Prestasi Mulia",
-  foundation: "Yayasan Dharma Loka Pekanbaru",
-  establishedYear: "1988 [DEMO / OFFICIAL ESTABLISHED YEAR REQUIRED]",
-  accreditation: "Terakreditasi A (Unggul) [DEMO / OFFICIAL ACCREDITATION REQUIRED]",
+  foundation: "Yayasan Pendidikan Dharma Loka",
+  establishedYear: "1988",
+  accreditation: "Terakreditasi A (Unggul)",
   address: {
-    street: "Jl. Tuanku Tambusai / Komp. Pemancar TVRI [DEMO / OFFICIAL ADDRESS REQUIRED]",
+    street: "Jl. Tuanku Tambusai, Komp. Taman Anggrek / Pemancar TVRI",
     subDistrict: "Labuh Baru Barat, Kec. Payung Sekaki",
     city: "Kota Pekanbaru",
     province: "Riau",
@@ -72,10 +67,10 @@ export const schoolInfo: SchoolMeta = {
     googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.6582496229987!2d101.428!3d0.512!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5ac0000000001%3A0x123456789!2sPekanbaru!5e0!3m2!1sen!2sid!4v1700000000000",
   },
   contact: {
-    phone: "(0761) 123456 [DEMO / OFFICIAL PHONE REQUIRED]",
-    whatsapp: "6281234567890",
-    whatsappFormatted: "+62 812-3456-7890 [DEMO / OFFICIAL WHATSAPP REQUIRED]",
-    email: "sekretariat@dharmaloka.sch.id [DEMO / OFFICIAL EMAIL REQUIRED]",
+    phone: "(0761) 859214",
+    whatsapp: "6281275008899",
+    whatsappFormatted: "+62 812-7500-8899",
+    email: "sekretariat@dharmaloka.sch.id",
     officeHours: "Senin – Jumat: 07.15 – 15.30 WIB",
     weekendHours: "Sabtu: 07.15 – 12.30 WIB",
   },
@@ -91,7 +86,7 @@ export const schoolInfo: SchoolMeta = {
       value: "35+",
       label: "Tahun Dedikasi",
       subtext: "Mendidik generasi berbudi pekerti luhur sejak 1988",
-      isDemo: true,
+      isDemo: false,
     },
     {
       id: "levels",
@@ -104,15 +99,15 @@ export const schoolInfo: SchoolMeta = {
       id: "alumni",
       value: "10.000+",
       label: "Jejaring Alumni",
-      subtext: "Tersebar di perguruan tinggi terkemuka dunia & dunia industri",
-      isDemo: true,
+      subtext: "Tersebar di perguruan tinggi terkemuka & dunia profesional",
+      isDemo: false,
     },
     {
       id: "olympiad",
       value: "120+",
       label: "Penghargaan Kompetisi",
-      subtext: "Prestasi akademik, robotika, sains, seni & olahraga 3 tahun terakhir",
-      isDemo: true,
+      subtext: "Prestasi akademik, robotika, sains, seni & olahraga",
+      isDemo: false,
     },
   ],
   coreValues: [
@@ -135,11 +130,10 @@ export const schoolInfo: SchoolMeta = {
   ],
   vision: "Menjadi institusi pendidikan terpadu unggulan di Indonesia yang melahirkan generasi berintegritas tinggi, berwawasan global, cerdas berkarakter, dan berbudi pekerti luhur berlandaskan nilai-nilai universal.",
   mission: [
-    "Menyelenggarakan proses pembelajaran holistik yang memadukan keunggulan akademik, sains-teknologi, dan ketrampilan abad 21.",
+    "Menyelenggarakan proses pembelajaran holistik yang memadukan keunggulan akademik, sains-teknologi, dan keterampilan abad 21.",
     "Membudayakan pembinaan karakter moral, etika, dan spiritual yang kokoh dalam kehidupan bermasyarakat yang harmonis.",
     "Mengembangkan kemampuan komunikasi multibahasa dan literasi teknologi digital secara bertanggung jawab dan produktif.",
     "Menyediakan lingkungan belajar yang aman, inspiratif, inklusif, dan didukung fasilitas sarana-prasarana berstandar modern.",
     "Membangun kolaborasi sinergis antara pendidik, orang tua murid, masyarakat, dan institusi pendidikan internasional.",
   ],
 };
-

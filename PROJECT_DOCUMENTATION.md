@@ -490,3 +490,4 @@ Aplikasi ini memiliki standar deliverables profesional agensi digital dengan est
 
 > **Disusun oleh:** Krevia Digital Engineering Team  
 > **Lisensi:** Proprietary Client Software (Sekolah Dharma Loka Pekanbaru)
+

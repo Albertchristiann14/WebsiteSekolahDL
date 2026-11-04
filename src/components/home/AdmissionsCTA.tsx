@@ -1,109 +1,109 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Phone, Calendar, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowRight, PhoneCall, CalendarCheck, FileCheck2 } from "lucide-react";
 import { schoolInfo } from "@/data/schoolInfo";
 
 export function AdmissionsCTA() {
   return (
-    <section className="py-20 lg:py-24 bg-primary-950 text-white relative overflow-hidden" aria-label="Ajakan Pendaftaran PPDB">
-      {/* Decorative radial accents */}
-      <div 
-        className="absolute top-0 right-0 w-96 h-96 bg-royal/30 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true" 
-      />
-      <div 
-        className="absolute bottom-0 left-0 w-96 h-96 bg-gold/15 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true" 
-      />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 lg:p-16 rounded-2xl bg-gradient-to-r from-primary-900 to-primary-950 border border-gold/30 shadow-2xl">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
-            {/* Left Content (Col 8) */}
-            <div className="lg:col-span-8 space-y-6">
-              
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/20 text-gold-light text-xs font-semibold tracking-wide border border-gold/30">
-                <Sparkles className="w-3.5 h-3.5 text-gold" aria-hidden="true" />
-                <span>Penerimaan Siswa Baru T.A. 2027 / 2028</span>
+    <section
+      className="py-24 lg:py-32 bg-white"
+      aria-labelledby="admissions-cta-heading"
+    >
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
+        <div className="relative rounded-3xl bg-gradient-to-br from-royal via-royal to-blue-800 text-white p-8 sm:p-14 lg:p-20 shadow-2xl shadow-royal/15 overflow-hidden">
+          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Left Copy (7 cols) */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/15 border border-white/25 text-white text-xs sm:text-sm font-bold uppercase tracking-wider">
+                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                <span>Penerimaan Peserta Didik Baru (PPDB) T.A. 2026/2027</span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-sans tracking-tight text-white leading-tight">
-                Mulai Perjalanan Emas Putra-Putri Anda Bersama{" "}
-                <span className="font-serif italic font-normal text-gold-light">
-                  Dharma Loka
-                </span>
+              <h2
+                id="admissions-cta-heading"
+                className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.18]"
+              >
+                Mari Rencanakan Masa Depan Pendidikan Putra-Putri Anda Bersama Kami.
               </h2>
 
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-                Temukan kehangatan komunitas pembelajar kami. Pendaftaran Gelombang Early Bird kini telah dibuka dengan kuota terbatas dan keringanan biaya pembangunan.
+              <p className="text-blue-100 text-base sm:text-lg leading-relaxed max-w-2xl">
+                Kami mengundang Bapak/Ibu Orang Tua untuk mengunjungi kampus Sekolah Dharma Loka Pekanbaru, melihat langsung suasana kelas, dan berkonsultasi dengan tim akademik kami mengenai jenjang TK, SD, SMP, SMA, maupun SMK.
               </p>
 
-              {/* Benefits Checklist */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs sm:text-sm text-slate-200">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
-                  <span>Jalur Prestasi Akademik & Beasiswa Bakat</span>
+              {/* Step Highlights */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3">
+                <div className="p-5 rounded-2xl bg-white/10 border border-white/20">
+                  <CalendarCheck className="w-6 h-6 text-white mb-2.5" />
+                  <div className="text-base font-bold text-white">1. Kunjungan Kampus</div>
+                  <p className="text-xs sm:text-sm text-blue-100 mt-1">
+                    Jadwalkan tur fasilitas bersama keluarga
+                  </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
-                  <span>Jadwal School Tour & Konsultasi Tatap Muka</span>
+                <div className="p-5 rounded-2xl bg-white/10 border border-white/20">
+                  <FileCheck2 className="w-6 h-6 text-white mb-2.5" />
+                  <div className="text-base font-bold text-white">2. Pendaftaran Mudah</div>
+                  <p className="text-xs sm:text-sm text-blue-100 mt-1">
+                    Isi formulir secara daring atau di sekolah
+                  </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
-                  <span>Pendidikan Terpadu TK hingga SMA/SMK</span>
+                <div className="p-5 rounded-2xl bg-white/10 border border-white/20">
+                  <PhoneCall className="w-6 h-6 text-white mb-2.5" />
+                  <div className="text-base font-bold text-white">3. Konsultasi Ramah</div>
+                  <p className="text-xs sm:text-sm text-blue-100 mt-1">
+                    Didampingi langsung oleh panitia PPDB
+                  </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
-                  <span>Kurikulum Trilingual & Riset Abad 21</span>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Right Action Box (Col 4) */}
-            <div className="lg:col-span-4 p-6 sm:p-8 rounded-xl bg-white text-slate-900 shadow-xl border border-slate-200 space-y-4">
-              <div className="text-xs uppercase tracking-wider font-bold text-slate-400">
-                Pendaftaran & Konsultasi
-              </div>
-              <div className="text-xl font-bold text-primary-950 font-sans leading-snug">
-                Siap Melangkah Bersama Kami?
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Tim sekretariat admisi kami siap menjawab pertanyaan seputar program, biaya, dan alur pendaftaran.
-              </p>
-
-              <div className="space-y-3 pt-2">
-                <Link
-                  href="/admissions"
-                  className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-md bg-primary-900 hover:bg-primary-800 text-white font-semibold text-sm transition-colors shadow-sm"
-                >
-                  <span>Buka Halaman Admisi</span>
-                  <ArrowRight className="w-4 h-4 text-gold" aria-hidden="true" />
-                </Link>
-
-                <a
-                  href={`https://wa.me/${schoolInfo.contact.whatsapp}?text=Halo%20Sekretariat%20Sekolah%20Dharma%20Loka,%20saya%20ingin%20berkonsultasi%20mengenai%20pendaftaran%20siswa%20baru.`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-xs transition-colors shadow-sm"
-                >
-                  <Phone className="w-4 h-4" aria-hidden="true" />
-                  <span>Konsultasi WhatsApp (Chat Langsung)</span>
-                </a>
-              </div>
-
-              <div className="text-[11px] text-slate-400 text-center pt-1">
-                Layanan hotline aktif pada jam kerja kantor sekolah
               </div>
             </div>
 
+            {/* Right Action Card (5 cols) */}
+            <div className="lg:col-span-5">
+              <div className="bg-white text-primary-950 rounded-3xl p-8 sm:p-10 shadow-xl space-y-6">
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-royal">
+                    Layanan Informasi Orang Tua
+                  </span>
+                  <h3 className="text-2xl font-extrabold text-primary-950 mt-1">
+                    Pendaftaran & Konsultasi PPDB
+                  </h3>
+                  <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
+                    Dapatkan rincian kurikulum, jadwal gelombang pendaftaran, dan persyaratan berkas untuk setiap jenjang.
+                  </p>
+                </div>
+
+                <div className="space-y-3.5 pt-1">
+                  <Link
+                    href="/admissions"
+                    className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-royal hover:bg-royal-dark text-white font-bold text-base shadow-md shadow-royal/20 transition-all"
+                  >
+                    <span>Buka Formulir & Panduan PPDB</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+
+                  <a
+                    href={`https://wa.me/${schoolInfo.contact.whatsapp}?text=${encodeURIComponent(
+                      "Halo Panitia PPDB Sekolah Dharma Loka Pekanbaru, saya ingin berkonsultasi mengenai pendaftaran siswa baru."
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-blue-50 hover:bg-blue-100 text-royal font-bold text-base border border-blue-200 transition-colors"
+                  >
+                    <PhoneCall className="w-5 h-5 text-royal" />
+                    <span>Hubungi WhatsApp Panitia PPDB</span>
+                  </a>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 text-xs sm:text-sm text-slate-500 flex items-center justify-between">
+                  <span>Jam Layanan Sekretariat:</span>
+                  <span className="font-bold text-primary-900">
+                    Senin – Sabtu (07.15 – 15.30 WIB)
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-
         </div>
       </div>
     </section>
   );
 }
-

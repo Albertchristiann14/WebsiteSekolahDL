@@ -3,145 +3,150 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Sparkles, Shield, Award, Users } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Compass, ShieldCheck, Globe, Award, CheckCircle2 } from "lucide-react";
 import { schoolInfo } from "@/data/schoolInfo";
 
 export function HeroSection() {
   return (
-    <section className="relative bg-primary-950 text-white overflow-hidden" aria-label="Hero Utama">
-      {/* Editorial Decorative Background Elements */}
-      <div 
-        className="absolute inset-0 opacity-20 pointer-events-none"
-        style={{
-          backgroundImage: "radial-gradient(#D6A84F 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
-        aria-hidden="true"
-      />
-      <div 
-        className="absolute -top-40 -right-40 w-96 h-96 bg-royal/30 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true" 
-      />
-      <div 
-        className="absolute -bottom-40 -left-40 w-96 h-96 bg-gold/15 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true" 
-      />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-20 lg:pb-28">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Column: Editorial Headline & Copy (Col 7) */}
-          <div className="lg:col-span-7 space-y-6 sm:space-y-8">
-            
-            {/* Editorial Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-primary-900/90 border border-gold/30 text-xs text-gold-light shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-gold animate-pulse" aria-hidden="true" />
-              <span className="font-semibold tracking-wide">Pendidikan Terpadu TK • SD • SMP • SMA • SMK</span>
+    <section
+      aria-label="Profil Utama Sekolah Dharma Loka"
+      className="relative overflow-hidden bg-gradient-to-b from-blue-50/80 via-blue-50/30 to-white text-primary-950 border-b border-blue-100"
+    >
+      <div className="relative max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10 pt-12 pb-20 lg:pt-20 lg:pb-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left Column: Editorial Headline & Value Proposition (7 cols) */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="lg:col-span-7 space-y-8"
+          >
+            {/* Institutional Tag */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white border border-blue-200 shadow-sm">
+              <span className="w-2.5 h-2.5 rounded-full bg-royal" aria-hidden="true" />
+              <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-royal">
+                Pendidikan Terpadu TK • SD • SMP • SMA • SMK di Pekanbaru
+              </span>
             </div>
 
-            {/* Main Editorial Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-sans tracking-tight text-white leading-[1.15]">
-              Tempat Setiap Anak{" "}
-              <span className="font-serif italic font-normal text-gold-light block sm:inline">
-                Menemukan Potensi
-              </span>{" "}
-              & Membina Budi Pekerti
+            {/* Editorial Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-tight leading-[1.15] text-primary-950">
+              Membentuk Generasi{" "}
+              <span className="font-serif italic font-semibold text-royal">
+                Berbudi Pekerti Luhur
+              </span>
+              , Cerdas, dan Siap Menghadapi Masa Depan.
             </h1>
 
-            {/* Subtitle / Description */}
-            <p className="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl font-normal">
-              Sekolah Dharma Loka Pekanbaru memadukan keunggulan akademik, sains-teknologi abad 21, kefasihan trilingual, dan penanaman budi pekerti luhur dalam ekosistem belajar yang inspiratif.
+            {/* Lead Paragraph */}
+            <p className="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-2xl">
+              Sekolah Dharma Loka Pekanbaru menghadirkan lingkungan belajar yang aman, hangat, dan berprestasi—memadukan pembinaan karakter mulia, penguasaan tiga bahasa (Indonesia, Inggris, Mandarin), serta keunggulan sains dan teknologi.
             </p>
 
-            {/* Dual CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-              <Link
-                href="/academics"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-md text-base font-semibold text-primary-950 bg-gold hover:bg-gold-light active:bg-gold-dark shadow-md transition-all duration-150 focus-visible:ring-2 focus-visible:ring-royal"
-              >
-                <span>Jelajahi Program Sekolah</span>
-                <ArrowRight className="w-5 h-5 text-primary-950" aria-hidden="true" />
-              </Link>
+            {/* Reassurance Checklist for Parents */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              <div className="flex items-center gap-2.5 text-sm sm:text-base font-semibold text-primary-900">
+                <CheckCircle2 className="w-5 h-5 text-royal shrink-0" />
+                <span>Terakreditasi A (Unggul)</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-sm sm:text-base font-semibold text-primary-900">
+                <CheckCircle2 className="w-5 h-5 text-royal shrink-0" />
+                <span>Trilingual Aktif</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-sm sm:text-base font-semibold text-primary-900">
+                <CheckCircle2 className="w-5 h-5 text-royal shrink-0" />
+                <span>Lingkungan Ramah Anak</span>
+              </div>
+            </div>
+
+            {/* Primary & Secondary CTAs */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-3">
               <Link
                 href="/admissions"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-md text-base font-semibold text-white bg-primary-900/90 hover:bg-primary-800 border border-slate-700 hover:border-gold/50 transition-all duration-150 focus-visible:ring-2 focus-visible:ring-royal"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 text-base font-bold text-white bg-royal hover:bg-royal-dark rounded-xl shadow-lg shadow-royal/20 transition-all duration-200 group"
               >
-                <span>Pendaftaran PPDB 2027/2028</span>
+                <span>Daftar Siswa Baru (PPDB)</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+              </Link>
+              <Link
+                href="/academics"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 text-base font-bold text-royal bg-white hover:bg-blue-50 border-2 border-blue-200 rounded-xl transition-all duration-200"
+              >
+                <Compass className="w-5 h-5 text-royal" aria-hidden="true" />
+                <span>Lihat Jenjang Pendidikan</span>
               </Link>
             </div>
+          </motion.div>
 
-            {/* Value Indicators Strip */}
-            <div className="pt-6 border-t border-primary-900/80 grid grid-cols-3 gap-4 text-left">
-              <div>
-                <div className="font-serif text-2xl sm:text-3xl font-bold text-white">A</div>
-                <div className="text-xs text-slate-400 font-medium">Akreditasi Unggul [DEMO]</div>
-              </div>
-              <div>
-                <div className="font-serif text-2xl sm:text-3xl font-bold text-gold">35+</div>
-                <div className="text-xs text-slate-400 font-medium">Tahun Mengabdi</div>
-              </div>
-              <div>
-                <div className="font-serif text-2xl sm:text-3xl font-bold text-white">5 Jenjang</div>
-                <div className="text-xs text-slate-400 font-medium">Satu Kampus Terpadu</div>
+          {/* Right Column: Bright Framed Photography Composition (5 cols) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+            className="lg:col-span-5 relative"
+          >
+            <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-2xl shadow-blue-900/10 aspect-[4/5] bg-blue-50">
+              <Image
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85"
+                alt="Suasana belajar kolaboratif siswa Sekolah Dharma Loka Pekanbaru"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-950/75 via-primary-950/15 to-transparent" />
+
+              {/* Bottom Caption Inside Image */}
+              <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl bg-white/95 backdrop-blur-md border border-blue-100 shadow-lg">
+                <p className="text-xs font-bold uppercase tracking-wider text-royal mb-1">
+                  Ekosistem Pendidikan Terpadu
+                </p>
+                <p className="text-sm sm:text-base text-primary-950 font-bold leading-snug">
+                  Pendampingan akademik & karakter berkesinambungan dari jenjang TK hingga SMA/SMK.
+                </p>
               </div>
             </div>
 
-          </div>
-
-          {/* Right Column: Visual Composition with Layered Photography (Col 5) */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
-              
-              {/* Primary Large Photography */}
-              <div className="relative rounded-xl overflow-hidden shadow-2xl border-2 border-primary-800/80 aspect-[4/5] bg-primary-900">
-                <Image
-                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1000&q=80"
-                  alt="Siswa-siswi Sekolah Dharma Loka berkolaborasi dalam suasana pembelajaran modern"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-950/80 via-transparent to-transparent" />
-                
-                {/* Photo Caption Overlay */}
-                <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-lg bg-primary-950/80 backdrop-blur-sm border border-slate-700/60 text-xs text-slate-200">
-                  <div className="font-semibold text-white flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-gold" aria-hidden="true" />
-                    <span>Kolaborasi Pembelajaran Inovatif</span>
-                  </div>
-                  <div className="text-slate-400 text-[11px] mt-0.5">
-                    Menumbuhkan jiwa kepemimpinan & nalar kritis sejak dini
-                  </div>
-                </div>
+            {/* Clean White Floating Badge */}
+            <div className="hidden sm:flex absolute -top-5 -left-6 bg-white text-primary-950 p-4 rounded-2xl shadow-xl border border-blue-100 items-center gap-3.5 max-w-[260px]">
+              <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center text-royal shrink-0">
+                <Award className="w-6 h-6" aria-hidden="true" />
               </div>
-
-              {/* Floating Floating Accent Card (Bottom Left) */}
-              <div className="absolute -bottom-6 -left-6 sm:-left-8 p-4 rounded-lg bg-white text-slate-900 shadow-xl border border-slate-200 hidden sm:flex items-center gap-3.5 max-w-xs animate-in fade-in duration-300">
-                <div className="w-10 h-10 rounded-full bg-gold-soft flex items-center justify-center text-gold-dark shrink-0">
-                  <Award className="w-5 h-5 text-gold-dark" aria-hidden="true" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-primary-950">
-                    Olimpiade & Prestasi Robotika
-                  </div>
-                  <div className="text-[11px] text-slate-500">
-                    120+ Penghargaan Internasional & Nasional [DEMO]
-                  </div>
-                </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-royal">
+                  Prestasi Nyata
+                </p>
+                <p className="text-sm font-extrabold text-primary-950 leading-tight mt-0.5">
+                  120+ Medali Akademik & Non-Akademik
+                </p>
               </div>
-
-              {/* Top Right Floating Pill */}
-              <div className="absolute -top-4 -right-4 px-3.5 py-1.5 rounded-full bg-royal text-white text-xs font-bold shadow-lg border border-white/20 hidden sm:block">
-                Trilingual Curriculum
-              </div>
-
             </div>
-          </div>
+          </motion.div>
+        </div>
 
+        {/* Spacious Stats Bar */}
+        <div className="mt-16 lg:mt-24 pt-12 border-t border-blue-100">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {schoolInfo.stats.map((stat) => (
+              <div
+                key={stat.id}
+                className="p-6 sm:p-7 rounded-2xl bg-white border border-blue-100/90 shadow-sm hover:shadow-md hover:border-blue-200 transition-all"
+              >
+                <div className="text-3xl sm:text-4xl font-extrabold text-royal tracking-tight mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-base font-bold text-primary-950 mb-1">
+                  {stat.label}
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {stat.subtext}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
-

@@ -14,31 +14,31 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
   return (
-    <nav aria-label="Breadcrumb" className={`flex items-center text-sm ${className}`}>
-      <ol className="flex items-center space-x-2 flex-wrap">
+    <nav aria-label="Breadcrumb" className={`flex items-center text-sm sm:text-base ${className}`}>
+      <ol className="flex items-center space-x-2.5 flex-wrap">
         <li>
           <Link
             href="/"
-            className="flex items-center text-slate-500 hover:text-primary-900 transition-colors"
+            className="flex items-center text-slate-600 hover:text-royal font-medium transition-colors"
             title="Kembali ke Beranda"
           >
-            <Home className="w-4 h-4 mr-1" aria-hidden="true" />
+            <Home className="w-4 h-4 mr-1.5 text-royal" aria-hidden="true" />
             <span>Beranda</span>
           </Link>
         </li>
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
-            <li key={index} className="flex items-center space-x-2">
-              <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" aria-hidden="true" />
+            <li key={index} className="flex items-center space-x-2.5">
+              <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" aria-hidden="true" />
               {isLast || !item.href ? (
-                <span className="font-semibold text-primary-900 line-clamp-1" aria-current="page">
+                <span className="font-bold text-royal line-clamp-1" aria-current="page">
                   {item.label}
                 </span>
               ) : (
                 <Link
                   href={item.href}
-                  className="text-slate-500 hover:text-primary-900 transition-colors line-clamp-1"
+                  className="text-slate-600 hover:text-royal font-medium transition-colors line-clamp-1"
                 >
                   {item.label}
                 </Link>
@@ -50,4 +50,3 @@ export function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
     </nav>
   );
 }
-

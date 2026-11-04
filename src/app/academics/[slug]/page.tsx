@@ -3,20 +3,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  ArrowRight, 
-  CheckCircle2, 
-  Clock, 
-  Sparkles, 
-  Award, 
-  Building, 
-  BookOpen, 
-  GraduationCap,
-  Calendar,
-  Phone
+import {
+  ArrowRight,
+  CheckCircle2,
+  Sparkles,
+  Award,
+  Building,
 } from "lucide-react";
 import { academicLevels } from "@/data/academics";
-import { schoolInfo } from "@/data/schoolInfo";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
@@ -54,65 +48,55 @@ export default async function AcademicDetailPage({ params }: Props) {
     { label: level.shortName },
   ];
 
-  // Other levels for quick switcher
   const otherLevels = academicLevels.filter((lvl) => lvl.slug !== level.slug);
 
   return (
-    <div className="bg-surface-subtle min-h-screen">
-      
-      {/* Hero Banner */}
-      <section className="bg-primary-950 text-white py-14 sm:py-20 relative overflow-hidden">
-        <div 
-          className="absolute inset-0 opacity-15 pointer-events-none"
-          style={{
-            backgroundImage: "radial-gradient(#D6A84F 1px, transparent 1px)",
-            backgroundSize: "28px 28px",
-          }}
-          aria-hidden="true"
-        />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="mb-4">
-            <Breadcrumb items={breadcrumbItems} className="text-slate-300" />
+    <div className="bg-white min-h-screen">
+      {/* Bright White & Soft Blue Hero Banner */}
+      <section className="bg-gradient-to-b from-blue-50/80 via-blue-50/30 to-white py-16 sm:py-24 border-b border-blue-100">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
+          <div className="mb-6">
+            <Breadcrumb items={breadcrumbItems} />
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8 space-y-4">
-              <span className="inline-block px-3 py-1 rounded bg-gold/20 text-gold-light text-xs font-semibold uppercase tracking-wider border border-gold/30">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="lg:col-span-8 space-y-5">
+              <span className="inline-block px-3.5 py-1.5 rounded-full bg-blue-50 text-royal text-xs sm:text-sm font-bold uppercase tracking-wider border border-blue-200/80">
                 {level.levelBadge} • {level.ageRange}
               </span>
-              <h1 className="text-3xl sm:text-5xl font-bold font-sans tracking-tight text-white leading-tight">
+              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-primary-950 leading-tight">
                 {level.name}
               </h1>
-              <p className="text-lg sm:text-xl text-gold-light font-serif italic max-w-2xl">
-                "{level.headline}"
+              <p className="text-lg sm:text-2xl text-royal font-serif italic max-w-2xl">
+                &ldquo;{level.headline}&rdquo;
               </p>
-              <p className="text-base text-slate-300 leading-relaxed max-w-3xl">
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl">
                 {level.overview}
               </p>
             </div>
 
-            <div className="lg:col-span-4 p-6 rounded-xl bg-primary-900/80 border border-slate-700 space-y-3 text-xs">
-              <div className="text-gold font-bold uppercase tracking-wider text-[11px]">
-                Informasi Singkat
+            <div className="lg:col-span-4 p-7 sm:p-8 rounded-3xl bg-white border border-blue-100 shadow-lg shadow-blue-900/5 space-y-4 text-sm">
+              <div className="text-royal font-extrabold uppercase tracking-wider text-xs">
+                Ringkasan Jenjang {level.shortName}
               </div>
-              <div className="flex items-center justify-between py-2 border-b border-primary-800">
-                <span className="text-slate-400">Rentang Usia:</span>
-                <span className="font-semibold text-white">{level.ageRange}</span>
+              <div className="flex items-center justify-between py-2.5 border-b border-slate-100">
+                <span className="text-slate-500">Rentang Usia:</span>
+                <span className="font-bold text-primary-950">{level.ageRange}</span>
               </div>
-              <div className="flex items-center justify-between py-2 border-b border-primary-800">
-                <span className="text-slate-400">Jam Belajar:</span>
-                <span className="font-semibold text-white">{level.schedule}</span>
+              <div className="flex items-center justify-between py-2.5 border-b border-slate-100">
+                <span className="text-slate-500">Jam Belajar:</span>
+                <span className="font-bold text-primary-950">{level.schedule}</span>
               </div>
-              <div className="flex items-center justify-between py-2">
-                <span className="text-slate-400">Bahasa Pengantar:</span>
-                <span className="font-semibold text-white">Indonesia, Inggris, Mandarin</span>
+              <div className="flex items-center justify-between py-2.5">
+                <span className="text-slate-500">Bahasa Pengantar:</span>
+                <span className="font-bold text-primary-950">Indonesia, Inggris, Mandarin</span>
               </div>
-              <div className="pt-2">
+              <div className="pt-3">
                 <Link
                   href="/admissions"
-                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded bg-gold text-primary-950 font-bold text-xs hover:bg-gold-light transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl bg-royal text-white font-bold text-sm hover:bg-royal-dark transition-colors shadow-md shadow-royal/15"
                 >
-                  <span>Daftar {level.shortName}</span>
-                  <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>Daftar {level.shortName} Sekarang</span>
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
             </div>
@@ -121,11 +105,10 @@ export default async function AcademicDetailPage({ params }: Props) {
       </section>
 
       {/* Main Content Sections */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 space-y-20">
-        
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10 py-20 sm:py-28 space-y-24">
         {/* Section 1: Visual Feature & Core Strengths */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-6 relative rounded-2xl overflow-hidden aspect-[4/3] shadow-card bg-slate-900">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="lg:col-span-6 relative rounded-3xl overflow-hidden aspect-[4/3] shadow-lg border border-blue-100 bg-blue-50">
             <Image
               src={level.heroImage}
               alt={level.name}
@@ -135,17 +118,17 @@ export default async function AcademicDetailPage({ params }: Props) {
             />
           </div>
           <div className="lg:col-span-6 space-y-6">
-            <h2 className="text-2xl sm:text-3xl font-bold text-primary-950 font-sans">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-primary-950">
               Karakteristik & Keunggulan Khusus {level.shortName}
             </h2>
-            <p className="text-slate-text leading-relaxed text-sm sm:text-base">
-              Setiap tahapan usia memiliki kebutuhan emosional dan intelektual yang unik. Rancangan pembelajaran di {level.shortName} memadukan kurikulum yang menantang dengan bimbingan personal yang hangat.
+            <p className="text-slate-600 leading-relaxed text-base sm:text-lg">
+              Setiap tahapan usia memiliki kebutuhan emosional dan intelektual yang unik. Rancangan pembelajaran di {level.shortName} memadukan kurikulum yang terstruktur dengan bimbingan personal yang hangat.
             </p>
-            <ul className="space-y-3">
+            <ul className="space-y-3.5">
               {level.features.map((feat, idx) => (
-                <li key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-white border border-slate-200/80 shadow-subtle">
+                <li key={idx} className="flex items-start gap-3.5 p-4 rounded-2xl bg-blue-50/40 border border-blue-100">
                   <CheckCircle2 className="w-5 h-5 text-royal shrink-0 mt-0.5" aria-hidden="true" />
-                  <span className="text-sm font-medium text-slate-800">{feat}</span>
+                  <span className="text-sm sm:text-base font-medium text-primary-950">{feat}</span>
                 </li>
               ))}
             </ul>
@@ -153,31 +136,31 @@ export default async function AcademicDetailPage({ params }: Props) {
         </section>
 
         {/* Section 2: Detailed Curriculum Modules */}
-        <section className="space-y-8">
+        <section className="space-y-10">
           <SectionHeader
             tag="Kurikulum & Pembelajaran"
             title="Pendekatan Pedagogis & Modul Pembelajaran Unggulan"
-            subtitle="Memadukan standar Kurikulum Merdeka Kemendikbudristek dengan pengayaan kurikulum mandiri berwawasan internasional."
+            subtitle="Memadukan standar Kurikulum Nasional dengan pengayaan bahasa, sains, dan pembinaan karakter."
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {level.curriculumHighlights.map((curr, idx) => (
               <div
                 key={curr.title}
-                className="p-8 rounded-xl bg-white border border-slate-200 shadow-card hover:border-gold/60 transition-all duration-200 flex flex-col justify-between"
+                className="p-8 sm:p-10 rounded-3xl bg-white border border-blue-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-200 flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-lg bg-primary-900 text-gold flex items-center justify-center font-bold text-sm mb-6">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-royal border border-blue-100 flex items-center justify-center font-extrabold text-base mb-6">
                     0{idx + 1}
                   </div>
-                  <h3 className="text-lg font-bold text-primary-950 font-sans mb-3">
+                  <h3 className="text-xl font-extrabold text-primary-950 mb-3">
                     {curr.title}
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
+                  <p className="text-base text-slate-600 leading-relaxed">
                     {curr.description}
                   </p>
                 </div>
-                <div className="mt-6 pt-4 border-t border-slate-100 text-xs font-semibold text-royal">
+                <div className="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-royal uppercase tracking-wider">
                   Kurikulum Terintegrasi
                 </div>
               </div>
@@ -185,14 +168,14 @@ export default async function AcademicDetailPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Section 3: Graduate Outcomes / Profil Lulusan */}
-        <section className="p-8 sm:p-12 rounded-2xl bg-primary-950 text-white border border-primary-800">
-          <div className="max-w-3xl mb-8">
-            <span className="text-xs font-bold text-gold uppercase tracking-wider block mb-2">
+        {/* Section 3: Graduate Outcomes */}
+        <section className="p-8 sm:p-14 rounded-3xl bg-gradient-to-br from-royal to-blue-800 text-white shadow-xl shadow-royal/15">
+          <div className="max-w-3xl mb-10">
+            <span className="text-xs sm:text-sm font-bold text-blue-100 uppercase tracking-wider block mb-2">
               Profil Lulusan & Capaian Belajar
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold font-sans text-white">
-              Standar Kompetensi yang Dibawa Siswa Pasca Kelulusan
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              Kompetensi yang Dibawa Siswa Setelah Menyelesaikan Jenjang {level.shortName}
             </h2>
           </div>
 
@@ -200,10 +183,10 @@ export default async function AcademicDetailPage({ params }: Props) {
             {level.graduateOutcomes.map((outcome, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-xl bg-primary-900/70 border border-primary-800 flex items-start gap-4"
+                className="p-6 sm:p-7 rounded-2xl bg-white/10 border border-white/20 flex items-start gap-4"
               >
-                <Award className="w-6 h-6 text-gold shrink-0 mt-1" aria-hidden="true" />
-                <p className="text-sm text-slate-200 leading-relaxed font-normal">
+                <Award className="w-6 h-6 text-white shrink-0 mt-1" aria-hidden="true" />
+                <p className="text-sm sm:text-base text-blue-50 leading-relaxed">
                   {outcome}
                 </p>
               </div>
@@ -213,83 +196,77 @@ export default async function AcademicDetailPage({ params }: Props) {
 
         {/* Section 4: Facilities & Extracurriculars Split */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
-          {/* Facilities Box */}
-          <div className="p-8 rounded-xl bg-white border border-slate-200 shadow-card space-y-4">
-            <div className="flex items-center gap-2.5 text-primary-900">
+          <div className="p-8 sm:p-10 rounded-3xl bg-blue-50/40 border border-blue-100 space-y-5">
+            <div className="flex items-center gap-3 text-primary-950">
               <Building className="w-6 h-6 text-royal" aria-hidden="true" />
-              <h3 className="text-xl font-bold font-sans text-primary-950">
+              <h3 className="text-xl font-extrabold text-primary-950">
                 Sarana Khusus {level.shortName}
               </h3>
             </div>
-            <p className="text-xs text-slate-600">
-              Fasilitas penunjang aktivitas belajar yang didesain khusus sesuai karakteristik perkembangan siswa.
+            <p className="text-sm sm:text-base text-slate-600">
+              Fasilitas penunjang aktivitas belajar yang didesain khusus sesuai perkembangan siswa.
             </p>
-            <ul className="space-y-2.5 pt-2">
+            <ul className="space-y-3 pt-2">
               {level.facilities.map((fac, idx) => (
-                <li key={idx} className="flex items-center gap-2.5 text-xs text-slate-700">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold-dark" aria-hidden="true" />
+                <li key={idx} className="flex items-center gap-3 text-sm sm:text-base text-slate-700">
+                  <span className="w-2 h-2 rounded-full bg-royal" aria-hidden="true" />
                   <span>{fac}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Extracurriculars Box */}
-          <div className="p-8 rounded-xl bg-white border border-slate-200 shadow-card space-y-4">
-            <div className="flex items-center gap-2.5 text-primary-900">
-              <Sparkles className="w-6 h-6 text-gold" aria-hidden="true" />
-              <h3 className="text-xl font-bold font-sans text-primary-950">
+          <div className="p-8 sm:p-10 rounded-3xl bg-blue-50/40 border border-blue-100 space-y-5">
+            <div className="flex items-center gap-3 text-primary-950">
+              <Sparkles className="w-6 h-6 text-royal" aria-hidden="true" />
+              <h3 className="text-xl font-extrabold text-primary-950">
                 Klub & Ekstrakurikuler Pilihan
               </h3>
             </div>
-            <p className="text-xs text-slate-600">
+            <p className="text-sm sm:text-base text-slate-600">
               Mengasah bakat seni, ketangkasan olahraga, dan kepemimpinan di luar jam pelajaran formal.
             </p>
-            <div className="flex flex-wrap gap-2 pt-2">
+            <div className="flex flex-wrap gap-2.5 pt-2">
               {level.extracurriculars.map((ekskul, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1.5 rounded-lg bg-surface-subtle border border-slate-200 text-xs font-semibold text-slate-800"
+                  className="px-4 py-2 rounded-xl bg-white border border-blue-100 text-sm font-bold text-primary-950 shadow-sm"
                 >
                   {ekskul}
                 </span>
               ))}
             </div>
           </div>
-
         </section>
 
         {/* Section 5: Other Levels Switcher */}
-        <section className="pt-8 border-t border-slate-200">
+        <section className="pt-10 border-t border-blue-100">
           <div className="text-center mb-8">
-            <h3 className="text-lg font-bold text-primary-950 font-sans">
+            <h3 className="text-xl font-extrabold text-primary-950">
               Jelajahi Jenjang Pendidikan Lainnya di Dharma Loka
             </h3>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
             {otherLevels.map((lvl) => (
               <Link
                 key={lvl.slug}
                 href={`/academics/${lvl.slug}`}
-                className="p-4 rounded-xl bg-white border border-slate-200 hover:border-royal hover:shadow-md transition-all text-center group"
+                className="p-5 rounded-2xl bg-blue-50/40 border border-blue-100 hover:border-royal hover:bg-white hover:shadow-md transition-all text-center group"
               >
                 <div className="text-xs font-bold text-royal uppercase tracking-wider mb-1">
                   Jenjang {lvl.slug.toUpperCase()}
                 </div>
-                <div className="text-sm font-bold text-primary-950 group-hover:text-royal transition-colors">
+                <div className="text-base font-extrabold text-primary-950 group-hover:text-royal transition-colors">
                   {lvl.name}
                 </div>
-                <div className="text-[11px] text-slate-500 mt-1 line-clamp-1">
+                <div className="text-xs text-slate-500 mt-1 line-clamp-1">
                   {lvl.ageRange}
                 </div>
               </Link>
             ))}
           </div>
         </section>
-
       </div>
     </div>
   );
 }
-

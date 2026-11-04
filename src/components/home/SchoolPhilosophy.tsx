@@ -1,108 +1,103 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Compass, Heart, Shield, Globe } from "lucide-react";
+import { ArrowRight, HeartHandshake, Lightbulb, Shield, Globe2 } from "lucide-react";
 import { schoolInfo } from "@/data/schoolInfo";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
+const valueIcons = [
+  <Lightbulb key="0" className="w-6 h-6 text-royal" />,
+  <HeartHandshake key="1" className="w-6 h-6 text-royal" />,
+  <Shield key="2" className="w-6 h-6 text-royal" />,
+  <Globe2 key="3" className="w-6 h-6 text-royal" />,
+];
+
 export function SchoolPhilosophy() {
-  const valueIcons = [Compass, Heart, Shield, Globe];
-
   return (
-    <section className="py-20 lg:py-28 bg-white" aria-labelledby="philosophy-heading">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Asymmetrical Editorial Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
-          {/* Left Column: Layered Photography and Motto Emblem (5 cols) */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative">
-              {/* Primary Image */}
-              <div className="relative rounded-xl overflow-hidden shadow-elevated border border-slate-200 aspect-[4/5] bg-slate-100">
-                <Image
-                  src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1000&q=80"
-                  alt="Aktivitas pembelajaran penuh kehangatan dan interaksi guru-murid di Sekolah Dharma Loka"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="object-cover"
-                />
-              </div>
-
-              {/* Offset Decorative Editorial Pullquote Box */}
-              <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-8 sm:-right-8 p-6 rounded-xl bg-primary-950 text-white shadow-2xl border-2 border-gold/30 max-w-sm">
-                <div className="font-serif italic text-gold text-lg sm:text-xl leading-snug">
-                  "{schoolInfo.motto}"
-                </div>
-                <div className="mt-2 text-xs text-slate-300 leading-relaxed">
-                  {schoolInfo.mottoTranslation}
-                </div>
-                <div className="mt-4 pt-3 border-t border-primary-900 text-[11px] text-slate-400 font-semibold tracking-wider uppercase">
-                  Filosofi Pembinaan Insan
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Narrative & Values (7 cols) */}
-          <div className="lg:col-span-7 space-y-8">
+    <section className="py-24 lg:py-36 bg-white" aria-labelledby="philosophy-heading">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
+        {/* Top Editorial Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          {/* Left Column: Narrative (6 cols) */}
+          <div className="lg:col-span-6 space-y-7">
             <SectionHeader
-              tag="Tentang & Filosofi"
-              title="Menumbuhkan Generasi Berkarakter Luhur dan Berwawasan Global"
-              subtitle="Pendidikan sejati bukan sekadar mengumpulkan capaian angka dan hafalan rumus, melainkan membentuk manusia utuh yang berintegritas, mandiri, dan berjiwa welas asih."
+              tag="Identitas & Filosofi Pendidikan"
+              title="Keseimbangan Antara Kecerdasan Intelektual dan Kemuliaan Hati"
             />
 
-            <div className="prose prose-slate max-w-none text-slate-text leading-relaxed text-base space-y-4">
-              <p>
-                Didirikan sejak tahun 1988 di bawah naungan <strong>{schoolInfo.foundation}</strong>, Sekolah Dharma Loka telah dipercaya oleh ribuan orang tua di Pekanbaru dan Riau sebagai rumah kedua bagi tumbuh kembang putra-putri mereka.
-              </p>
-              <p>
-                Kami memadukan disiplin kurikulum nasional Kurikulum Merdeka dengan penguatan kompetensi trilingual (Bahasa Indonesia, Inggris, dan Mandarin) serta pembelajaran sains-teknologi abad ke-21. Seluruh proses belajar dijiwai oleh nilai-nilai luhur moralitas (Sīla), kebijaksanaan analitis (Prajña), dan ketekunan pantang menyerah (Vīriya).
-              </p>
-            </div>
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+              Di Sekolah Dharma Loka Pekanbaru, kami meyakini bahwa keberhasilan pendidikan tidak hanya diukur dari tingginya nilai akademik semata, melainkan dari ketangguhan karakter, kejujuran, rasa hormat kepada orang tua, dan kepedulian tulus terhadap sesama.
+            </p>
 
-            {/* Core Values 2x2 Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              {schoolInfo.coreValues.map((val, idx) => {
-                const IconComponent = valueIcons[idx % valueIcons.length];
-                return (
-                  <div
-                    key={val.title}
-                    className="p-4 rounded-lg bg-surface-subtle border border-slate-200/80 hover:border-gold/50 transition-colors"
-                  >
-                    <div className="flex items-center gap-2.5 mb-2">
-                      <div className="w-7 h-7 rounded bg-primary-100 text-primary-900 flex items-center justify-center shrink-0">
-                        <IconComponent className="w-4 h-4 text-primary-900" aria-hidden="true" />
-                      </div>
-                      <h4 className="text-sm font-bold text-primary-950 font-sans">
-                        {val.title}
-                      </h4>
-                    </div>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      {val.description}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+              Berlandaskan semboyan <em className="font-serif font-semibold text-royal">{schoolInfo.motto}</em>, seluruh kegiatan belajar mengajar dirancang agar setiap anak merasa dihargai, aman untuk bereksplorasi, dan tumbuh menjadi pribadi yang percaya diri.
+            </p>
 
-            {/* Read More Link */}
+            {/* Bright Soft-Blue Pullquote Box */}
+            <blockquote className="p-7 sm:p-8 rounded-2xl bg-blue-50/70 border-l-4 border-royal">
+              <p className="font-serif italic text-lg sm:text-xl text-primary-950 leading-relaxed mb-3">
+                &ldquo;Kecerdasan tanpa budi pekerti ibarat kapal tanpa kompas. Di Dharma Loka, kami menempa keduanya agar putra-putri Anda siap memimpin masa depan dengan bijaksana.&rdquo;
+              </p>
+              <footer className="text-xs sm:text-sm font-bold text-royal uppercase tracking-wider">
+                — Dewan Pembina Yayasan Pendidikan Dharma Loka
+              </footer>
+            </blockquote>
+
             <div className="pt-2">
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-primary-900 hover:text-royal transition-colors group"
+                className="inline-flex items-center gap-2 text-base font-bold text-royal hover:text-royal-dark group"
               >
-                <span>Baca Selengkapnya Visi, Misi & Sejarah Sekolah</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                <span>Pelajari Sejarah, Visi & Misi Sekolah</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
               </Link>
             </div>
-
           </div>
 
-        </div>
+          {/* Right Column: Visual + 4 Core Values Grid (6 cols) */}
+          <div className="lg:col-span-6 space-y-8">
+            {/* Wide Image Banner */}
+            <div className="relative h-72 sm:h-80 rounded-3xl overflow-hidden shadow-lg border border-blue-100">
+              <Image
+                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1000&q=80"
+                alt="Pendampingan guru dan siswa di dalam kelas Sekolah Dharma Loka"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-950/65 via-transparent to-transparent" />
+              <div className="absolute bottom-5 left-6 right-6 text-white">
+                <span className="text-xs font-bold uppercase tracking-wider text-blue-100 bg-royal/90 px-3 py-1 rounded-full">
+                  Pendekatan Personal & Humanis
+                </span>
+                <p className="text-base sm:text-lg font-bold mt-2">
+                  Pendidik berdedikasi yang membimbing perkembangan akademik dan karakter setiap anak.
+                </p>
+              </div>
+            </div>
 
+            {/* 4 Pillars Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {schoolInfo.coreValues.map((val, idx) => (
+                <div
+                  key={val.title}
+                  className="p-7 rounded-2xl bg-slate-50/70 hover:bg-blue-50/50 border border-blue-100/80 transition-all"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-white border border-blue-100 shadow-sm flex items-center justify-center mb-4">
+                    {valueIcons[idx]}
+                  </div>
+                  <h3 className="font-bold text-primary-950 text-lg mb-2">
+                    {val.title}
+                  </h3>
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                    {val.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
-
