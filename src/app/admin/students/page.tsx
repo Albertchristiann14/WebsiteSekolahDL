@@ -14,7 +14,11 @@ import {
   Building2,
   Phone,
   Filter,
+  Eye,
+  EyeOff,
+  ShieldCheck,
 } from "lucide-react";
+import { SecurityUtils } from "@/lib/security";
 
 interface MockStudent {
   id: string;
@@ -109,6 +113,15 @@ export default function AdminStudentsPage() {
   const [students, setStudents] = useState<MockStudent[]>(INITIAL_MASTER_STUDENTS);
   const [search, setSearch] = useState("");
   const [classFilter, setClassFilter] = useState("all");
+  const [unmaskedNiks, setUnmaskedNiks] = useState<Record<string, boolean>>({});
+
+  const toggleUnmaskNik = (id: string, nik: string) => {
+    const isCurrentlyUnmasked = !!unmaskedNiks[id];
+    setUnmaskedNiks((prev) => ({ ...prev, [id]: !isCurrentlyUnmasked }));
+    if (!isCurrentlyUnmasked) {
+      SecurityUtils.recordUnmaskAudit(id, "nik", "Pemeriksaan Master Data Siswa");
+    }
+  };
 
   useEffect(() => {
     setActiveTenant(AdminStore.getActiveTenantFilter());
@@ -198,9 +211,33 @@ export default function AdminStudentsPage() {
                       <p className="font-extrabold text-slate-900">
                         {stu.fullName}
                       </p>
-                      <p className="text-[11px] text-slate-400">
-                        NIK: {stu.nik} • {stu.gender === "L" ? "Laki-laki" : "Perempuan"}
-                      </p>
+                      <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
+                        <span>
+                          NIK:{" "}
+                          <strong className="font-mono text-slate-600">
+                            {unmaskedNiks[stu.id]
+                              ? stu.nik
+                              : SecurityUtils.maskIdentifier(stu.nik)}
+                          </strong>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => toggleUnmaskNik(stu.id, stu.nik)}
+                          className="text-slate-400 hover:text-royal transition p-0.5 rounded cursor-pointer"
+                          title={
+                            unmaskedNiks[stu.id]
+                              ? "Samarkan NIK kembali"
+                              : "Buka NIK Lengkap (Tercatat di Audit Log Keamanan)"
+                          }
+                        >
+                          {unmaskedNiks[stu.id] ? (
+                            <EyeOff className="w-3.5 h-3.5 text-royal" />
+                          ) : (
+                            <Eye className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                        <span>• {stu.gender === "L" ? "Laki-laki" : "Perempuan"}</span>
+                      </div>
                     </td>
                     <td className="py-3.5 px-3">
                       <span className="font-extrabold text-royal block">
@@ -218,9 +255,9 @@ export default function AdminStudentsPage() {
                         href={`https://wa.me/${stu.parentWhatsapp}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-emerald-700 hover:underline"
+                        className="font-bold text-emerald-700 hover:underline font-mono"
                       >
-                        {stu.parentWhatsapp} ↗
+                        {SecurityUtils.maskPhone(stu.parentWhatsapp)} ↗
                       </a>
                     </td>
                     <td className="py-3.5 px-4 text-center">

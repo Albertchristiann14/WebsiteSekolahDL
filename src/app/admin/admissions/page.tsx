@@ -27,7 +27,9 @@ import {
   Send,
   Printer,
   FileText,
+  EyeOff,
 } from "lucide-react";
+import { SecurityUtils } from "@/lib/security";
 
 export default function AdminAdmissionsPage() {
   const [activeTenant, setActiveTenant] = useState<TenantCode>("portal");
@@ -39,6 +41,15 @@ export default function AdminAdmissionsPage() {
   const [selectedApplicants, setSelectedApplicants] = useState<string[]>([]);
   const [detailModalApp, setDetailModalApp] = useState<AdminApplicant | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [unmaskedNiks, setUnmaskedNiks] = useState<Record<string, boolean>>({});
+
+  const toggleUnmaskNik = (id: string, nik: string) => {
+    const isCurrentlyUnmasked = !!unmaskedNiks[id];
+    setUnmaskedNiks((prev) => ({ ...prev, [id]: !isCurrentlyUnmasked }));
+    if (!isCurrentlyUnmasked) {
+      SecurityUtils.recordUnmaskAudit(id, "nik", "Pemeriksaan Verifikasi Calon Siswa");
+    }
+  };
 
   const loadData = () => {
     const tenantFilter = AdminStore.getActiveTenantFilter();
@@ -348,9 +359,37 @@ export default function AdminAdmissionsPage() {
                         <p className="font-extrabold text-slate-900">
                           {app.fullName}
                         </p>
-                        <p className="text-[11px] text-slate-500">
-                          NIK: {app.nik} {app.nisn ? `• NISN: ${app.nisn}` : ""}
-                        </p>
+                        <div className="flex items-center gap-1.5 text-[11px] text-slate-500 mt-0.5">
+                          <span>
+                            NIK:{" "}
+                            <strong className="font-mono text-slate-700">
+                              {unmaskedNiks[app.id]
+                                ? app.nik
+                                : SecurityUtils.maskIdentifier(app.nik)}
+                            </strong>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => toggleUnmaskNik(app.id, app.nik)}
+                            className="text-slate-400 hover:text-royal transition p-0.5 rounded cursor-pointer"
+                            title={
+                              unmaskedNiks[app.id]
+                                ? "Samarkan NIK kembali"
+                                : "Buka NIK Lengkap (Tercatat di Audit Log)"
+                            }
+                          >
+                            {unmaskedNiks[app.id] ? (
+                              <EyeOff className="w-3.5 h-3.5 text-royal" />
+                            ) : (
+                              <Eye className="w-3.5 h-3.5" />
+                            )}
+                          </button>
+                          {app.nisn && (
+                            <span className="font-mono text-slate-400">
+                              • NISN: {SecurityUtils.maskIdentifier(app.nisn, 3, 2)}
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="py-3.5 px-3">
                         <span className="inline-block px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-slate-100 text-slate-700">
