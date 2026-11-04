@@ -29,3 +29,4 @@ class EncryptedPersonalData implements CastsAttributes
         return PersonalDataEncryptionService::encryptField((string) $value);
     }
 }
+

@@ -134,3 +134,4 @@ class TwoFactorAuthService
         return $binary;
     }
 }
+

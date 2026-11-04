@@ -87,3 +87,4 @@ class Applicant extends Model
         return $this->hasMany(ApplicantDocument::class);
     }
 }
+

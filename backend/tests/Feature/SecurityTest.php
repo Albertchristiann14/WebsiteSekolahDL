@@ -297,3 +297,4 @@ class SecurityTest extends TestCase
         $this->assertMatchesRegularExpression('/^[A-Z0-9]{4}-[A-Z0-9]{4}$/', $recoveryCodes[0]);
     }
 }
+

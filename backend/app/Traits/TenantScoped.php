@@ -71,3 +71,4 @@ trait TenantScoped
         return $query->withoutGlobalScope(TenantScope::class);
     }
 }
+

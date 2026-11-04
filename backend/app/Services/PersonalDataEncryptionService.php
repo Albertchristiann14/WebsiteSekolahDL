@@ -175,3 +175,4 @@ class PersonalDataEncryptionService
         return $front . str_repeat('*', $maskLength) . $back;
     }
 }
+

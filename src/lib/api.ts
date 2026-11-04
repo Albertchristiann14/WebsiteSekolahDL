@@ -3,7 +3,16 @@
  * Connects Next.js to the Laravel REST API backend with Bearer Sanctum authentication
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+const getApiBaseUrl = (): string => {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname || "127.0.0.1";
+    return `http://${host}:8000/api`;
+  }
+  return "http://127.0.0.1:8000/api";
+};
 
 export interface ApiResponse<T = any> {
   data?: T;
@@ -73,7 +82,8 @@ export async function fetchApi<T = any>(
   endpoint: string, 
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
-  const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+  const baseUrl = getApiBaseUrl();
+  const url = `${baseUrl}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
   const headers = new Headers(options.headers || {});
 
   // Add Accept header
@@ -134,9 +144,51 @@ export async function fetchApi<T = any>(
       meta: json?.meta,
     };
   } catch (err: any) {
+    // If primary network fetch failed, attempt fallback candidates (e.g. Next.js rewrite /backend-api or 127.0.0.1)
+    if (typeof window !== "undefined") {
+      const candidates = [
+        `/backend-api${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`,
+        `http://127.0.0.1:8000/api${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`,
+        `http://localhost:8000/api${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`,
+      ];
+
+      for (const altUrl of candidates) {
+        if (altUrl === url) continue;
+        try {
+          const altRes = await fetch(altUrl, { ...options, headers });
+          const status = altRes.status;
+          let json: any = null;
+          try { json = await altRes.json(); } catch { json = null; }
+          if (altRes.ok) {
+            return {
+              status,
+              data: (json && ("data" in json)) ? json.data : json,
+              message: json?.message,
+              meta: json?.meta,
+            };
+          }
+          if (status === 401) {
+            AuthStorage.clear();
+            return {
+              status,
+              error: "Sesi telah berakhir atau tidak terotorisasi. Silakan login kembali.",
+            };
+          }
+          return {
+            status,
+            error: json?.message || json?.error || `Terjadi kesalahan (Kode: ${status})`,
+            errors: json?.errors,
+            data: json?.data,
+          };
+        } catch {
+          // continue to next fallback
+        }
+      }
+    }
+
     return {
       status: 0,
-      error: err?.message || "Tidak dapat terhubung ke server backend API.",
+      error: "Gagal terhubung ke server backend API (Periksa koneksi port 8000).",
     };
   }
 }
@@ -353,7 +405,8 @@ export const adminApi = {
     formData.append("folder", folder);
 
     const token = AuthStorage.getToken();
-    const res = await fetch(`${API_BASE_URL}/admin/media/upload`, {
+    const baseUrl = getApiBaseUrl();
+    const res = await fetch(`${baseUrl}/admin/media/upload`, {
       method: "POST",
       headers: {
         Accept: "application/json",

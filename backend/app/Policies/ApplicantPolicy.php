@@ -96,3 +96,4 @@ class ApplicantPolicy
         return Response::deny('Hanya Panitia SPMB atau Admin Jenjang terkait yang dapat memverifikasi berkas.');
     }
 }
+

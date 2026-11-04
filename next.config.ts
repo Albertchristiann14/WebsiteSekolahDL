@@ -6,12 +6,12 @@ const cspHeader = `
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src 'self' blob: data: https://images.unsplash.com https://api.qrserver.com https://i.ytimg.com;
   font-src 'self' https://fonts.gstatic.com data:;
+  connect-src 'self' http://localhost:8000 http://127.0.0.1:8000 http://localhost:3000 http://127.0.0.1:3000 https: ws: wss:;
   object-src 'none';
   base-uri 'self';
   form-action 'self';
   frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;
   frame-ancestors 'none';
-  upgrade-insecure-requests;
 `.replace(/\s{2,}/g, ' ').trim();
 
 const nextConfig: NextConfig = {
@@ -32,6 +32,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/backend-api/:path*",
+        destination: "http://127.0.0.1:8000/api/:path*",
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -40,10 +48,6 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value: cspHeader,
-          },
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=31536000; includeSubDomains; preload",
           },
           {
             key: "X-Frame-Options",
