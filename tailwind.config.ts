@@ -7,10 +7,25 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      xs: "360px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1440px",
+    },
     extend: {
       colors: {
+        tenant: {
+          primary: "var(--primary)",
+          foreground: "var(--primary-foreground)",
+          accent: "var(--accent)",
+          surface: "var(--surface)",
+          muted: "var(--muted)",
+        },
         primary: {
-          DEFAULT: "#102A43", // Deep Navy
+          DEFAULT: "#102A43",
           50: "#F0F4F8",
           100: "#D9E2EC",
           200: "#BCCCDC",
@@ -36,8 +51,8 @@ const config: Config = {
           champagne: "#F7F2E7",
         },
         slate: {
-          text: "#526477",
-          dark: "#1E293B",
+          text: "#475569",
+          dark: "#0F172A",
           muted: "#64748B",
         },
         surface: {
@@ -48,16 +63,17 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-jakarta)", "system-ui", "-apple-system", "sans-serif"],
+        sans: ["var(--font-inter)", "var(--font-jakarta)", "system-ui", "sans-serif"],
+        heading: ["var(--font-jakarta)", "system-ui", "sans-serif"],
         serif: ["var(--font-lora)", "Georgia", "serif"],
       },
       boxShadow: {
         subtle: "0 1px 3px 0 rgba(16, 42, 67, 0.05), 0 1px 2px 0 rgba(16, 42, 67, 0.03)",
-        card: "0 4px 12px 0 rgba(16, 42, 67, 0.05), 0 2px 4px 0 rgba(16, 42, 67, 0.03)",
-        elevated: "0 12px 24px -4px rgba(16, 42, 67, 0.08), 0 4px 6px -2px rgba(16, 42, 67, 0.04)",
+        card: "0 4px 20px -2px rgba(16, 42, 67, 0.06), 0 2px 6px -1px rgba(16, 42, 67, 0.03)",
+        elevated: "0 16px 32px -4px rgba(16, 42, 67, 0.09), 0 6px 12px -2px rgba(16, 42, 67, 0.04)",
       },
       borderRadius: {
-        editorial: "0.375rem", // 6px - avoids excessive roundness, keeping editorial elegance
+        editorial: "0.75rem",
       },
     },
   },
@@ -65,4 +81,3 @@ const config: Config = {
 };
 
 export default config;
-

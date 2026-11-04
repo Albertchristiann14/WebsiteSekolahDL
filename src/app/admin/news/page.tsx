@@ -142,11 +142,10 @@ export default function AdminNewsListPage() {
         {/* Toast Notification */}
         {toast && (
           <div
-            className={`p-4 rounded-2xl border text-sm font-medium flex items-center justify-between transition-all ${
-              toast.type === "success"
-                ? "bg-emerald-50 border-emerald-200 text-emerald-800"
-                : "bg-red-50 border-red-200 text-red-800"
-            }`}
+            className={`p-4 rounded-2xl border text-sm font-medium flex items-center justify-between transition-all ${toast.type === "success"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+              : "bg-red-50 border-red-200 text-red-800"
+              }`}
           >
             <div className="flex items-center gap-2.5">
               {toast.type === "success" ? (
@@ -305,19 +304,17 @@ export default function AdminNewsListPage() {
                         <button
                           onClick={() => handleTogglePublish(item.id)}
                           disabled={actionLoading}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition cursor-pointer ${
-                            item.status === "published"
-                              ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
-                              : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
-                          }`}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition cursor-pointer ${item.status === "published"
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                            : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
+                            }`}
                           title="Klik untuk mengubah status"
                         >
                           <span
-                            className={`w-2 h-2 rounded-full ${
-                              item.status === "published"
-                                ? "bg-emerald-500"
-                                : "bg-amber-500"
-                            }`}
+                            className={`w-2 h-2 rounded-full ${item.status === "published"
+                              ? "bg-emerald-500"
+                              : "bg-amber-500"
+                              }`}
                           />
                           <span>
                             {item.status === "published" ? "Terbit" : "Draft"}
@@ -327,13 +324,13 @@ export default function AdminNewsListPage() {
                       <td className="py-4 px-6 text-xs font-medium text-slate-500">
                         {item.published_at
                           ? new Date(item.published_at).toLocaleDateString(
-                              "id-ID",
-                              {
-                                day: "numeric",
-                                month: "short",
-                                year: "numeric",
-                              }
-                            )
+                            "id-ID",
+                            {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )
                           : "Belum terbit"}
                       </td>
                       <td className="py-4 px-6 text-right">

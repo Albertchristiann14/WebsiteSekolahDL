@@ -1,245 +1,382 @@
-import React from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import {
-  Compass,
-  Users,
+  ShieldCheck,
+  Award,
   CheckCircle2,
+  Download,
+  FileCheck2,
+  Building2,
+  Users,
+  ArrowRight,
+  GraduationCap,
 } from "lucide-react";
-import { schoolInfo } from "@/data/schoolInfo";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Badge, Card } from "@/components/ui/DesignSystem";
+import { schoolInfo } from "@/data/schoolInfo";
+import { UNIT_TENANTS } from "@/config/tenants";
 
 export const metadata: Metadata = {
-  title: "Tentang Kami & Sejarah",
+  title: "Profil, Sejarah, Visi Misi & Legalitas Resmi",
   description:
-    "Mengenal lebih dekat Sekolah Dharma Loka Pekanbaru: sejarah pendirian sejak 1988, yayasan pengelola, visi, misi, nilai-nilai budi pekerti, dan kepemimpinan sekolah.",
+    "Profil lengkap Sekolah Dharma Loka Pekanbaru: Sambutan Pimpinan, Visi & Misi, Timeline Sejarah sejak 1988, Dokumen Legalitas NPSN & Akreditasi A, serta Struktur Organisasi.",
 };
 
-export default function AboutPage() {
-  const breadcrumbItems = [{ label: "Tentang Sekolah" }];
+const historyMilestones = [
+  {
+    year: "1988",
+    title: "Pendirian Yayasan Pendidikan Dharma Loka",
+    description:
+      "Tokoh pendidikan dan masyarakat di Kota Pekanbaru mendirikan Yayasan Pendidikan Dharma Loka dengan visi menghadirkan pendidikan berkarakter budi pekerti luhur.",
+  },
+  {
+    year: "1990 – 1992",
+    title: "Pembukaan Unit TK & SD Dharma Loka",
+    description:
+      "Unit Taman Kanak-Kanak (TK) dan Sekolah Dasar (SD) resmi beroperasi dan mendapat sambutan hangat dari keluarga di Pekanbaru.",
+  },
+  {
+    year: "1996 – 2001",
+    title: "Ekspansi Jenjang SMP & SMA Terpadu",
+    description:
+      "Melengkapi kesinambungan pendidikan dasar dan menengah dengan pendirian SMP (1996) dan SMA Dharma Loka (2001) di kampus terpadu Jl. Tuanku Tambusai.",
+  },
+  {
+    year: "2015",
+    title: "Implementasi Kurikulum Trilingual & Sertifikasi Internasional",
+    description:
+      "Penguatan program Bahasa Indonesia, Inggris (Cambridge Prep), dan Mandarin (HSK Center) secara terintegrasi dari TK hingga SMA.",
+  },
+  {
+    year: "2022 – Sekarang",
+    title: "Transformasi Kampus Digital, STEAM & Raihan Akreditasi A Unggul",
+    description:
+      "Seluruh jenjang meraih predikat Terakreditasi A (Unggul), dilengkapi laboratorium robotika IoT, smart classroom, dan sistem manajemen informasi modern.",
+  },
+];
 
+const legalityDocuments = [
+  {
+    unit: "Yayasan Pendidikan Dharma Loka",
+    npsn: "AHU-0012849.AH.01.04",
+    accreditation: "Badan Hukum Pendidikan Resmi",
+    skNumber: "SK Kemenkumham RI & Akta Notaris Pendirian 1988",
+    fileTitle: "Salinan_SK_Kemenkumham_Yayasan_Dharma_Loka.pdf",
+  },
+  {
+    unit: "TK Dharma Loka Pekanbaru",
+    npsn: "10496511",
+    accreditation: "Terakreditasi A (Unggul) — BAN-PAUD",
+    skNumber: "SK Disdik Kota Pekanbaru No. 421.1/Disdik-PAUD/089",
+    fileTitle: "Sertifikat_Akreditasi_A_TK_Dharma_Loka.pdf",
+  },
+  {
+    unit: "SD Dharma Loka Pekanbaru",
+    npsn: "10403982",
+    accreditation: "Terakreditasi A (Unggul — Nilai 96)",
+    skNumber: "SK Disdik Kota Pekanbaru No. 421.2/Disdik-SD/114",
+    fileTitle: "Sertifikat_Akreditasi_A_SD_Dharma_Loka.pdf",
+  },
+  {
+    unit: "SMP Dharma Loka Pekanbaru",
+    npsn: "10403983",
+    accreditation: "Terakreditasi A (Unggul — Nilai 97)",
+    skNumber: "SK Disdik Kota Pekanbaru No. 421.3/Disdik-SMP/205",
+    fileTitle: "Sertifikat_Akreditasi_A_SMP_Dharma_Loka.pdf",
+  },
+  {
+    unit: "SMA Dharma Loka Pekanbaru",
+    npsn: "10403984",
+    accreditation: "Terakreditasi A (Unggul — Nilai 98)",
+    skNumber: "SK Disdik Provinsi Riau No. 421.4/Disdik-Riau/SMA/312",
+    fileTitle: "Sertifikat_Akreditasi_A_SMA_Dharma_Loka.pdf",
+  },
+];
+
+export default function AboutPage() {
   return (
-    <div className="bg-white min-h-screen">
-      {/* Bright White & Soft Blue Page Header */}
-      <section className="bg-gradient-to-b from-blue-50/80 via-blue-50/30 to-white py-16 sm:py-24 border-b border-blue-100">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="mb-6">
-            <Breadcrumb items={breadcrumbItems} />
-          </div>
-          <div className="max-w-3xl">
-            <span className="inline-block px-3.5 py-1.5 rounded-full bg-blue-50 text-royal text-xs sm:text-sm font-bold uppercase tracking-wider mb-4 border border-blue-200/80">
-              Profil & Sejarah Institusi
-            </span>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-primary-950 leading-tight">
-              Dedikasi Luhur untuk Generasi Emas Bangsa
+    <div className="bg-white">
+      {/* Page Hero */}
+      <section className="bg-gradient-to-b from-blue-50/80 to-white pt-10 pb-16 border-b border-blue-100">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <Breadcrumb items={[{ label: "Profil Sekolah" }]} />
+          <div className="max-w-3xl space-y-4 mt-4">
+            <Badge variant="blue">Tentang Institusi Kami</Badge>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-primary-950 leading-tight">
+              Lebih dari Tiga Dekade Membina Kecerdasan & Budi Pekerti Luhur
             </h1>
-            <p className="mt-5 text-base sm:text-xl text-slate-600 leading-relaxed">
-              Mengenal perjalanan panjang Sekolah Dharma Loka dalam mendidik anak bangsa di Kota Pekanbaru melalui perpaduan akademik bermutu tinggi dan akhlak budi pekerti mulia.
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+              Mengenal sejarah perjalanan, filosofi pendidikan, legalitas resmi, serta struktur kepemimpinan Sekolah Dharma Loka Pekanbaru.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* Overview & Foundation */}
-      <section className="py-20 sm:py-28 max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-royal uppercase tracking-wider">
-              <span>Sejarah & Legalitas</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-primary-950 leading-tight">
-              Lebih dari Tiga Dekade Mengabdi Membangun Karakter di Bumi Lancang Kuning
-            </h2>
-            <div className="text-slate-600 text-base sm:text-lg leading-relaxed space-y-5">
-              <p>
-                Sekolah Dharma Loka Pekanbaru didirikan pada tahun 1988 di bawah naungan <strong>{schoolInfo.foundation}</strong>. Lahir dari ketulusan para perintis pendidikan yang mendambakan hadirnya institusi pendidikan bermutu yang tidak hanya menekankan kecakapan intelektual, namun juga menanamkan nilai-nilai moral universal dan welas asih.
-              </p>
-              <p>
-                Berawal dari jenjang usia dini, dedikasi tersebut terus bertumbuh secara terpadu hingga kini mengelola lima jenjang pendidikan lengkap: <strong>TK, SD, SMP, SMA, dan SMK</strong> dalam satu kawasan kampus yang terintegrasi di Kota Pekanbaru.
-              </p>
-              <p>
-                Dengan semangat perbaikan berkelanjutan, Dharma Loka secara konsisten mengadopsi kemajuan pedagogi abad ke-21, pembelajaran berbasis riset dan STEAM, serta literasi trilingual (Indonesia, Inggris, Mandarin), tanpa pernah melepaskan akar budi pekerti luhur.
-              </p>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6">
-            <div className="relative rounded-3xl overflow-hidden shadow-xl border border-blue-100 aspect-[4/3] bg-blue-50">
-              <Image
-                src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1000&q=80"
-                alt="Gedung dan suasana kampus Sekolah Dharma Loka Pekanbaru"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-950/75 via-transparent to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl bg-white/95 backdrop-blur-sm border border-blue-100 shadow-md">
-                <div className="font-bold text-primary-950 text-base">Kampus Terpadu Dharma Loka Pekanbaru</div>
-                <div className="text-slate-600 text-sm mt-0.5">Lingkungan asri, aman, dan kondusif bagi pertumbuhan intelektual dan karakter siswa</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Vision and Mission */}
-      <section className="py-20 sm:py-28 bg-blue-50/40 border-y border-blue-100">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <SectionHeader
-              tag="Visi & Misi"
-              title="Arah Langkah Menuju Institusi Pendidikan Unggulan"
-              subtitle="Komitmen luhur kami dalam membimbing setiap peserta didik mencapai potensi terbaiknya."
-              align="center"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
-            {/* Vision Box (5 cols) */}
-            <div className="lg:col-span-5 p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-royal to-blue-800 text-white flex flex-col justify-between shadow-xl shadow-royal/15">
-              <div className="space-y-5">
-                <div className="w-14 h-14 rounded-2xl bg-white/15 text-white flex items-center justify-center font-bold border border-white/25">
-                  <Compass className="w-7 h-7" aria-hidden="true" />
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white">Visi Sekolah</h3>
-                <p className="text-lg sm:text-xl text-blue-50 leading-relaxed font-serif italic">
-                  &ldquo;{schoolInfo.vision}&rdquo;
-                </p>
-              </div>
-
-              <div className="pt-8 border-t border-white/20 mt-8">
-                <div className="text-xs text-blue-200 font-bold uppercase tracking-wider">
-                  Semboyan Institusi
-                </div>
-                <div className="text-lg font-extrabold text-white mt-1">
-                  {schoolInfo.motto}
-                </div>
-                <div className="text-sm text-blue-100 mt-0.5">
-                  {schoolInfo.mottoTranslation}
-                </div>
-              </div>
-            </div>
-
-            {/* Mission Box (7 cols) */}
-            <div className="lg:col-span-7 p-8 sm:p-12 rounded-3xl bg-white border border-blue-100 shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-blue-50 text-royal flex items-center justify-center font-bold border border-blue-100">
-                    <CheckCircle2 className="w-7 h-7 text-royal" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl sm:text-3xl font-extrabold text-primary-950">Misi Sekolah</h3>
-                    <p className="text-sm text-slate-500">Lima pilar penyelenggaraan pendidikan</p>
-                  </div>
-                </div>
-
-                <ol className="space-y-4">
-                  {schoolInfo.mission.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-4 p-4 rounded-2xl bg-blue-50/40 border border-blue-100/80">
-                      <span className="w-8 h-8 rounded-xl bg-royal text-white text-sm font-bold flex items-center justify-center shrink-0 mt-0.5">
-                        {idx + 1}
-                      </span>
-                      <p className="text-base text-slate-700 leading-relaxed">
-                        {item}
-                      </p>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Core Values Detail */}
-      <section className="py-20 sm:py-28 max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
-        <SectionHeader
-          tag="Nilai-Nilai Luhur"
-          title="Empat Pilar Karakter Insan Dharma Loka"
-          subtitle="Landasan moral dan intelektual yang kami tanamkan kepada seluruh pendidik, tenaga kependidikan, dan peserta didik."
-          className="mb-14"
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {schoolInfo.coreValues.map((val, idx) => (
-            <div
-              key={val.title}
-              className="p-8 sm:p-10 rounded-3xl bg-white border border-blue-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-200"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <span className="w-11 h-11 rounded-xl bg-blue-50 text-royal border border-blue-100 flex items-center justify-center font-extrabold text-base">
-                  0{idx + 1}
-                </span>
-                <h3 className="text-xl font-extrabold text-primary-950">
-                  {val.title}
-                </h3>
-              </div>
-              <p className="text-base text-slate-600 leading-relaxed">
-                {val.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Leadership & Educators */}
-      <section className="py-20 sm:py-28 bg-blue-50/40 border-t border-blue-100">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="max-w-3xl mb-14">
-            <SectionHeader
-              tag="Kepemimpinan & Pendidik"
-              title="Didampingi Tenaga Pendidik Berdedikasi dan Berkualifikasi"
-              subtitle="Guru-guru kami tidak hanya menguasai bidang keilmuan, tetapi memiliki panggilan hati dalam menuntun setiap murid dengan penuh kesabaran dan keteladanan."
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Quick Jump Anchors */}
+          <div className="flex flex-wrap gap-2.5 mt-8 pt-6 border-t border-blue-100">
             {[
-              {
-                role: "Ketua Pengurus Yayasan",
-                title: "Drs. Hendra Sutanto, M.M.",
-                desc: "Memimpin arah strategis yayasan dalam penyediaan sarana dan tata kelola pendidikan modern.",
-              },
-              {
-                role: "Kepala Sekolah SMA & Koordinator Akademik",
-                title: "Dr. Ir. Albertus Lim, M.Ed.",
-                desc: "Berpengalaman lebih dari 20 tahun dalam kurikulum nasional-plus dan persiapan perguruan tinggi.",
-              },
-              {
-                role: "Kepala Sekolah SMP",
-                title: "Siti Rahmawati, S.Pd., M.Si.",
-                desc: "Fokus pada pendampingan karakter remaja, riset sains terapan, dan kepemimpinan siswa.",
-              },
-              {
-                role: "Kepala Sekolah SD & TK",
-                title: "Meilani Tan, S.Psi., M.Pd.",
-                desc: "Spesialis pendidikan anak usia dini, stimulasi bilingual, dan pendidikan karakter berbasis empati.",
-              },
-            ].map((leader, idx) => (
-              <div
-                key={idx}
-                className="p-7 rounded-3xl bg-white border border-blue-100 shadow-sm flex flex-col justify-between"
+              { label: "Sambutan Pimpinan", href: "#sambutan" },
+              { label: "Visi, Misi & Nilai", href: "#visi-misi" },
+              { label: "Sejarah (Timeline)", href: "#sejarah" },
+              { label: "Legalitas & NPSN", href: "#legalitas" },
+              { label: "Struktur Organisasi", href: "#struktur" },
+            ].map((anchor) => (
+              <a
+                key={anchor.href}
+                href={anchor.href}
+                className="px-4 py-2 rounded-xl bg-white hover:bg-royal hover:text-white text-primary-950 border border-blue-200 text-xs sm:text-sm font-bold transition shadow-2xs"
               >
-                <div>
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-royal flex items-center justify-center font-bold mb-5">
-                    <Users className="w-6 h-6" aria-hidden="true" />
-                  </div>
-                  <div className="text-xs font-bold text-royal uppercase tracking-wider mb-1.5">
-                    {leader.role}
-                  </div>
-                  <h4 className="text-lg font-extrabold text-primary-950 mb-2.5">
-                    {leader.title}
-                  </h4>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    {leader.desc}
+                {anchor.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 1. SAMBUTAN PIMPINAN (#sambutan) */}
+      <section id="sambutan" className="py-20 scroll-mt-24">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-5">
+              <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border-4 border-blue-50 shadow-elevated">
+                <Image
+                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1000&q=80"
+                  alt="Kampus Sekolah Dharma Loka Pekanbaru"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+            <div className="lg:col-span-7 space-y-5">
+              <Badge variant="blue">Sambutan Yayasan & Direktorat Pendidikan</Badge>
+              <h2 className="text-3xl font-extrabold text-primary-950">
+                “Prajña Pāramitā Hṛdaya — Kebijaksanaan yang Berakar pada Hati Nurani”
+              </h2>
+              <p className="text-slate-600 text-base leading-relaxed">
+                Sejak didirikan pada tahun {schoolInfo.establishedYear}, {schoolInfo.name} hadir dengan keyakinan bahwa keberhasilan pendidikan seorang anak tidak hanya diukur dari deretan piala atau skor akademik semata, melainkan dari bagaimana ia menghormati orang tua, berempati kepada sesama, dan menggunakan ilmunya untuk kebaikan masyarakat.
+              </p>
+              <p className="text-slate-600 text-base leading-relaxed">
+                Dengan dukungan tenaga pendidik tersertifikasi, fasilitas laboratorium modern, serta komunikasi yang terbuka bersama wali murid, kami terus berkomitmen menjadi rumah kedua yang aman dan inspiratif bagi putra-putri Anda dari jenjang TK, SD, SMP, hingga SMA.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. VISI, MISI & NILAI KARAKTER (#visi-misi) */}
+      <section
+        id="visi-misi"
+        className="py-20 bg-blue-50/40 border-y border-blue-100 scroll-mt-24"
+      >
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 space-y-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Card className="lg:col-span-5 p-8 sm:p-10 bg-royal text-white border-royal flex flex-col justify-between">
+              <div className="space-y-4">
+                <span className="inline-block px-3 py-1 rounded-full bg-white/20 text-xs font-extrabold uppercase tracking-wider">
+                  Visi Institusi
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold leading-snug">
+                  {schoolInfo.vision}
+                </h2>
+              </div>
+              <p className="text-xs text-blue-100 pt-8 border-t border-white/20 mt-8">
+                Semboyan Resmi: {schoolInfo.motto} ({schoolInfo.mottoTranslation})
+              </p>
+            </Card>
+
+            <Card className="lg:col-span-7 p-8 sm:p-10 space-y-6">
+              <Badge variant="blue">Misi Pendidikan</Badge>
+              <h3 className="text-2xl font-extrabold text-primary-950">
+                Langkah Nyata Mewujudkan Visi Sekolah
+              </h3>
+              <ul className="space-y-3.5">
+                {schoolInfo.mission.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3.5">
+                    <span className="w-7 h-7 rounded-xl bg-blue-50 text-royal font-extrabold text-xs flex items-center justify-center shrink-0 mt-0.5 border border-blue-200">
+                      0{idx + 1}
+                    </span>
+                    <span className="text-slate-700 text-base">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          </div>
+
+          {/* 4 Nilai Inti */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {schoolInfo.coreValues.map((val) => (
+              <Card key={val.title} className="p-6 space-y-2.5">
+                <CheckCircle2 className="w-6 h-6 text-royal" />
+                <h4 className="text-lg font-extrabold text-primary-950">
+                  {val.title}
+                </h4>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {val.description}
+                </p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. SEJARAH SEKOLAH — TIMELINE VERTIKAL (#sejarah) */}
+      <section id="sejarah" className="py-20 bg-white scroll-mt-24">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <Badge variant="blue">Perjalanan Pengabdian</Badge>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-primary-950">
+              Jejak Sejarah Sekolah Dharma Loka (1988 – Sekarang)
+            </h2>
+          </div>
+
+          <div className="max-w-4xl mx-auto relative pl-6 sm:pl-10 border-l-2 border-blue-200 space-y-10">
+            {historyMilestones.map((m) => (
+              <div key={m.year} className="relative">
+                <span className="absolute -left-[33px] sm:-left-[49px] top-1.5 w-4 h-4 rounded-full bg-royal ring-4 ring-blue-100" />
+                <Card className="p-6 sm:p-7 space-y-2">
+                  <span className="inline-block px-3 py-1 rounded-lg bg-blue-50 text-royal font-mono font-extrabold text-xs">
+                    Tahun {m.year}
+                  </span>
+                  <h3 className="text-xl font-extrabold text-primary-950">
+                    {m.title}
+                  </h3>
+                  <p className="text-slate-600 text-base leading-relaxed">
+                    {m.description}
                   </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-slate-100 text-xs font-semibold text-slate-400">
-                  Sekolah Dharma Loka Pekanbaru
-                </div>
+                </Card>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. LEGALITAS RESMI, NPSN & SERTIFIKAT AKREDITASI (#legalitas) */}
+      <section
+        id="legalitas"
+        className="py-20 bg-blue-50/40 border-y border-blue-100 scroll-mt-24"
+      >
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 space-y-10">
+          <div className="max-w-3xl space-y-3">
+            <Badge variant="emerald">Terverifikasi Kemendikbudristek & BAN-PDM</Badge>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-primary-950">
+              Dokumen Legalitas, NPSN & Akreditasi Resmi
+            </h2>
+            <p className="text-slate-600 text-base">
+              Transparansi izin operasional dan sertifikat akreditasi setiap unit jenjang pendidikan di bawah naungan Yayasan Pendidikan Dharma Loka.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {legalityDocuments.map((doc) => (
+              <Card
+                key={doc.unit}
+                className="p-6 flex flex-col justify-between space-y-5"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="w-11 h-11 rounded-2xl bg-blue-50 text-royal flex items-center justify-center">
+                      <FileCheck2 className="w-5 h-5" />
+                    </div>
+                    <Badge variant="emerald">{doc.accreditation}</Badge>
+                  </div>
+                  <h3 className="text-lg font-extrabold text-primary-950">
+                    {doc.unit}
+                  </h3>
+                  <div className="text-xs space-y-1.5 text-slate-600 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+                    <p>
+                      <strong>NPSN / Reg:</strong>{" "}
+                      <span className="font-mono text-primary-950 font-bold">
+                        {doc.npsn}
+                      </span>
+                    </p>
+                    <p>
+                      <strong>SK Izin:</strong> {doc.skNumber}
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href={`/admissions?doc=${encodeURIComponent(doc.fileTitle)}`}
+                  download={doc.fileTitle}
+                  className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-blue-50 hover:bg-royal text-royal hover:text-white text-xs font-extrabold flex items-center justify-center gap-2 transition border border-blue-200"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Unduh Salinan Sertifikat (PDF)</span>
+                </a>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. STRUKTUR ORGANISASI (#struktur) */}
+      <section id="struktur" className="py-20 bg-white scroll-mt-24">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <Badge variant="blue">Tata Kelola Institusi</Badge>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-primary-950">
+              Struktur Organisasi Yayasan & Pimpinan Unit
+            </h2>
+            <p className="text-slate-600 text-base">
+              Sinergi kepemimpinan antara Dewan Pembina Yayasan, Direktorat Eksekutif Pendidikan, dan Kepala Sekolah di setiap unit jenjang.
+            </p>
+          </div>
+
+          {/* Bagan Hierarki Visual */}
+          <div className="max-w-5xl mx-auto space-y-6">
+            {/* Level 1: Yayasan */}
+            <Card className="p-6 max-w-lg mx-auto text-center border-2 border-royal bg-blue-50/40">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-royal">
+                Dewan Pembina & Pengurus Yayasan
+              </span>
+              <h3 className="text-lg font-extrabold text-primary-950 mt-1">
+                Yayasan Pendidikan Dharma Loka Pekanbaru
+              </h3>
+              <p className="text-xs text-slate-600 mt-1">
+                Penyelenggara & Penjamin Mutu Institusi
+              </p>
+            </Card>
+
+            {/* Level 2: Direktur Pendidikan */}
+            <Card className="p-6 max-w-lg mx-auto text-center border border-blue-200">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-royal">
+                Direktorat Eksekutif Pendidikan
+              </span>
+              <h3 className="text-lg font-extrabold text-primary-950 mt-1">
+                Dr. Hendra Wijaya, S.Pd., M.M.
+              </h3>
+              <p className="text-xs text-slate-600 mt-1">
+                Koordinasi Kurikulum Terpadu, SDM Pendidik & Kemitraan Global
+              </p>
+            </Card>
+
+            {/* Level 3: 4 Kepala Sekolah Unit */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 pt-2">
+              {UNIT_TENANTS.map((unit) => (
+                <Card key={unit.id} className="p-5 text-center space-y-2">
+                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-blue-50 text-royal text-xs font-extrabold">
+                    Unit {unit.levelCode}
+                  </span>
+                  <h4 className="text-base font-extrabold text-primary-950">
+                    {unit.principal.name}
+                  </h4>
+                  <p className="text-xs text-slate-500">
+                    {unit.principal.title}
+                  </p>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          <div className="text-center pt-4">
+            <Link
+              href="/teachers"
+              className="inline-flex items-center gap-2 min-h-[48px] px-6 py-3 rounded-2xl bg-royal hover:bg-royal-dark text-white font-extrabold text-sm shadow-md transition"
+            >
+              <Users className="w-4 h-4" />
+              <span>Lihat Direktori Lengkap Guru & Staf (GTK)</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

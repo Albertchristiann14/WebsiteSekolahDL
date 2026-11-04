@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { newsArticles } from "@/data/news";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { ShareButtons } from "@/components/news/ShareButtons";
+import { JsonLd } from "@/components/ui/JsonLd";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -125,20 +127,24 @@ export default async function NewsDetailPage({ params }: Props) {
           ))}
         </div>
 
-        {/* Tags */}
-        <div className="mt-12 pt-8 border-t border-slate-200 flex flex-wrap items-center gap-2.5">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2 flex items-center gap-1.5">
-            <Tag className="w-4 h-4 text-royal" aria-hidden="true" />
-            <span>Topik Terkait:</span>
-          </span>
-          {article.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-3.5 py-1.5 rounded-full bg-blue-50 text-royal text-xs font-bold border border-blue-100"
-            >
-              #{tag}
+        {/* Tags & Share Buttons */}
+        <div className="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2 flex items-center gap-1.5">
+              <Tag className="w-4 h-4 text-royal" aria-hidden="true" />
+              <span>Topik Terkait:</span>
             </span>
-          ))}
+            {article.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-3.5 py-1.5 rounded-full bg-blue-50 text-royal text-xs font-bold border border-blue-100"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
+
+          <ShareButtons title={article.title} slug={article.slug} />
         </div>
 
         {/* Back and Navigation Bar */}

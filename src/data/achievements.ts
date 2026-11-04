@@ -106,3 +106,6 @@ export const achievementsData: Achievement[] = [
     isDemo: false,
   },
 ];
+
+export const achievements = achievementsData;
+

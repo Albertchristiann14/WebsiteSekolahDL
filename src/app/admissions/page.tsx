@@ -1,43 +1,42 @@
-import React from "react";
 import type { Metadata } from "next";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { Badge } from "@/components/ui/DesignSystem";
 import { AdmissionsClient } from "@/components/admissions/AdmissionsClient";
+import { JsonLd, buildFaqJsonLd } from "@/components/ui/JsonLd";
+import { admissionFAQs } from "@/data/admissions";
 
 export const metadata: Metadata = {
-  title: "Penerimaan Peserta Didik Baru (PPDB) 2026/2027",
+  title: "SPMB / PPDB Online — Pendaftaran, Simulasi Biaya & Cek Kelulusan",
   description:
-    "Informasi resmi Penerimaan Peserta Didik Baru (PPDB) Sekolah Dharma Loka Pekanbaru untuk jenjang TK, SD, SMP, SMA, dan SMK. Jadwal gelombang, syarat berkas, beasiswa prestasi, dan alur pendaftaran.",
+    "Portal Sistem Penerimaan Murid Baru (SPMB / PPDB) Online Sekolah Dharma Loka Pekanbaru jenjang TK, SD, SMP, dan SMA. Dilengkapi kalkulator biaya, pendaftaran 6 tahap, dan cek pengumuman kelulusan.",
 };
 
 export default function AdmissionsPage() {
-  const breadcrumbItems = [{ label: "Penerimaan Siswa Baru (PPDB)" }];
+  const faqSchema = buildFaqJsonLd(admissionFAQs);
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Bright White & Soft Blue Header */}
-      <section className="bg-gradient-to-b from-blue-50/80 via-blue-50/30 to-white py-16 sm:py-24 border-b border-blue-100">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="mb-6">
-            <Breadcrumb items={breadcrumbItems} />
-          </div>
-          <div className="max-w-3xl">
-            <span className="inline-block px-3.5 py-1.5 rounded-full bg-blue-50 text-royal text-xs sm:text-sm font-bold uppercase tracking-wider mb-4 border border-blue-200/80">
-              Penerimaan Siswa Baru T.A. 2026/2027
-            </span>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-primary-950 leading-tight">
-              Mulai Langkah Prestasi dan Kemuliaan Karakter Bersama Kami
+      <JsonLd data={faqSchema} />
+      <section className="bg-gradient-to-b from-blue-50/80 to-white pt-10 pb-12 border-b border-blue-100 no-print">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <Breadcrumb items={[{ label: "SPMB / PPDB Online" }]} />
+          <div className="max-w-3xl space-y-3 mt-4">
+            <Badge variant="emerald">Tahun Ajaran 2026/2027</Badge>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-primary-950 leading-tight">
+              Sistem Penerimaan Murid Baru (SPMB) Online
             </h1>
-            <p className="mt-5 text-base sm:text-xl text-slate-600 leading-relaxed">
-              Panduan lengkap dan formulir pendaftaran calon peserta didik baru untuk jenjang TK, SD, SMP, SMA, dan SMK di Sekolah Dharma Loka Pekanbaru.
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+              Layanan pendaftaran terpadu jenjang TK, SD, SMP, dan SMA Dharma Loka Pekanbaru. Transparan, ramah perangkat mobile, dan dilengkapi fitur simpan otomatis (auto-save).
             </p>
           </div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10 py-16 sm:py-24">
-        <AdmissionsClient />
-      </div>
+      <section className="py-12 sm:py-16">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <AdmissionsClient />
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,123 +1,160 @@
-# Sekolah Dharma Loka Pekanbaru — Premium School Profile & Admin CMS
+# Website Multi-Jenjang Sekolah Dharma Loka Pekanbaru
 
-Website profil resmi dan portal penerimaan peserta didik baru (PPDB) untuk **Sekolah Dharma Loka Pekanbaru**, dirancang dan dikembangkan dengan standar estetika institusi pendidikan premium serta sistem backend terintegrasi oleh **Krevia Digital**.
-
-> 📖 **Dokumentasi Lengkap:** Silakan baca [PROJECT_DOCUMENTATION.md](file:///d:/Perkuliahan/Krevia/Portofolio/Sekolah/PROJECT_DOCUMENTATION.md) untuk rincian arsitektur, ERD basis data, endpoint API, dan panduan teknis mendalam.  
-> ⚡ **Panduan Menjalankan:** Silakan baca [README_RUN.md](file:///d:/Perkuliahan/Krevia/Portofolio/Sekolah/README_RUN.md) atau jalankan `start-dev.bat`.
+Website profil publik multi-jenjang (**Portal Induk**, **TK**, **SD**, **SMP**, **SMA**) + Sistem Penerimaan Murid Baru (**SPMB / PPDB Online**) + **Admin CMS Full-Stack** untuk **Sekolah Dharma Loka Pekanbaru, Riau**.
 
 ---
 
-## ⚡ Cara Menjalankan Cepat (1-Klik)
+## 1. Fitur Utama & Arsitektur Multi-Tenant
 
-1. Pastikan **Laragon** (MySQL) aktif.
-2. Klik ganda berkas **`start-dev.bat`** di folder proyek.
-3. Buka di browser:
-   - **Situs Publik:** [http://localhost:3000](http://localhost:3000)
-   - **Portal Admin CMS:** [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
-   - **Backend REST API:** [http://127.0.0.1:8000/api](http://127.0.0.1:8000/api)
+### A. Multi-Tenant Satu Codebase (Subdomain & Pemilih Jenjang)
+Mendukung deteksi otomatis melalui **Next.js Middleware** (`src/middleware.ts`) dan **Tenant Context** (`src/lib/tenantContext.tsx`):
+- `dharmaloka.sch.id` (`?jenjang=portal`) — **Portal Induk Yayasan**
+- `tk.dharmaloka.sch.id` (`?jenjang=tk`) — **TK Dharma Loka** (Tema Cerah Biru Muda & Emas Ceria)
+- `sd.dharmaloka.sch.id` (`?jenjang=sd`) — **SD Dharma Loka** (Tema Royal Blue & Amber)
+- `smp.dharmaloka.sch.id` (`?jenjang=smp`) — **SMP Dharma Loka** (Tema Indigo Sains & Cyan)
+- `sma.dharmaloka.sch.id` (`?jenjang=sma`) — **SMA Dharma Loka** (Tema Deep Academic Blue & Gold)
 
-### Akun Demo Staf Admin:
-- **Super Admin:** `superadmin@dharmaloka.sch.id` | Sandi: `DharmaLoka@2026!`
-- **School Admin:** `admin@dharmaloka.sch.id` | Sandi: `DharmaLoka@2026!`
-- **Editor:** `editor@dharmaloka.sch.id` | Sandi: `DharmaLoka@2026!`
+Setiap jenjang memiliki konfigurasi dinamis di `src/config/tenants.ts`:
+- Variabel CSS (`--primary`, `--primary-foreground`, `--accent`, `--surface`, `--muted`)
+- Sambutan Kepala Sekolah & Profil Singkat per Jenjang
+- NPSN, Status Akreditasi, Alamat, Nomor Telepon, Email, dan WhatsApp Khusus Jenjang
+- Kuota SPMB, Rincian Biaya Pendidikan (Formulir, Uang Pangkal, SPP, Seragam), Program Unggulan, dan Ekstrakurikuler
 
----
-
-## 1. Ikhtisar Proyek
-
-- **Klien**: Sekolah Dharma Loka Pekanbaru (Yayasan Dharma Loka)
-- **Pengembang & Desainer**: Krevia Digital
-- **Jenjang Pendidikan**: TK • SD • SMP • SMA • SMK
-- **Arah Desain**: *Premium Modern Education + Editorial Website*
-- **Arsitektur**: Next.js 15 (App Router), TypeScript, Tailwind CSS, Lucide Icons, Framer Motion
-
-Website ini dirancang secara khusus untuk menghindari pola-pola generik AI (tanpa card kit seragam berlebihan, tanpa gradient SaaS klise, tanpa all-caps berlebihan), menghadirkan tipografi editorial terpadu (*Plus Jakarta Sans* & *Lora Serif*), komposisi asimetris bernilai seni tinggi, dan pemisahan tegas antara data peraga (demo) dengan arsip resmi sekolah.
-
----
-
-## 2. Struktur Halaman & Arsitektur
-
-Website mencakup arsitektur multi-halaman lengkap:
-
-1. **Beranda (`/`)**: Hero editorial sinematik, filosofi budi pekerti, tab jenjang terpadu (TK, SD, SMP, SMA, SMK), 6 pilar keunggulan, showcase sarana modern, jejak prestasi siswa, warta terkini, dan ajakan pendaftaran PPDB.
-2. **Tentang Kami (`/about`)**: Sejarah sejak 1988, legalitas yayasan, visi & 5 misi sekolah, 4 pilar nilai luhur (Prajña, Sīla, Vīriya, Global-Local), serta profil kepemimpinan sekolah.
-3. **Program Akademik (`/academics`)**: Tinjauan kurikulum trilingual (Indonesia, Inggris, Mandarin), modul sains inkuiri, dan ringkasan 5 jenjang.
-4. **Detail Jenjang (`/academics/[slug]`)**: Halaman detail mendalam untuk masing-masing jenjang:
-   - `/academics/tk` (Taman Kanak-Kanak)
-   - `/academics/sd` (Sekolah Dasar)
-   - `/academics/smp` (Sekolah Menengah Pertama)
-   - `/academics/sma` (Sekolah Menengah Atas)
-   - `/academics/smk` (Sekolah Menengah Kejuruan)
-5. **Warta & Berita (`/news`)**: Indeks berita dengan filter interaktif kategori (Akademik, Prestasi, Kegiatan, Pengumuman, Opini) dan pencarian instan.
-6. **Detail Berita (`/news/[slug]`)**: Tata letak artikel editorial nyaman baca (line-length < 80 karakter), foto utama, kutipan lead, tag topik, dan rekomendasi kabar terkait.
-7. **Prestasi Siswa (`/achievements`)**: Hall of fame kejuaraan olimpiade sains, robotika AI, debat, wushu, dan IT network dari tingkat kota hingga internasional.
-8. **Sarana & Prasarana (`/facilities`)**: Katalog fasilitas kampus modern dengan foto representatif, kapasitas, dan lokasi gedung.
-9. **Galeri Kampus (`/gallery`)**: Album foto interaktif dengan filter kategori dan penampil modal **Lightbox** (navigasi keyboard Escape, Kiri, Kanan).
-10. **Penerimaan Siswa Baru (`/admissions`)**: Portal informasi PPDB T.A. 2027/2028: gelombang pendaftaran, alur 5 langkah, syarat berkas per jenjang, konsultasi WhatsApp, formulir minat online, dan akordeon FAQ.
-11. **Hubungi Kami (`/contact`)**: Alamat lengkap, nomor telepon, WhatsApp, email, jam layanan, formulir pesan interaktif, dan peta Google Maps.
-
----
-
-## 3. Sistem Desain Visual
-
-### Palet Warna
-- **Primary Deep Navy** (`#102A43`): Merefleksikan kredibilitas akademik, keteguhan institusional, dan ketenangan martabat sekolah.
-- **Royal Blue** (`#1D4ED8`): Aksen tautan interaktif dan energi inovasi modern.
-- **Warm Gold** (`#D6A84F` / `#F7F2E7`): Simbol kemuliaan budi pekerti, kebijaksanaan (Prajña), dan prestasi luhur.
-- **Canvas Neutrals** (`#FFFFFF` & `#F8FAFC`): Kanvas lapang yang memberikan kenyamanan membaca.
-- **Slate Text** (`#1E293B` & `#526477`): Keterbacaan teks optimal berstandar kontras WCAG AAA.
-
-### Tipografi
-- **Antarmuka & Judul Utama**: `Plus Jakarta Sans` (Geometris bersih, berwibawa, modern)
-- **Aksen Editorial & Filosofi**: `Lora` (Serif anggun yang menghadirkan wibawa tradisi akademis)
+### B. Halaman & Seksi Lengkap
+1. **Portal Induk (`dharmaloka.sch.id`)**:
+   - Hero Yayasan + Tombol Pilih Jenjang & Daftar SPMB
+   - 4 Kartu Jenjang Interaktif (TK, SD, SMP, SMA) dengan sisa kuota & klik langsung ke beranda jenjang
+   - Statistik Yayasan (Count-Up Animation), Nilai Karakter Budaya ("Cerdas, Berbudi, Berwawasan Global"), Berita Gabungan, Testimoni Wali Murid, dan CTA SPMB.
+2. **Beranda Jenjang (`tk / sd / smp / sma`) — 10 Seksi Lengkap**:
+   - Hero Slider (3 slide gambar + badge gelombang SPMB aktif)
+   - Info Cepat 4 Kartu (Akreditasi A, Kurikulum, Ekstrakurikuler, Kuota SPMB)
+   - Sambutan Kepala Sekolah + Kutipan & Link Selengkapnya
+   - Statistik Jenjang (Count-Up saat masuk viewport)
+   - Program Unggulan & Ekstrakurikuler per Jenjang
+   - Carousel Prestasi Terbaru Siswa (Filter otomatis sesuai jenjang)
+   - Berita Terbaru (3 Kartu) + Agenda Mendatang (3 Item + Google Calendar)
+   - Galeri Foto Masonry (6 Foto) + Video Profil YouTube Lazy-Embed
+   - Testimoni Orang Tua & Alumni
+   - Banner CTA SPMB + Accordion FAQ Singkat
+3. **Profil Sekolah (`/about` & `/facilities`)**:
+   - Sambutan Kepala Sekolah / Yayasan, Visi & Misi, Timeline Sejarah (1998–2026), Tabel Legalitas & NPSN + Unduh SK PDF, Struktur Organisasi, dan Fasilitas Kampus.
+4. **Direktori Guru & Staf / GTK (`/teachers`)**:
+   - Grid kartu foto, nama, jabatan/mata pelajaran, jenjang, pendidikan, filter kategori (`Semua`, `Pimpinan`, `Guru`, `Staf`), pencarian instan, serta Modal Detail GTK (Biografi, Sertifikasi, Pengalaman).
+5. **Prestasi Siswa (`/achievements`)**:
+   - Filter Tahun, Tingkat (`Internasional`, `Nasional`, `Provinsi`, `Kota`), Kategori (`Akademik`, `Sains & Riset`, `Seni & Budaya`, `Olahraga`), dan Jenjang.
+6. **Berita, Pengumuman & Agenda (`/news` & `/news/[slug]`)**:
+   - Filter kategori, pencarian, pagination, halaman detail artikel dengan tombol Share (**WhatsApp**, **Facebook**, **Salin Tautan**), serta **Agenda Sekolah** (Tampilan Daftar & Kalender Bulanan + tombol **Tambah ke Google Calendar**).
+7. **Galeri Foto & Video (`/gallery`)**:
+   - Tab Semua Foto, Album Kegiatan (cover + jumlah foto), Lightbox interaktif, dan Tab **Arsip Video YouTube** dengan modal pemutar video.
+8. **Hubungi Kami (`/contact`)**:
+   - Formulir kontak tervalidasi **Zod** + proteksi anti-spam (Honeypot + tantangan matematika), peta interaktif Google Maps, jam layanan, dan WhatsApp per jenjang.
+9. **SPMB / PPDB Online Lengkap (`/admissions`)**:
+   - **Informasi & Kalkulator Biaya**: Banner gelombang aktif + Countdown Timer, Alur 5 Langkah, Sisa Kuota per Jenjang, dan **Kalkulator Simulasi Biaya Pendidikan**.
+   - **Formulir Pendaftaran Wizard 6 Tahap**:
+     1. Buat Akun Pendaftar + Simulasi **Verifikasi OTP 6-Digit (WhatsApp/Email)**
+     2. Pilih Jenjang & Jalur Masuk (`Reguler`, `Prestasi Akademik`, `Prestasi Non-Akademik`, `Afirmasi`, `Pindahan`)
+     3. Data Calon Siswa (Nama, NIK 16 digit, NISN, TTL, Alamat, Asal Sekolah)
+     4. Data Orang Tua / Wali (Ayah, Ibu, Pekerjaan, Penghasilan, Kontak Darurat)
+     5. Unggah Berkas Persyaratan (Drag & Drop + Validasi tipe/ukuran + **Kompresi Gambar Otomatis Sisi Klien via HTML5 Canvas**)
+     6. Review & Kirim + **Auto-save Draft ke `localStorage`**
+   - **Bukti Registrasi & Cetak PDF**: Nomor registrasi otomatis (`SPMB-2026-XXXX`), **QR Code Verifikasi**, rincian tagihan Virtual Account / QRIS, dan tombol **Cetak Bukti Pendaftaran (PDF)**.
+   - **Dashboard Pendaftar**: Login dengan Nomor Registrasi (`SPMB-2026-0089` / `SPMB-2026-0112`), Timeline Progres 6 Tahap, dan **Cetak Kartu Peserta Tes & Observasi**.
+   - **Cek Status & Pengumuman Kelulusan**: Input Nomor Registrasi + Tanggal Lahir untuk melihat hasil seleksi resmi dan langkah daftar ulang.
 
 ---
 
-## 4. Panduan Menjalankan Proyek
+## 2. Struktur Folder Proyek
 
-Pastikan Anda telah menginstal **Node.js (v18+)** di perangkat Anda.
+```text
+├── backend/                          # Backend REST API (Laravel + Sanctum + MySQL)
+├── src/
+│   ├── config/
+│   │   └── tenants.ts                # Konfigurasi Multi-Tenant (Portal, TK, SD, SMP, SMA)
+│   ├── middleware.ts                 # Deteksi subdomain & injeksi header x-tenant-id
+│   ├── lib/
+│   │   ├── api.ts                    # Klien REST API ke Backend Laravel
+│   │   ├── tenantContext.tsx         # Provider React + Injeksi CSS Variable per jenjang
+│   │   ├── validations.ts            # Skema Zod (SPMB 6 Tahap, Kontak, Cek Status) & Kompresi Gambar
+│   │   └── i18n.ts                   # Kamus Bahasa Indonesia (ID) & Inggris (EN)
+│   ├── data/
+│   │   ├── school.ts                 # Data profil yayasan, milestone sejarah, FAQ
+│   │   ├── academics.ts              # Detail kurikulum TK, SD, SMP, SMA
+│   │   ├── teachers.ts               # Direktori 12 Guru & Tenaga Kependidikan (GTK)
+│   │   ├── achievements.ts           # Data prestasi siswa multi-jenjang
+│   │   ├── news.ts                   # Artikel berita & pengumuman
+│   │   ├── events.ts                 # Agenda sekolah & generator link Google Calendar
+│   │   ├── gallery.ts                # Foto kegiatan, album, dan arsip video YouTube
+│   │   └── spmbDummy.ts              # Data contoh pendaftar untuk uji coba Cek Status & Dashboard
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── DesignSystem.tsx      # Button (min 44px), Card, Badge, Accordion, Stepper, Modal, Toast, Skeleton
+│   │   │   ├── CountUp.tsx           # Animasi angka saat masuk viewport (prefers-reduced-motion safe)
+│   │   │   └── JsonLd.tsx            # Schema.org EducationalOrganization, Article, BreadcrumbList
+│   │   ├── layout/
+│   │   │   ├── Navbar.tsx            # Header Sticky, Dropdown Profil & Akademik, Pemilih Jenjang, Bahasa ID/EN
+│   │   │   ├── Footer.tsx            # Footer lengkap, Peta Mini Google Maps, NPSN, Tautan Antar-Jenjang
+│   │   │   ├── FloatingActions.tsx   # Tombol WhatsApp Melayang (pesan otomatis) & Back-to-Top
+│   │   │   └── PublicChrome.tsx      # Pemisah layout publik vs halaman Admin CMS
+│   │   ├── home/
+│   │   │   └── MultiTenantHome.tsx   # Komponen Beranda Portal Induk (5.1) & Beranda Jenjang 10 Seksi (5.2)
+│   │   ├── admissions/
+│   │   │   └── AdmissionsClient.tsx  # Sistem SPMB Online 4 Tab (Info/Kalkulator, Wizard 6 Tahap, Dashboard, Cek Status)
+│   │   └── news/
+│   │       └── ShareButtons.tsx      # Tombol Bagikan ke WhatsApp, Facebook, dan Salin Tautan
+│   └── app/
+│       ├── page.tsx                  # Halaman Utama (ISR 5 menit + MultiTenantHome)
+│       ├── about/page.tsx            # Profil, Visi Misi, Timeline Sejarah, Legalitas SK PDF, Struktur Organisasi
+│       ├── academics/page.tsx        # Kurikulum, Program Unggulan, Ekstrakurikuler, Kalender Akademik
+│       ├── teachers/                 # Direktori Guru & Staf (GTK) + Modal Detail
+│       ├── achievements/             # Halaman Prestasi Siswa Multi-Filter
+│       ├── facilities/               # Halaman Fasilitas Sekolah
+│       ├── news/                     # Indeks Berita, Pengumuman, Agenda Kalender Bulanan & Detail Artikel
+│       ├── gallery/                  # Galeri Foto, Album, Lightbox, & Arsip Video YouTube
+│       ├── admissions/               # Portal SPMB / PPDB Online
+│       ├── contact/                  # Formulir Kontak Tervalidasi Zod + Google Maps
+│       └── admin/                    # Dashboard Admin CMS Full-Stack
+```
 
-### 1. Instalasi Dependensi
+---
+
+## 3. Cara Menjalankan Proyek
+
+### Prasyarat
+- **Node.js** >= 18.x
+- **PHP** >= 8.2 & **Composer** (untuk Backend API Laravel)
+- **MySQL** >= 8.0
+
+### Langkah 1 — Jalankan Frontend (Next.js)
 ```bash
+# 1. Install dependencies
 npm install
-```
 
-### 2. Menjalankan Server Pengembangan
-```bash
+# 2. Salin konfigurasi environment
+cp .env.example .env.local
+
+# 3. Jalankan mode development
 npm run dev
-```
-Buka peramban Anda di [http://localhost:3000](http://localhost:3000).
 
-### 3. Membangun Versi Produksi
-```bash
+# Atau jalankan mode production (lebih cepat & optimal)
 npm run build
-npm run start
+npm start
 ```
+Buka **`http://localhost:3000`** di browser.
 
----
+### Langkah 2 — Menguji Multi-Jenjang di Localhost
+Anda dapat berpindah antar-jenjang dengan 2 cara:
+1. Klik dropdown **"Portal Yayasan / Pilih Jenjang"** di pojok kiri atas Header.
+2. Atau gunakan parameter URL / subdomain lokal:
+   - Portal Induk: `http://localhost:3000/?jenjang=portal`
+   - Jenjang TK: `http://localhost:3000/?jenjang=tk` (atau `http://tk.localhost:3000`)
+   - Jenjang SD: `http://localhost:3000/?jenjang=sd` (atau `http://sd.localhost:3000`)
+   - Jenjang SMP: `http://localhost:3000/?jenjang=smp` (atau `http://smp.localhost:3000`)
+   - Jenjang SMA: `http://localhost:3000/?jenjang=sma` (atau `http://sma.localhost:3000`)
 
-## 5. Daftar Placeholder & Data Resmi yang Diperlukan (Proposal Klien)
-
-Seluruh data spesifik sekolah telah dipisahkan secara rapi di direktori `src/data/`. Berikut adalah daftar berkas dan data yang perlu diverifikasi serta dilengkapi dengan data resmi dari pihak Yayasan / Manajemen Sekolah Dharma Loka:
-
-| Direktori & Berkas | Elemen yang Ditandai `[DEMO / OFFICIAL REQUIRED]` | Deskripsi Konfirmasi yang Diperlukan |
-| :--- | :--- | :--- |
-| `src/data/schoolInfo.ts` | Alamat Lengkap & Titik Peta | Konfirmasi nomor jalan, kode pos, dan titik koordinat Google Maps resmi. |
-| `src/data/schoolInfo.ts` | Nomor Telepon & WhatsApp PPDB | Nomor saluran hotline pendaftaran dan telepon kantor sekretariat. |
-| `src/data/schoolInfo.ts` | Akreditasi Resmi | Status akreditasi BAN-S/M resmi untuk masing-masing 5 jenjang. |
-| `src/data/schoolInfo.ts` | Statistik & Alumni | Angka resmi jumlah alumni, siswa aktif, dan rasio pendidik. |
-| `src/data/achievements.ts` | Nama Siswa & Kejuaraan | Konfirmasi daftar juara olimpiade sains & kejuaraan resmi terbaru. |
-| `src/data/admissions.ts` | Tanggal Gelombang & Biaya | Surat Keputusan (SK) Yayasan mengenai jadwal gelombang dan struktur biaya resmi. |
-| `src/data/gallery.ts` | Arsip Foto Kampus Asli | Penggantian foto stok representatif dengan foto asli kegiatan murid dan gedung Dharma Loka. |
-
----
-
-## 6. Audit Standar & Aksesibilitas (Web Design Guidelines)
-
-- **Semantic HTML**: Struktur heading hierarkis `h1`–`h4`, tag `<main id="main-content">`, `<nav>`, `<header>`, `<footer>`, `<article>`, `<section>`.
-- **Skip to Content Link**: Tersedia di baris teratas dokumen untuk navigasi keyboard.
-- **Visible Focus Rings**: Gaya cincin fokus `focus-visible:ring-2` di seluruh elemen interaktif tanpa menghilangkan outline default.
-- **Aksesibilitas Tombol & Ikon**: Tombol ikonik dilengkapi `aria-label`, dan ikon dekoratif dilengkapi `aria-hidden="true"`.
-- **Kontrol Animasi**: Mengakomodasi preferensi `prefers-reduced-motion: reduce` pengguna secara otomatis.
-- **Responsive**: Diuji pada skala Desktop (1440px), Laptop (1280px), Tablet (768px), dan Mobile (390px / 320px).
-
+### Langkah 3 — Menguji Simulasi SPMB Online (`/admissions`)
+- **Cek Status & Dashboard Pendaftar**: Gunakan Nomor Registrasi contoh berikut:
+  - `SPMB-2026-0089` (Tanggal Lahir: `2014-05-14`) — Status: **LULUS SELEKSI**
+  - `SPMB-2026-0112` (Tanggal Lahir: `2020-08-21`) — Status: **TERVERIFIKASI (JADWAL TES)**
+  - `SPMB-2026-0145` (Tanggal Lahir: `2011-11-03`) — Status: **CADANGAN**
+- **Pendaftaran Baru (Stepper 6 Tahap)**:
+  - Saat meminta kode OTP pada Tahap 1, kode simulasi adalah **`123456`**.

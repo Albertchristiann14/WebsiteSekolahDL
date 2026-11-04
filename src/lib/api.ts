@@ -145,13 +145,15 @@ export async function fetchApi<T = any>(
 // ----------------------------------------------------
 
 export const publicApi = {
+  getHomepageData: () => fetchApi("/public/profile"),
   getProfile: () => fetchApi("/public/profile"),
-  getNews: (params?: { category?: string; search?: string; page?: number; per_page?: number }) => {
+  getNews: (params?: { category?: string; search?: string; page?: number; per_page?: number; limit?: number }) => {
     const searchParams = new URLSearchParams();
     if (params?.category && params.category !== "all") searchParams.set("category", params.category);
     if (params?.search) searchParams.set("search", params.search);
     if (params?.page) searchParams.set("page", params.page.toString());
     if (params?.per_page) searchParams.set("per_page", params.per_page.toString());
+    if (params?.limit) searchParams.set("per_page", params.limit.toString());
     const query = searchParams.toString();
     return fetchApi(`/public/news${query ? `?${query}` : ""}`);
   },
@@ -182,6 +184,10 @@ export const publicApi = {
     previous_school?: string;
     notes?: string;
   }) => fetchApi("/public/admissions/inquiry", {
+    method: "POST",
+    body: JSON.stringify(data),
+  }),
+  submitAdmission: (data: any) => fetchApi("/public/admissions/inquiry", {
     method: "POST",
     body: JSON.stringify(data),
   }),

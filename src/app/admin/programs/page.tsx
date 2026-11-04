@@ -100,11 +100,10 @@ export default function AdminProgramsPage() {
         {/* Toast */}
         {toast && (
           <div
-            className={`p-4 rounded-2xl border text-sm font-medium flex items-center justify-between ${
-              toast.type === "success"
-                ? "bg-emerald-50 border-emerald-200 text-emerald-800"
-                : "bg-red-50 border-red-200 text-red-800"
-            }`}
+            className={`p-4 rounded-2xl border text-sm font-medium flex items-center justify-between ${toast.type === "success"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+              : "bg-red-50 border-red-200 text-red-800"
+              }`}
           >
             <div className="flex items-center gap-2.5">
               {toast.type === "success" ? (

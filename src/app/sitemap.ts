@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/about",
     "/academics",
+    "/teachers",
     "/facilities",
     "/achievements",
     "/news",
@@ -41,4 +42,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [...staticRoutes, ...academicRoutes, ...newsRoutes];
 }
-
