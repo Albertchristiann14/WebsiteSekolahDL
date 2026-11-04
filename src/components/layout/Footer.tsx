@@ -45,7 +45,10 @@ export function Footer() {
                 <span className="font-extrabold text-xl tracking-tight text-primary-950 block leading-none">
                   {tenant.shortName.toUpperCase()}
                 </span>
-                <span className="text-xs font-bold tracking-wider uppercase text-royal block mt-1.5">
+                <span
+                  className="text-xs font-bold tracking-wider uppercase block mt-1.5"
+                  style={{ color: tenant.theme.primary }}
+                >
                   {tenant.subdomain} • PEKANBARU
                 </span>
               </div>

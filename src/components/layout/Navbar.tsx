@@ -97,11 +97,12 @@ export function Navbar() {
                     key={item.id}
                     type="button"
                     onClick={() => navigateToTenant(item.id)}
-                    className={`px-2.5 py-1 rounded-full font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
+                    className={`px-3 py-1 rounded-full font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
                       active
-                        ? "bg-royal text-white shadow-xs"
+                        ? "text-white shadow-xs"
                         : "text-slate-600 hover:bg-slate-200/70 hover:text-primary-950"
                     }`}
+                    style={active ? { backgroundColor: item.theme.primary } : undefined}
                     title={`Pindah ke ${item.shortName}`}
                   >
                     {item.levelCode}
@@ -160,14 +161,22 @@ export function Navbar() {
                 >
                   {tenant.shortName}
                 </button>
-                <span className="px-2 py-0.5 rounded-md bg-blue-50 text-royal border border-blue-200 text-[10px] font-extrabold uppercase">
+                <span
+                  className="px-2 py-0.5 rounded-md border text-[10px] font-extrabold uppercase"
+                  style={{
+                    backgroundColor: tenant.theme.primaryLight,
+                    color: tenant.theme.primary,
+                    borderColor: tenant.theme.borderSubtle,
+                  }}
+                >
                   {tenant.levelCode}
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => navigateToTenant("portal")}
-                className="text-[11px] font-semibold text-royal hover:underline text-left inline-flex items-center gap-1 cursor-pointer pt-0.5"
+                className="text-[11px] font-semibold hover:underline text-left inline-flex items-center gap-1 cursor-pointer pt-0.5"
+                style={{ color: tenant.theme.primary }}
                 title="Klik untuk kembali ke Halaman Pusat Yayasan"
               >
                 <span>← Kembali ke Halaman Pusat</span>
@@ -356,7 +365,11 @@ export function Navbar() {
 
             <Link
               href="/admissions"
-              className="inline-flex items-center justify-center gap-2 h-11 px-5 text-sm font-bold text-white bg-royal hover:bg-royal-dark rounded-xl transition-all shadow-sm whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 h-11 px-5 text-sm font-bold text-white rounded-xl transition-all shadow-md whitespace-nowrap hover:brightness-110 hover:scale-[1.02]"
+              style={{
+                backgroundColor: tenant.theme.primary,
+                boxShadow: `0 4px 14px 0 ${tenant.theme.primary}40`,
+              }}
             >
               <span>Daftar SPMB</span>
               <ArrowRight className="w-4 h-4 hidden sm:inline" />
@@ -406,14 +419,15 @@ export function Navbar() {
                   onClick={() => navigateToTenant(item.id)}
                   className={`px-3.5 py-2.5 rounded-xl text-xs font-bold text-left border transition ${
                     item.id === tenantId
-                      ? "bg-royal text-white border-royal"
+                      ? "text-white"
                       : "bg-white text-primary-950 border-slate-200"
                   }`}
+                  style={item.id === tenantId ? { backgroundColor: item.theme.primary, borderColor: item.theme.primary } : undefined}
                 >
                   <span className="block font-extrabold">{item.levelCode}</span>
                   <span
                     className={`block text-[11px] truncate ${
-                      item.id === tenantId ? "text-blue-100" : "text-slate-500"
+                      item.id === tenantId ? "text-white/80" : "text-slate-500"
                     }`}
                   >
                     {item.shortName}
@@ -456,7 +470,8 @@ export function Navbar() {
           <div className="pt-4 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-3 pb-10">
             <Link
               href="/admissions"
-              className="flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-royal text-white font-bold text-sm shadow-sm"
+              className="flex items-center justify-center gap-2 h-12 px-5 rounded-xl text-white font-bold text-sm shadow-md"
+              style={{ backgroundColor: tenant.theme.primary }}
             >
               <span>Daftar SPMB Sekarang</span>
               <ArrowRight className="w-4 h-4" />

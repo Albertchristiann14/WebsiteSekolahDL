@@ -17,6 +17,11 @@ export interface TenantThemeColors {
   muted: string;
   primaryLight: string;
   borderSubtle: string;
+  heroGradient: string;
+  badgeBg: string;
+  diamondClass: string;
+  diamondShadow: string;
+  paletteBadgeList?: Array<{ label: string; bg: string; text: string }>;
 }
 
 export interface PrincipalProfile {
@@ -134,6 +139,10 @@ export const TENANTS: Record<TenantId, TenantConfig> = {
       muted: "#64748B",
       primaryLight: "#EFF6FF",
       borderSubtle: "#DBEAFE",
+      heroGradient: "from-blue-50/70 via-white to-white",
+      badgeBg: "bg-royal text-white",
+      diamondClass: "bg-[#0B65FF] hover:bg-[#0051DF]",
+      diamondShadow: "shadow-blue-500/25",
     },
     contact: {
       phone: "(0761) 859214",
@@ -327,13 +336,24 @@ export const TENANTS: Record<TenantId, TenantConfig> = {
     skIzinOperasional: "SK Dinas Pendidikan Kota Pekanbaru No. 421.1/Disdik-PAUD/089",
     establishedYear: 1990,
     theme: {
-      primary: "#0284C7", // Cerulean Sky Blue
+      primary: "#FF3366", // Joyful Strawberry Rose & Colorful
       primaryForeground: "#FFFFFF",
-      accent: "#F59E0B", // Warm Sunny Amber
-      surface: "#F0F9FF",
-      muted: "#475569",
-      primaryLight: "#E0F2FE",
-      borderSubtle: "#BAE6FD",
+      accent: "#F59E0B", // Sunny Warm Yellow
+      surface: "#FFF7ED", // Warm Peach & Soft Pastel
+      muted: "#64748B",
+      primaryLight: "#FFE4E8",
+      borderSubtle: "#FECDD6",
+      heroGradient: "from-rose-50/90 via-amber-50/50 to-white",
+      badgeBg: "bg-gradient-to-r from-rose-500 via-amber-500 to-emerald-500 text-white",
+      diamondClass: "bg-gradient-to-br from-[#FF3366] via-[#FB7185] to-[#F59E0B] hover:brightness-110",
+      diamondShadow: "shadow-rose-500/30",
+      paletteBadgeList: [
+        { label: "🧸 Playgroup & TK Ceria", bg: "bg-rose-100", text: "text-rose-700" },
+        { label: "☀️ Tumbuh Bahagia", bg: "bg-amber-100", text: "text-amber-800" },
+        { label: "🎨 Sensori Aktif", bg: "bg-emerald-100", text: "text-emerald-800" },
+        { label: "🎵 Trilingual Fun", bg: "bg-sky-100", text: "text-sky-800" },
+        { label: "🌈 Karakter Santun", bg: "bg-purple-100", text: "text-purple-800" },
+      ],
     },
     contact: {
       phone: "(0761) 859215",
@@ -465,13 +485,17 @@ export const TENANTS: Record<TenantId, TenantConfig> = {
     skIzinOperasional: "SK Dinas Pendidikan Kota Pekanbaru No. 421.2/Disdik-SD/114",
     establishedYear: 1992,
     theme: {
-      primary: "#1D4ED8", // Vibrant Royal Blue
+      primary: "#0284C7", // Vibrant Ocean Blue
       primaryForeground: "#FFFFFF",
-      accent: "#D97706", // Warm Gold
-      surface: "#F8FAFC",
+      accent: "#EA580C", // Joyful Tangerine / Red-Orange
+      surface: "#F0F9FF",
       muted: "#475569",
-      primaryLight: "#EFF6FF",
-      borderSubtle: "#DBEAFE",
+      primaryLight: "#E0F2FE",
+      borderSubtle: "#BAE6FD",
+      heroGradient: "from-sky-50 via-blue-50/30 to-white",
+      badgeBg: "bg-sky-600 text-white",
+      diamondClass: "bg-[#0284C7] hover:bg-[#0369A1]",
+      diamondShadow: "shadow-sky-500/30",
     },
     contact: {
       phone: "(0761) 859216",
@@ -603,13 +627,17 @@ export const TENANTS: Record<TenantId, TenantConfig> = {
     skIzinOperasional: "SK Dinas Pendidikan Kota Pekanbaru No. 421.3/Disdik-SMP/205",
     establishedYear: 1996,
     theme: {
-      primary: "#1E40AF", // Deep Royal Indigo
+      primary: "#0D9488", // Modern Deep Teal / Cyan Hijau Laut
       primaryForeground: "#FFFFFF",
-      accent: "#0284C7", // Cyan/Sky Accent
-      surface: "#F8FAFC",
-      muted: "#475569",
-      primaryLight: "#EFF6FF",
-      borderSubtle: "#BFDBFE",
+      accent: "#0284C7", // Sky Blue
+      surface: "#F0FDFA",
+      muted: "#334155",
+      primaryLight: "#CCFBF1",
+      borderSubtle: "#99F6E4",
+      heroGradient: "from-teal-50 via-emerald-50/30 to-white",
+      badgeBg: "bg-teal-700 text-white",
+      diamondClass: "bg-[#0D9488] hover:bg-[#0F766E]",
+      diamondShadow: "shadow-teal-500/30",
     },
     contact: {
       phone: "(0761) 859217",
@@ -733,13 +761,17 @@ export const TENANTS: Record<TenantId, TenantConfig> = {
     skIzinOperasional: "SK Dinas Pendidikan Provinsi Riau No. 421.4/Disdik-Riau/SMA/312",
     establishedYear: 2001,
     theme: {
-      primary: "#1E3A8A", // Academic Navy Blue
+      primary: "#4F46E5", // Prestigious Deep Indigo / Sapphire
       primaryForeground: "#FFFFFF",
-      accent: "#D97706", // Prestigious Gold
-      surface: "#F8FAFC",
-      muted: "#475569",
-      primaryLight: "#EFF6FF",
-      borderSubtle: "#DBEAFE",
+      accent: "#D97706", // Regal Academic Gold
+      surface: "#F5F3FF",
+      muted: "#334155",
+      primaryLight: "#EDE9FE",
+      borderSubtle: "#DDD6FE",
+      heroGradient: "from-indigo-50/80 via-slate-50/40 to-white",
+      badgeBg: "bg-indigo-600 text-white",
+      diamondClass: "bg-[#4F46E5] hover:bg-[#4338CA]",
+      diamondShadow: "shadow-indigo-500/30",
     },
     contact: {
       phone: "(0761) 859218",
@@ -863,13 +895,17 @@ export const TENANTS: Record<TenantId, TenantConfig> = {
     skIzinOperasional: "SK Dinas Pendidikan Provinsi Riau No. 421.5/Disdik-SMK/112",
     establishedYear: 2005,
     theme: {
-      primary: "#0B5ED7",
+      primary: "#EA580C", // Industrial Flame Orange & Vocational Tech
       primaryForeground: "#FFFFFF",
-      accent: "#D97706",
-      surface: "#F8FAFC",
-      muted: "#475569",
-      primaryLight: "#EFF6FF",
-      borderSubtle: "#BFDBFE",
+      accent: "#2563EB", // Cobalt Tech Blue
+      surface: "#FFFBEB",
+      muted: "#334155",
+      primaryLight: "#FEF3C7",
+      borderSubtle: "#FED7AA",
+      heroGradient: "from-amber-50 via-orange-50/30 to-white",
+      badgeBg: "bg-orange-600 text-white",
+      diamondClass: "bg-[#EA580C] hover:bg-[#C2410C]",
+      diamondShadow: "shadow-orange-500/30",
     },
     contact: {
       phone: "(0761) 859219",

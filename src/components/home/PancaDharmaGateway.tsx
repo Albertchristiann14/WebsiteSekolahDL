@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { TenantId } from "@/config/tenants";
+import { TenantId, TENANTS } from "@/config/tenants";
 
 interface PancaDharmaGatewayProps {
   onSelectUnit: (unit: TenantId) => void;
@@ -245,12 +245,12 @@ function PancaDharmaCrest({
   );
 }
 
-const DIAMOND_UNITS: Array<{ id: TenantId; label: string; title: string }> = [
-  { id: "tk", label: "TK", title: "TK Dharma Loka Pekanbaru" },
-  { id: "sd", label: "SD", title: "SD Dharma Loka Pekanbaru" },
-  { id: "smp", label: "SMP", title: "SMP Dharma Loka Pekanbaru" },
-  { id: "sma", label: "SMA", title: "SMA Dharma Loka Pekanbaru" },
-  { id: "smk", label: "SMK", title: "SMK Dharma Loka Pekanbaru" },
+const DIAMOND_UNITS: Array<{ id: TenantId; label: string; title: string; badge: string }> = [
+  { id: "tk", label: "TK", title: "TK Dharma Loka (Playgroup & TK Ceria)", badge: "Ceria & Berwarna" },
+  { id: "sd", label: "SD", title: "SD Dharma Loka Pekanbaru", badge: "Fondasi Kuat" },
+  { id: "smp", label: "SMP", title: "SMP Dharma Loka Pekanbaru", badge: "Sains & Nalar" },
+  { id: "sma", label: "SMA", title: "SMA Dharma Loka Pekanbaru", badge: "Riset & Global" },
+  { id: "smk", label: "SMK", title: "SMK Dharma Loka Pekanbaru", badge: "Vokasi Industri" },
 ];
 
 export function PancaDharmaGateway({ onSelectUnit }: PancaDharmaGatewayProps) {
@@ -303,28 +303,40 @@ export function PancaDharmaGateway({ onSelectUnit }: PancaDharmaGatewayProps) {
         </h1>
       </div>
 
-      {/* 3. Barisan 5 Belah Ketupat Biru (TK, SD, SMP, SMA, SMK) */}
-      <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-10 md:gap-11 py-6 px-4">
-        {DIAMOND_UNITS.map((unit) => (
-          <button
-            key={unit.id}
-            type="button"
-            onClick={() => onSelectUnit(unit.id)}
-            title={`Masuk ke ${unit.title}`}
-            aria-label={`Masuk ke ${unit.title}`}
-            className="group relative w-24 h-24 sm:w-28 sm:h-28 md:w-[118px] md:h-[118px] bg-[#0B65FF] hover:bg-[#0051DF] rotate-45 flex items-center justify-center shadow-md hover:shadow-xl transition-all duration-200 hover:scale-105 cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300"
-          >
-            {/* Isi Belah Ketupat Diputar Balik (-45deg) agar Tegak */}
-            <div className="-rotate-45 flex items-center justify-center pointer-events-none">
-              <PancaDharmaCrest
-                ribbonText="DHARMA LOKA"
-                levelLabel={unit.label}
-                showOuterText={false}
-                size={96}
-              />
+      {/* 3. Barisan 5 Belah Ketupat Khusus Berwarna per Jenjang (TK, SD, SMP, SMA, SMK) */}
+      <div className="flex flex-wrap items-center justify-center gap-7 sm:gap-9 md:gap-11 py-6 px-4">
+        {DIAMOND_UNITS.map((unit) => {
+          const config = TENANTS[unit.id];
+          return (
+            <div key={unit.id} className="flex flex-col items-center gap-2.5">
+              <button
+                type="button"
+                onClick={() => onSelectUnit(unit.id)}
+                title={`Masuk ke ${unit.title}`}
+                aria-label={`Masuk ke ${unit.title}`}
+                className={`group relative w-24 h-24 sm:w-28 sm:h-28 md:w-[118px] md:h-[118px] ${config.theme.diamondClass} rotate-45 flex items-center justify-center shadow-lg ${config.theme.diamondShadow} transition-all duration-200 hover:scale-110 cursor-pointer focus:outline-none focus:ring-4 focus:ring-offset-2`}
+              >
+                {/* Isi Belah Ketupat Diputar Balik (-45deg) agar Tegak */}
+                <div className="-rotate-45 flex items-center justify-center pointer-events-none">
+                  <PancaDharmaCrest
+                    ribbonText="DHARMA LOKA"
+                    levelLabel={unit.label}
+                    showOuterText={false}
+                    size={96}
+                  />
+                </div>
+              </button>
+              <div className="text-center">
+                <span className="block text-xs font-black text-slate-800 tracking-wider">
+                  {unit.label}
+                </span>
+                <span className="block text-[10px] font-semibold text-slate-500">
+                  {unit.badge}
+                </span>
+              </div>
             </div>
-          </button>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

@@ -55,14 +55,17 @@ export function Card({
   children,
   className = "",
   id,
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
   id?: string;
+  style?: React.CSSProperties;
 }) {
   return (
     <div
       id={id}
+      style={style}
       className={`bg-white rounded-2xl border border-blue-100/90 shadow-card ${className}`}
     >
       {children}

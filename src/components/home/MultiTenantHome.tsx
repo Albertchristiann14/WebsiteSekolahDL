@@ -306,7 +306,7 @@ export function MultiTenantHome() {
         ===================================================================== */
         <>
           {/* 5.2.1 HERO BERANDA JENJANG DENGAN SLIDER & BADGE SPMB AKTIF */}
-          <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/80 via-white to-white pt-10 pb-16 lg:pt-14 lg:pb-20 border-b border-blue-100">
+          <section className={`relative overflow-hidden bg-gradient-to-b ${tenant.theme.heroGradient} pt-10 pb-16 lg:pt-14 lg:pb-20 border-b border-slate-200/80`}>
             <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
                 <div className="lg:col-span-7 space-y-6">
@@ -317,11 +317,28 @@ export function MultiTenantHome() {
                         SPMB Dibuka: {tenant.spmb.wavePeriod}
                       </Badge>
                     )}
-                    <Badge variant="blue">
-                      Subdomain Resmi: {tenant.subdomain}
-                    </Badge>
+                    <span
+                      className="px-3.5 py-1 rounded-full text-xs font-bold shadow-2xs text-white"
+                      style={{ backgroundColor: tenant.theme.primary }}
+                    >
+                      {tenant.shortName}
+                    </span>
                     <Badge variant="gold">{tenant.accreditation}</Badge>
                   </div>
+
+                  {/* Warna-warni ceria khusus TK */}
+                  {tenant.id === "tk" && tenant.theme.paletteBadgeList && (
+                    <div className="flex flex-wrap items-center gap-2 pt-1 pb-1">
+                      {tenant.theme.paletteBadgeList.map((pill, idx) => (
+                        <span
+                          key={idx}
+                          className={`px-3 py-1.5 rounded-full text-xs font-black shadow-2xs border border-white/80 ${pill.bg} ${pill.text}`}
+                        >
+                          {pill.label}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   <h1 className="text-3xl sm:text-5xl font-extrabold text-primary-950 leading-[1.15]">
                     {tenant.heroTitle}
@@ -335,21 +352,26 @@ export function MultiTenantHome() {
                   <div className="flex flex-wrap items-center gap-4 pt-2">
                     <Link
                       href={`/admissions?level=${tenant.id}#daftar`}
-                      className="inline-flex items-center justify-center gap-2.5 min-h-[52px] px-7 py-3.5 rounded-2xl bg-royal hover:bg-royal-dark text-white font-extrabold text-base shadow-lg shadow-royal/20 transition-all"
+                      className="inline-flex items-center justify-center gap-2.5 min-h-[52px] px-7 py-3.5 rounded-2xl text-white font-extrabold text-base shadow-lg transition-all hover:scale-[1.02] hover:brightness-110"
+                      style={{
+                        backgroundColor: tenant.theme.primary,
+                        boxShadow: `0 8px 24px -4px ${tenant.theme.primary}50`,
+                      }}
                     >
                       <span>Daftar SPMB {tenant.levelCode}</span>
                       <ArrowRight className="w-5 h-5" />
                     </Link>
                     <Link
                       href="/about"
-                      className="inline-flex items-center justify-center gap-2 min-h-[52px] px-6 py-3.5 rounded-2xl bg-white hover:bg-blue-50 text-primary-950 border-2 border-blue-200 font-bold text-base transition-all"
+                      className="inline-flex items-center justify-center gap-2 min-h-[52px] px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-primary-950 border-2 border-slate-200 font-bold text-base transition-all"
                     >
                       <span>Lihat Profil {tenant.levelCode}</span>
                     </Link>
                     <button
                       type="button"
                       onClick={() => navigateToTenant("portal")}
-                      className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-royal cursor-pointer"
+                      className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-xl text-xs font-bold hover:underline cursor-pointer"
+                      style={{ color: tenant.theme.primary }}
                     >
                       ← Kembali ke Halaman Pusat Yayasan
                     </button>
@@ -358,7 +380,7 @@ export function MultiTenantHome() {
 
                 {/* Slider Foto Kegiatan Asli Jenjang */}
                 <div className="lg:col-span-5">
-                  <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-elevated bg-blue-50 aspect-[4/3]">
+                  <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-elevated bg-slate-100 aspect-[4/3]">
                     <Image
                       src={activeSlide.image}
                       alt={activeSlide.title}
@@ -369,7 +391,10 @@ export function MultiTenantHome() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary-950/85 via-primary-950/20 to-transparent" />
                     <div className="absolute bottom-5 left-5 right-5 text-white">
-                      <span className="inline-block px-3 py-1 rounded-full bg-royal text-xs font-bold mb-2">
+                      <span
+                        className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 text-white shadow-xs"
+                        style={{ backgroundColor: tenant.theme.primary }}
+                      >
                         {activeSlide.badge}
                       </span>
                       <p className="text-lg font-extrabold leading-snug">
@@ -413,11 +438,17 @@ export function MultiTenantHome() {
           </section>
 
           {/* 5.2.2 INFO CEPAT (4 KARTU): JADWAL SPMB, BIAYA, SYARAT, KONTAK */}
-          <section className="py-12 bg-white border-b border-blue-100">
+          <section className="py-12 bg-white border-b border-slate-200/80">
             <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <Card className="p-6 space-y-3 hover:border-royal/40 transition">
-                  <div className="w-11 h-11 rounded-2xl bg-blue-50 text-royal flex items-center justify-center">
+                <Card className="p-6 space-y-3 transition hover:shadow-md">
+                  <div
+                    className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-2xs"
+                    style={{
+                      backgroundColor: tenant.theme.primaryLight,
+                      color: tenant.theme.primary,
+                    }}
+                  >
                     <Calendar className="w-5 h-5" />
                   </div>
                   <h3 className="text-base font-extrabold text-primary-950">
@@ -427,7 +458,7 @@ export function MultiTenantHome() {
                     {tenant.spmb.activeWave}
                   </p>
                   <p className="text-xs text-slate-600">
-                    Periode pendaftaran: <strong>{tenant.spmb.wavePeriod}</strong>. Sisa kuota saat ini:{" "}
+                    Periode pendaftaran: <strong>{tenant.spmb.wavePeriod}</strong>. Sisa kuota:{" "}
                     <strong>
                       {tenant.spmb.quotaTotal - tenant.spmb.quotaFilled} kursi
                     </strong>
@@ -435,15 +466,22 @@ export function MultiTenantHome() {
                   </p>
                   <Link
                     href="/admissions"
-                    className="inline-flex items-center gap-1 text-xs font-extrabold text-royal pt-1"
+                    className="inline-flex items-center gap-1 text-xs font-extrabold pt-1 hover:underline"
+                    style={{ color: tenant.theme.primary }}
                   >
                     <span>Lihat Linimasa</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </Card>
 
-                <Card className="p-6 space-y-3 hover:border-royal/40 transition">
-                  <div className="w-11 h-11 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center">
+                <Card className="p-6 space-y-3 transition hover:shadow-md">
+                  <div
+                    className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-2xs"
+                    style={{
+                      backgroundColor: "#FEF3C7",
+                      color: "#B45309",
+                    }}
+                  >
                     <CreditCard className="w-5 h-5" />
                   </div>
                   <h3 className="text-base font-extrabold text-primary-950">
@@ -454,25 +492,26 @@ export function MultiTenantHome() {
                     <strong className="text-primary-950">
                       {formatRupiah(tenant.spmb.fees.registrationForm)}
                     </strong>{" "}
-                    • SPP Bulanan:{" "}
+                    • SPP:{" "}
                     <strong className="text-primary-950">
                       {formatRupiah(tenant.spmb.fees.monthlyTuition)}
                     </strong>
                   </p>
                   <p className="text-xs text-slate-500">
-                    Tersedia diskon Early Bird & Beasiswa Prestasi.
+                    Tersedia diskon Early Bird & Beasiswa.
                   </p>
                   <Link
                     href="/admissions?tab=info#kalkulator-biaya"
-                    className="inline-flex items-center gap-1 text-xs font-extrabold text-royal pt-1"
+                    className="inline-flex items-center gap-1 text-xs font-extrabold pt-1 hover:underline"
+                    style={{ color: tenant.theme.primary }}
                   >
                     <span>Buka Kalkulator Biaya</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </Card>
 
-                <Card className="p-6 space-y-3 hover:border-royal/40 transition">
-                  <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                <Card className="p-6 space-y-3 transition hover:shadow-md">
+                  <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center shadow-2xs">
                     <FileText className="w-5 h-5" />
                   </div>
                   <h3 className="text-base font-extrabold text-primary-950">
@@ -482,19 +521,26 @@ export function MultiTenantHome() {
                     {tenant.spmb.ageRequirement}
                   </p>
                   <p className="text-xs text-slate-500">
-                    Berkas: KK, Akta Lahir, Pas Foto 3x4, Rapor.
+                    Berkas: KK, Akta Lahir, Pas Foto, Rapor.
                   </p>
                   <Link
                     href="/admissions#syarat"
-                    className="inline-flex items-center gap-1 text-xs font-extrabold text-royal pt-1"
+                    className="inline-flex items-center gap-1 text-xs font-extrabold pt-1 hover:underline"
+                    style={{ color: tenant.theme.primary }}
                   >
                     <span>Detail Persyaratan</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </Card>
 
-                <Card className="p-6 space-y-3 hover:border-royal/40 transition">
-                  <div className="w-11 h-11 rounded-2xl bg-blue-50 text-royal flex items-center justify-center">
+                <Card className="p-6 space-y-3 transition hover:shadow-md">
+                  <div
+                    className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-2xs"
+                    style={{
+                      backgroundColor: tenant.theme.primaryLight,
+                      color: tenant.theme.primary,
+                    }}
+                  >
                     <Phone className="w-5 h-5" />
                   </div>
                   <h3 className="text-base font-extrabold text-primary-950">
@@ -509,7 +555,7 @@ export function MultiTenantHome() {
                     href={`https://wa.me/${tenant.contact.whatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-extrabold text-emerald-700 pt-1"
+                    className="inline-flex items-center gap-1 text-xs font-extrabold text-emerald-700 pt-1 hover:underline"
                   >
                     <span>Hubungi Panitia {tenant.levelCode}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -524,12 +570,18 @@ export function MultiTenantHome() {
       {/* =====================================================================
           SAMBUTAN KEPALA SEKOLAH / DIREKTUR PENDIDIKAN (5.2.3)
       ===================================================================== */}
-      <section className="py-20 bg-blue-50/40 border-y border-blue-100">
+      <section
+        className="py-20 border-y border-slate-200/80"
+        style={{ backgroundColor: tenant.theme.surface }}
+      >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             <div className="lg:col-span-4">
               <div className="relative max-w-sm mx-auto">
-                <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border-4 border-white shadow-elevated bg-blue-100">
+                <div
+                  className="relative aspect-[4/5] rounded-3xl overflow-hidden border-4 border-white shadow-elevated"
+                  style={{ backgroundColor: tenant.theme.primaryLight }}
+                >
                   <Image
                     src={tenant.principal.photo}
                     alt={tenant.principal.name}
@@ -538,11 +590,14 @@ export function MultiTenantHome() {
                     className="object-cover"
                   />
                 </div>
-                <div className="mt-4 p-4 rounded-2xl bg-white border border-blue-100 shadow-card text-center">
+                <div className="mt-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-card text-center">
                   <p className="text-base font-extrabold text-primary-950">
                     {tenant.principal.name}
                   </p>
-                  <p className="text-xs font-bold text-royal mt-0.5">
+                  <p
+                    className="text-xs font-bold mt-0.5"
+                    style={{ color: tenant.theme.primary }}
+                  >
                     {tenant.principal.title}
                   </p>
                   <p className="text-[11px] text-slate-500 mt-1">
@@ -553,12 +608,20 @@ export function MultiTenantHome() {
             </div>
 
             <div className="lg:col-span-8 space-y-6">
-              <Badge variant="blue">Sambutan Pimpinan Sekolah</Badge>
+              <span
+                className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-extrabold text-white shadow-2xs"
+                style={{ backgroundColor: tenant.theme.primary }}
+              >
+                Sambutan Pimpinan Sekolah
+              </span>
               <h2 className="text-2xl sm:text-4xl font-extrabold text-primary-950 leading-tight">
                 Mendidik dengan Keteladanan, Kasih Sayang, dan Standar Keunggulan Global
               </h2>
 
-              <blockquote className="p-6 rounded-2xl bg-white border-l-4 border-royal shadow-card text-primary-950 font-serif italic text-lg leading-relaxed">
+              <blockquote
+                className="p-6 rounded-2xl bg-white border-l-4 shadow-card text-primary-950 font-serif italic text-lg leading-relaxed"
+                style={{ borderLeftColor: tenant.theme.primary }}
+              >
                 “{tenant.principal.quote}”
               </blockquote>
 
@@ -571,14 +634,15 @@ export function MultiTenantHome() {
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Link
                   href="/about#sambutan"
-                  className="inline-flex items-center gap-2 min-h-[44px] px-5 py-2.5 rounded-2xl bg-royal text-white text-sm font-bold hover:bg-royal-dark transition"
+                  className="inline-flex items-center gap-2 min-h-[44px] px-5 py-2.5 rounded-2xl text-white text-sm font-bold shadow-md transition hover:scale-[1.02] hover:brightness-110"
+                  style={{ backgroundColor: tenant.theme.primary }}
                 >
                   <span>Baca Profil & Visi Misi Selengkapnya</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/teachers"
-                  className="inline-flex items-center gap-2 min-h-[44px] px-5 py-2.5 rounded-2xl bg-white border border-blue-200 text-primary-950 text-sm font-bold hover:bg-blue-50 transition"
+                  className="inline-flex items-center gap-2 min-h-[44px] px-5 py-2.5 rounded-2xl bg-white border border-slate-200 text-primary-950 text-sm font-bold hover:bg-slate-50 transition"
                 >
                   <span>Kenali Dewan Guru & Staf</span>
                 </Link>
@@ -591,7 +655,7 @@ export function MultiTenantHome() {
       {/* =====================================================================
           STATISTIK ANGKA COUNT-UP (5.1 & 5.2.4)
       ===================================================================== */}
-      <section className="py-16 bg-white border-b border-blue-100">
+      <section className="py-16 bg-white border-b border-slate-200/80">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -622,9 +686,12 @@ export function MultiTenantHome() {
             ].map((stat) => (
               <Card
                 key={stat.label}
-                className="p-6 sm:p-8 text-center space-y-2 bg-gradient-to-b from-blue-50/40 to-white"
+                className="p-6 sm:p-8 text-center space-y-2 bg-gradient-to-b from-slate-50 to-white"
               >
-                <p className="text-3xl sm:text-5xl font-extrabold text-royal tracking-tight">
+                <p
+                  className="text-3xl sm:text-5xl font-extrabold tracking-tight"
+                  style={{ color: tenant.theme.primary }}
+                >
                   <CountUp end={stat.val} suffix={stat.suffix} />
                 </p>
                 <p className="text-sm sm:text-base font-extrabold text-primary-950">
@@ -645,7 +712,12 @@ export function MultiTenantHome() {
           {/* Program Unggulan */}
           <div className="space-y-10">
             <div className="text-center max-w-3xl mx-auto space-y-3">
-              <Badge variant="blue">Keunggulan Kurikulum</Badge>
+              <span
+                className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-extrabold text-white shadow-2xs"
+                style={{ backgroundColor: tenant.theme.primary }}
+              >
+                Keunggulan Kurikulum
+              </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-primary-950">
                 Program Unggulan & Karakter {tenant.shortName}
               </h2>
@@ -661,13 +733,28 @@ export function MultiTenantHome() {
                 return (
                   <Card
                     key={prog.title}
-                    className="p-6 space-y-4 hover:border-royal/40 transition-all"
+                    className="p-6 space-y-4 hover:shadow-md transition-all"
                   >
                     <div className="flex items-center justify-between">
-                      <div className="w-12 h-12 rounded-2xl bg-blue-50 text-royal flex items-center justify-center">
+                      <div
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-2xs"
+                        style={{
+                          backgroundColor: tenant.theme.primaryLight,
+                          color: tenant.theme.primary,
+                        }}
+                      >
                         <IconComp className="w-6 h-6" />
                       </div>
-                      <Badge variant="blue">{prog.badge}</Badge>
+                      <span
+                        className="px-2.5 py-0.5 rounded-full text-xs font-bold border"
+                        style={{
+                          backgroundColor: tenant.theme.primaryLight,
+                          color: tenant.theme.primary,
+                          borderColor: tenant.theme.borderSubtle,
+                        }}
+                      >
+                        {prog.badge}
+                      </span>
                     </div>
                     <h3 className="text-lg font-extrabold text-primary-950">
                       {prog.title}
@@ -681,9 +768,18 @@ export function MultiTenantHome() {
 
               {/* Tambahan kartu nilai karakter jika jenjang spesifik hanya punya 3 program */}
               {tenant.featuredPrograms.length === 3 && (
-                <Card className="p-6 space-y-4 bg-blue-50/40 border-blue-200">
+                <Card
+                  className="p-6 space-y-4 border"
+                  style={{
+                    backgroundColor: tenant.theme.surface,
+                    borderColor: tenant.theme.borderSubtle,
+                  }}
+                >
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-2xl bg-royal text-white flex items-center justify-center">
+                    <div
+                      className="w-12 h-12 rounded-2xl text-white flex items-center justify-center shadow-2xs"
+                      style={{ backgroundColor: tenant.theme.primary }}
+                    >
                       <HeartHandshake className="w-6 h-6" />
                     </div>
                     <Badge variant="gold">Prajña & Sīla</Badge>
@@ -700,7 +796,13 @@ export function MultiTenantHome() {
           </div>
 
           {/* Ekstrakurikuler Populer */}
-          <div className="p-8 sm:p-10 rounded-3xl bg-blue-50/50 border border-blue-100 space-y-8">
+          <div
+            className="p-8 sm:p-10 rounded-3xl border space-y-8 shadow-xs"
+            style={{
+              backgroundColor: tenant.theme.surface,
+              borderColor: tenant.theme.borderSubtle,
+            }}
+          >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h3 className="text-2xl font-extrabold text-primary-950">
@@ -712,7 +814,8 @@ export function MultiTenantHome() {
               </div>
               <Link
                 href="/academics#ekstrakurikuler"
-                className="inline-flex items-center gap-2 text-sm font-extrabold text-royal"
+                className="inline-flex items-center gap-2 text-sm font-extrabold hover:underline"
+                style={{ color: tenant.theme.primary }}
               >
                 <span>Lihat Seluruh Klub & Jadwal</span>
                 <ArrowRight className="w-4 h-4" />
@@ -723,17 +826,23 @@ export function MultiTenantHome() {
               {tenant.extracurriculars.map((eskul) => (
                 <div
                   key={eskul.name}
-                  className="p-5 rounded-2xl bg-white border border-blue-100 flex items-start justify-between gap-4 shadow-2xs"
+                  className="p-5 rounded-2xl bg-white border border-slate-200 flex items-start justify-between gap-4 shadow-2xs"
                 >
                   <div className="space-y-1">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-royal">
+                    <span
+                      className="text-[11px] font-bold uppercase tracking-wider"
+                      style={{ color: tenant.theme.primary }}
+                    >
                       {eskul.category}
                     </span>
                     <h4 className="text-base font-extrabold text-primary-950">
                       {eskul.name}
                     </h4>
                     <p className="text-xs text-slate-500 flex items-center gap-1.5 pt-1">
-                      <Clock className="w-3.5 h-3.5 text-royal" />
+                      <Clock
+                        className="w-3.5 h-3.5"
+                        style={{ color: tenant.theme.primary }}
+                      />
                       {eskul.schedule}
                     </p>
                     {eskul.achievementHighlight && (
@@ -752,7 +861,10 @@ export function MultiTenantHome() {
       {/* =====================================================================
           PRESTASI TERBARU — CAROUSEL INTERAKTIF (5.2.6)
       ===================================================================== */}
-      <section className="py-20 bg-blue-50/40 border-y border-blue-100">
+      <section
+        className="py-20 border-y border-slate-200/80"
+        style={{ backgroundColor: tenant.theme.surface }}
+      >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 space-y-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <div className="space-y-2">
@@ -774,7 +886,7 @@ export function MultiTenantHome() {
                   )
                 }
                 aria-label="Prestasi sebelumnya"
-                className="w-11 h-11 rounded-2xl bg-white hover:bg-blue-50 border border-blue-200 flex items-center justify-center text-primary-950 cursor-pointer"
+                className="w-11 h-11 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 flex items-center justify-center text-primary-950 cursor-pointer shadow-2xs"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -786,13 +898,14 @@ export function MultiTenantHome() {
                   )
                 }
                 aria-label="Prestasi berikutnya"
-                className="w-11 h-11 rounded-2xl bg-white hover:bg-blue-50 border border-blue-200 flex items-center justify-center text-primary-950 cursor-pointer"
+                className="w-11 h-11 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 flex items-center justify-center text-primary-950 cursor-pointer shadow-2xs"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
               <Link
                 href="/achievements"
-                className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-2xl bg-royal text-white text-xs sm:text-sm font-bold"
+                className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-2xl text-white text-xs sm:text-sm font-bold shadow-md transition hover:scale-[1.02] hover:brightness-110"
+                style={{ backgroundColor: tenant.theme.primary }}
               >
                 <span>Semua Prestasi</span>
                 <ArrowRight className="w-4 h-4" />
@@ -836,11 +949,21 @@ export function MultiTenantHome() {
                       <p className="font-extrabold text-primary-950">
                         {ach.studentName || ach.student_name}
                       </p>
-                      <p className="text-royal font-bold uppercase">
-                        Jenjang {ach.level || ach.academic_level || "SMA"}
+                      <p
+                        className="font-bold uppercase"
+                        style={{ color: tenant.theme.primary }}
+                      >
+                        Jenjang {ach.level || ach.academic_level || tenant.levelCode}
                       </p>
                     </div>
-                    <span className="px-2.5 py-1 rounded-lg bg-blue-50 text-royal font-bold capitalize">
+                    <span
+                      className="px-2.5 py-1 rounded-lg font-bold capitalize border"
+                      style={{
+                        backgroundColor: tenant.theme.primaryLight,
+                        color: tenant.theme.primary,
+                        borderColor: tenant.theme.borderSubtle,
+                      }}
+                    >
                       {ach.category}
                     </span>
                   </div>
@@ -860,14 +983,20 @@ export function MultiTenantHome() {
             <div className="lg:col-span-8 space-y-8">
               <div className="flex items-end justify-between gap-4">
                 <div>
-                  <Badge variant="blue">Kabar Kampus</Badge>
+                  <span
+                    className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-extrabold text-white shadow-2xs"
+                    style={{ backgroundColor: tenant.theme.primary }}
+                  >
+                    Kabar Kampus
+                  </span>
                   <h2 className="text-3xl font-extrabold text-primary-950 mt-2">
                     Berita & Pengumuman Terbaru
                   </h2>
                 </div>
                 <Link
                   href="/news"
-                  className="inline-flex items-center gap-1.5 text-sm font-extrabold text-royal hover:text-royal-dark"
+                  className="inline-flex items-center gap-1.5 text-sm font-extrabold hover:underline"
+                  style={{ color: tenant.theme.primary }}
                 >
                   <span>Indeks Berita</span>
                   <ArrowRight className="w-4 h-4" />
@@ -878,10 +1007,13 @@ export function MultiTenantHome() {
                 {dynamicNews.slice(0, 3).map((item) => (
                   <Card
                     key={item.id || item.slug}
-                    className="overflow-hidden flex flex-col justify-between group"
+                    className="overflow-hidden flex flex-col justify-between group hover:shadow-md transition-all"
                   >
                     <div>
-                      <div className="relative aspect-[16/10] bg-blue-50 overflow-hidden">
+                      <div
+                        className="relative aspect-[16/10] overflow-hidden"
+                        style={{ backgroundColor: tenant.theme.primaryLight }}
+                      >
                         <Image
                           src={
                             item.featuredImage ||
@@ -894,7 +1026,10 @@ export function MultiTenantHome() {
                           sizes="(max-width: 768px) 100vw, 28vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                        <span className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-white/95 text-royal text-[11px] font-extrabold shadow-xs">
+                        <span
+                          className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-white/95 text-[11px] font-extrabold shadow-xs"
+                          style={{ color: tenant.theme.primary }}
+                        >
                           {item.category?.name || item.category || "Pengumuman"}
                         </span>
                       </div>
@@ -912,7 +1047,7 @@ export function MultiTenantHome() {
                                 )
                               : "Terbaru")}
                         </p>
-                        <h3 className="text-base font-extrabold text-primary-950 line-clamp-2 group-hover:text-royal transition-colors">
+                        <h3 className="text-base font-extrabold text-primary-950 line-clamp-2 transition-colors">
                           <Link href={`/news/${item.slug}`}>{item.title}</Link>
                         </h3>
                         <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
@@ -923,7 +1058,8 @@ export function MultiTenantHome() {
                     <div className="px-5 pb-5 pt-2">
                       <Link
                         href={`/news/${item.slug}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-extrabold text-royal"
+                        className="inline-flex items-center gap-1.5 text-xs font-extrabold hover:underline"
+                        style={{ color: tenant.theme.primary }}
                       >
                         <span>Baca Artikel</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -945,7 +1081,8 @@ export function MultiTenantHome() {
                 </div>
                 <Link
                   href="/news?tab=agenda"
-                  className="text-xs font-extrabold text-royal"
+                  className="text-xs font-extrabold hover:underline"
+                  style={{ color: tenant.theme.primary }}
                 >
                   Lihat Kalender →
                 </Link>
@@ -960,8 +1097,17 @@ export function MultiTenantHome() {
                   });
                   return (
                     <Card key={evt.id} className="p-4 flex items-start gap-4">
-                      <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col items-center justify-center shrink-0 text-center">
-                        <span className="text-lg font-extrabold text-royal leading-none">
+                      <div
+                        className="w-14 h-14 rounded-2xl border flex flex-col items-center justify-center shrink-0 text-center"
+                        style={{
+                          backgroundColor: tenant.theme.primaryLight,
+                          borderColor: tenant.theme.borderSubtle,
+                        }}
+                      >
+                        <span
+                          className="text-lg font-extrabold leading-none"
+                          style={{ color: tenant.theme.primary }}
+                        >
                           {dayNum}
                         </span>
                         <span className="text-[10px] font-bold uppercase text-slate-600 mt-1">
@@ -969,7 +1115,10 @@ export function MultiTenantHome() {
                         </span>
                       </div>
                       <div className="min-w-0 flex-1 space-y-1">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-royal">
+                        <span
+                          className="text-[10px] font-extrabold uppercase tracking-wider"
+                          style={{ color: tenant.theme.primary }}
+                        >
                           {evt.category}
                         </span>
                         <h3 className="text-sm font-extrabold text-primary-950 leading-snug">
@@ -982,7 +1131,8 @@ export function MultiTenantHome() {
                           href={buildGoogleCalendarUrl(evt)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] font-bold text-royal hover:underline pt-0.5"
+                          className="inline-flex items-center gap-1 text-[11px] font-bold hover:underline pt-0.5"
+                          style={{ color: tenant.theme.primary }}
                         >
                           <Calendar className="w-3 h-3" />
                           <span>+ Tambah ke Kalender</span>
@@ -1000,11 +1150,19 @@ export function MultiTenantHome() {
       {/* =====================================================================
           GALERI PREVIEW (GRID) + VIDEO PROFIL YOUTUBE LAZY EMBED (5.2.8)
       ===================================================================== */}
-      <section className="py-20 bg-blue-50/40 border-t border-blue-100">
+      <section
+        className="py-20 border-t border-slate-200/80"
+        style={{ backgroundColor: tenant.theme.surface }}
+      >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div className="space-y-2">
-              <Badge variant="blue">Dokumentasi Visual</Badge>
+              <span
+                className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-extrabold text-white shadow-2xs"
+                style={{ backgroundColor: tenant.theme.primary }}
+              >
+                Dokumentasi Visual
+              </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-primary-950">
                 Galeri Kegiatan & Video Profil Kampus
               </h2>
@@ -1014,7 +1172,8 @@ export function MultiTenantHome() {
             </div>
             <Link
               href="/gallery"
-              className="inline-flex items-center gap-2 min-h-[44px] px-5 py-2.5 rounded-2xl bg-white border border-blue-200 text-sm font-bold text-royal hover:bg-blue-50 transition"
+              className="inline-flex items-center gap-2 min-h-[44px] px-5 py-2.5 rounded-2xl bg-white border border-slate-200 text-sm font-bold shadow-2xs hover:bg-slate-50 transition"
+              style={{ color: tenant.theme.primary }}
             >
               <span>Buka Album Foto & Video</span>
               <ArrowRight className="w-4 h-4" />
@@ -1041,7 +1200,10 @@ export function MultiTenantHome() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary-950/90 via-primary-950/30 to-transparent" />
                     <div className="relative z-10 flex flex-col items-center text-center p-6 space-y-4">
-                      <span className="w-20 h-20 rounded-full bg-royal text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+                      <span
+                        className="w-20 h-20 rounded-full text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform"
+                        style={{ backgroundColor: tenant.theme.primary }}
+                      >
                         <Play className="w-8 h-8 fill-current ml-1" />
                       </span>
                       <div>
@@ -1072,7 +1234,7 @@ export function MultiTenantHome() {
                 <Link
                   key={photo.id}
                   href="/gallery"
-                  className="group relative aspect-[4/3] rounded-2xl overflow-hidden border-2 border-white shadow-card bg-blue-50"
+                  className="group relative aspect-[4/3] rounded-2xl overflow-hidden border-2 border-white shadow-card bg-slate-100"
                 >
                   <Image
                     src={photo.image}
@@ -1097,10 +1259,15 @@ export function MultiTenantHome() {
       {/* =====================================================================
           TESTIMONI WALI MURID & ALUMNI (5.1 & 5.2.9)
       ===================================================================== */}
-      <section className="py-20 bg-white border-t border-blue-100">
+      <section className="py-20 bg-white border-t border-slate-200/80">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 space-y-12">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <Badge variant="blue">Suara Keluarga & Alumni</Badge>
+            <span
+              className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-extrabold text-white shadow-2xs"
+              style={{ backgroundColor: tenant.theme.primary }}
+            >
+              Suara Keluarga & Alumni
+            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-primary-950">
               Mengapa Orang Tua Mempercayakan Putra-Putrinya di Dharma Loka?
             </h2>
@@ -1113,13 +1280,22 @@ export function MultiTenantHome() {
             ).map((item) => (
               <Card key={item.id} className="p-7 flex flex-col justify-between space-y-6">
                 <div className="space-y-4">
-                  <Quote className="w-8 h-8 text-royal/30" />
+                  <Quote
+                    className="w-8 h-8"
+                    style={{ color: tenant.theme.primary, opacity: 0.35 }}
+                  />
                   <p className="text-slate-700 text-base leading-relaxed italic">
                     “{item.quote}”
                   </p>
                 </div>
                 <div className="flex items-center gap-3.5 pt-4 border-t border-slate-100">
-                  <div className="relative w-12 h-12 rounded-2xl overflow-hidden bg-blue-100 shrink-0">
+                  <div
+                    className="relative w-12 h-12 rounded-2xl overflow-hidden shrink-0 border"
+                    style={{
+                      backgroundColor: tenant.theme.primaryLight,
+                      borderColor: tenant.theme.borderSubtle,
+                    }}
+                  >
                     <Image
                       src={item.avatar}
                       alt={item.name}
@@ -1132,7 +1308,12 @@ export function MultiTenantHome() {
                     <p className="text-sm font-extrabold text-primary-950">
                       {item.name}
                     </p>
-                    <p className="text-xs font-bold text-royal">{item.role}</p>
+                    <p
+                      className="text-xs font-bold"
+                      style={{ color: tenant.theme.primary }}
+                    >
+                      {item.role}
+                    </p>
                     <p className="text-[11px] text-slate-500">
                       {item.childClassOrGradYear}
                     </p>
@@ -1147,12 +1328,22 @@ export function MultiTenantHome() {
       {/* =====================================================================
           FAQ RINGKAS & CTA BESAR SPMB (5.1 & 5.2.10)
       ===================================================================== */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/50 to-white border-t border-blue-100">
+      <section
+        className="py-20 border-t border-slate-200/80"
+        style={{
+          background: `linear-gradient(to bottom, ${tenant.theme.surface}, #ffffff)`,
+        }}
+      >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 space-y-16">
           {/* FAQ Ringkas */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             <div className="lg:col-span-5 space-y-4">
-              <Badge variant="blue">Tanya Jawab (FAQ)</Badge>
+              <span
+                className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-extrabold text-white shadow-2xs"
+                style={{ backgroundColor: tenant.theme.primary }}
+              >
+                Tanya Jawab (FAQ)
+              </span>
               <h2 className="text-3xl font-extrabold text-primary-950">
                 Pertanyaan yang Sering Diajukan Calon Orang Tua Murid
               </h2>
@@ -1161,7 +1352,8 @@ export function MultiTenantHome() {
               </p>
               <Link
                 href="/admissions"
-                className="inline-flex items-center gap-2 text-sm font-extrabold text-royal pt-2"
+                className="inline-flex items-center gap-2 text-sm font-extrabold hover:underline pt-2"
+                style={{ color: tenant.theme.primary }}
               >
                 <span>Lihat Informasi Lengkap SPMB</span>
                 <ArrowRight className="w-4 h-4" />
@@ -1179,18 +1371,24 @@ export function MultiTenantHome() {
             </div>
           </div>
 
-          {/* Banner CTA Besar SPMB */}
-          <div className="rounded-3xl bg-royal text-white p-8 sm:p-12 lg:p-16 shadow-elevated relative overflow-hidden">
+          {/* Banner CTA Besar SPMB — Mengikuti Warna Khas Jenjang */}
+          <div
+            className="rounded-3xl text-white p-8 sm:p-12 lg:p-16 shadow-elevated relative overflow-hidden transition-all"
+            style={{
+              background: `linear-gradient(135deg, ${tenant.theme.primary} 0%, ${tenant.theme.accent} 100%)`,
+              boxShadow: `0 20px 40px -15px ${tenant.theme.primary}60`,
+            }}
+          >
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-8 space-y-4">
-                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 text-white text-xs font-extrabold">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-xs text-white text-xs font-extrabold">
                   <Sparkles className="w-4 h-4" />
                   {tenant.spmb.activeWave}
                 </span>
-                <h2 className="text-2xl sm:text-4xl font-extrabold leading-tight">
+                <h2 className="text-2xl sm:text-4xl font-extrabold leading-tight text-white">
                   Siap Bergabung Bersama Keluarga Besar {tenant.name}?
                 </h2>
-                <p className="text-blue-100 text-base sm:text-lg max-w-2xl">
+                <p className="text-white/90 text-base sm:text-lg max-w-2xl leading-relaxed">
                   Daftar secara online hanya dalam 6 langkah mudah, pantau status seleksi dari HP Anda, atau jadwalkan kunjungan kampus bersama tim panitia kami.
                 </p>
               </div>
@@ -1198,14 +1396,15 @@ export function MultiTenantHome() {
               <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
                 <Link
                   href="/admissions#daftar"
-                  className="inline-flex items-center justify-center gap-2 min-h-[52px] px-7 py-4 rounded-2xl bg-white hover:bg-blue-50 text-royal font-extrabold text-base shadow-lg transition"
+                  className="inline-flex items-center justify-center gap-2 min-h-[52px] px-7 py-4 rounded-2xl bg-white hover:bg-slate-50 font-extrabold text-base shadow-lg transition hover:scale-[1.02]"
+                  style={{ color: tenant.theme.primary }}
                 >
                   <span>Daftar SPMB Sekarang</span>
                   <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link
                   href="/admissions?tab=status"
-                  className="inline-flex items-center justify-center gap-2 min-h-[48px] px-6 py-3 rounded-2xl bg-royal-dark/60 hover:bg-royal-dark text-white border border-white/25 font-bold text-sm transition"
+                  className="inline-flex items-center justify-center gap-2 min-h-[48px] px-6 py-3 rounded-2xl bg-black/20 hover:bg-black/30 text-white border border-white/30 font-bold text-sm transition"
                 >
                   <span>Cek Status Kelulusan SPMB</span>
                 </Link>
