@@ -108,55 +108,13 @@ export function MultiTenantHome() {
   return (
     <div className="bg-white">
       {/* =====================================================================
-          MULTI-TENANT SUBDOMAIN BAR (Memudahkan perpindahan Portal Induk <-> TK/SD/SMP/SMA)
-      ===================================================================== */}
-      <div className="bg-gradient-to-r from-blue-50 via-white to-blue-50 border-b border-blue-100 py-3 px-4 sm:px-8 lg:px-12">
-        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 text-xs sm:text-sm">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-royal text-white font-extrabold text-xs">
-              <Building2 className="w-3.5 h-3.5" />
-              {isPortal ? "5.1 Portal Induk" : `5.2 Beranda ${tenant.levelCode}`}
-            </span>
-            <span className="text-slate-600 font-medium">
-              Anda sedang melihat tampilan{" "}
-              <strong className="text-primary-950">{tenant.shortName}</strong> (
-              <code className="text-royal font-mono font-bold">
-                {tenant.subdomain}
-              </code>
-              )
-            </span>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-xs font-bold text-slate-500 mr-1">
-              Ganti Tampilan Jenjang:
-            </span>
-            {TENANT_LIST.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setTenantId(item.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition cursor-pointer ${
-                  item.id === tenantId
-                    ? "bg-royal text-white shadow-xs"
-                    : "bg-white hover:bg-blue-50 text-slate-700 border border-blue-200"
-                }`}
-              >
-                {item.id === "portal" ? "Portal Induk" : item.shortName}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* =====================================================================
           BAGIAN 5.1: TAMPILAN PORTAL INDUK (dharmaloka.sch.id)
       ===================================================================== */}
       {isPortal ? (
         <>
           {/* 5.1.A HERO PORTAL INDUK YAYASAN */}
-          <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/70 via-white to-white pt-10 pb-20 lg:pt-16 lg:pb-24 border-b border-blue-100">
-            <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/50 via-white to-white py-14 lg:py-20 border-b border-slate-100">
+            <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div className="lg:col-span-7 space-y-6">
                   <div className="flex flex-wrap items-center gap-2.5">
@@ -167,7 +125,7 @@ export function MultiTenantHome() {
                     <Badge variant="blue">{tenant.accreditation}</Badge>
                   </div>
 
-                  <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-extrabold text-primary-950 leading-[1.14] tracking-tight">
+                  <h1 className="text-3xl sm:text-5xl lg:text-[50px] font-extrabold text-primary-950 leading-[1.18] tracking-tight">
                     {tenant.heroTitle}
                   </h1>
 
@@ -179,29 +137,29 @@ export function MultiTenantHome() {
                   <div className="flex flex-wrap items-center gap-4 pt-2">
                     <a
                       href="#pilih-jenjang"
-                      className="inline-flex items-center justify-center gap-2.5 min-h-[52px] px-7 py-3.5 rounded-2xl bg-royal hover:bg-royal-dark text-white font-extrabold text-base shadow-lg shadow-royal/20 transition-all hover:-translate-y-0.5"
+                      className="inline-flex items-center justify-center gap-2.5 min-h-[50px] px-7 py-3.5 rounded-xl bg-royal hover:bg-royal-dark text-white font-bold text-base shadow-md shadow-royal/15 transition-all hover:-translate-y-0.5"
                     >
                       <span>Pilih Jenjang Pendidikan</span>
                       <ArrowRight className="w-5 h-5" />
                     </a>
                     <Link
                       href="/admissions#daftar"
-                      className="inline-flex items-center justify-center gap-2.5 min-h-[52px] px-7 py-3.5 rounded-2xl bg-white hover:bg-blue-50 text-primary-950 border-2 border-blue-200 font-extrabold text-base transition-all"
+                      className="inline-flex items-center justify-center gap-2.5 min-h-[50px] px-7 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-primary-950 border border-slate-300 font-bold text-base transition-all"
                     >
                       <span>Daftar SPMB Online</span>
                     </Link>
                   </div>
 
                   {/* Ringkasan Keunggulan Yayasan */}
-                  <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-blue-100">
+                  <div className="pt-5 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-slate-200/80">
                     {[
                       "Kurikulum Nasional + Trilingual (ID, EN, ZH)",
                       "Ekosistem Terpadu TK, SD, SMP & SMA",
-                      "Pendidikan Karakter & Mindfulness Harian",
+                      "Pendidikan Karakter & Budi Pekerti",
                     ].map((point) => (
                       <div key={point} className="flex items-start gap-2">
                         <CheckCircle2 className="w-4 h-4 text-royal shrink-0 mt-1" />
-                        <span className="text-xs sm:text-sm font-semibold text-slate-700">
+                        <span className="text-xs sm:text-sm font-medium text-slate-700">
                           {point}
                         </span>
                       </div>
@@ -211,7 +169,7 @@ export function MultiTenantHome() {
 
                 {/* Visual Kampus Portal Induk */}
                 <div className="lg:col-span-5">
-                  <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-elevated bg-blue-50 aspect-[4/3]">
+                  <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-elevated bg-blue-50 aspect-[4/3]">
                     <Image
                       src={activeSlide.image}
                       alt={activeSlide.title}
@@ -220,15 +178,15 @@ export function MultiTenantHome() {
                       sizes="(max-width: 1024px) 100vw, 45vw"
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary-950/80 via-primary-950/20 to-transparent" />
-                    <div className="absolute bottom-5 left-5 right-5 text-white">
-                      <span className="inline-block px-3 py-1 rounded-full bg-royal text-xs font-bold mb-2">
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary-950/90 via-primary-950/30 to-transparent" />
+                    <div className="absolute bottom-6 left-6 right-6 text-white">
+                      <span className="inline-block px-3 py-1 rounded-full bg-royal text-xs font-bold mb-2.5">
                         {activeSlide.badge}
                       </span>
-                      <p className="text-lg font-extrabold leading-snug">
+                      <p className="text-base sm:text-lg font-extrabold leading-snug">
                         {activeSlide.title}
                       </p>
-                      <p className="text-xs text-blue-100 mt-1">
+                      <p className="text-xs text-blue-100 mt-1.5 line-clamp-2">
                         {activeSlide.caption}
                       </p>
                     </div>
