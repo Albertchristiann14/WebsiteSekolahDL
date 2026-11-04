@@ -91,9 +91,9 @@ export function MultiTenantHome() {
   const filteredAchievements = isPortal
     ? dynamicAchievements
     : dynamicAchievements.filter((a) => {
-        const lvl = (a.level || a.academic_level || "").toLowerCase();
-        return !lvl || lvl.includes(tenantId) || lvl === "umum";
-      });
+      const lvl = (a.level || a.academic_level || "").toLowerCase();
+      return !lvl || lvl.includes(tenantId) || lvl === "umum";
+    });
   const displayAchievements =
     filteredAchievements.length > 0
       ? filteredAchievements
@@ -1038,13 +1038,13 @@ export function MultiTenantHome() {
                           {item.date ||
                             (item.published_at
                               ? new Date(item.published_at).toLocaleDateString(
-                                  "id-ID",
-                                  {
-                                    day: "numeric",
-                                    month: "long",
-                                    year: "numeric",
-                                  }
-                                )
+                                "id-ID",
+                                {
+                                  day: "numeric",
+                                  month: "long",
+                                  year: "numeric",
+                                }
+                              )
                               : "Terbaru")}
                         </p>
                         <h3 className="text-base font-extrabold text-primary-950 line-clamp-2 transition-colors">

@@ -304,6 +304,71 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
+        {/* Card 4: Konfigurasi Kunci Integrasi Gateway API (5.5) */}
+        <div className="p-6 bg-white border border-blue-100 rounded-2xl space-y-4 shadow-sm">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <ShieldCheck className="w-5 h-5 text-royal" />
+            <div>
+              <h3 className="text-base font-extrabold text-primary-950">
+                Kunci Integrasi Layanan (WhatsApp, Midtrans, SMTP)
+              </h3>
+              <p className="text-xs text-slate-500">
+                Kredensial gateway pihak ketiga untuk pengiriman notifikasi otomatis dan pembayaran
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                WhatsApp Gateway API Token (Fonnte / Wablas)
+              </label>
+              <input
+                type="password"
+                value={settings.whatsapp_api_token || "fonnte_live_token_77a91bc901e"}
+                onChange={(e) => handleChange("whatsapp_api_token", e.target.value)}
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                Midtrans Server Key (Production / Sandbox)
+              </label>
+              <input
+                type="password"
+                value={settings.midtrans_server_key || "SB-Mid-server-88xZaQ10LpO9"}
+                onChange={(e) => handleChange("midtrans_server_key", e.target.value)}
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                SMTP Server Host & Port
+              </label>
+              <input
+                type="text"
+                value={settings.smtp_host || "smtp.gmail.com:587"}
+                onChange={(e) => handleChange("smtp_host", e.target.value)}
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                Alamat Webhook Notifikasi
+              </label>
+              <input
+                type="text"
+                readOnly
+                value="https://dharmaloka.sch.id/api/webhooks/payments"
+                className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-xs font-mono text-slate-600 cursor-not-allowed"
+              />
+            </div>
+          </div>
+        </div>
+
       </form>
     </AdminLayout>
   );
