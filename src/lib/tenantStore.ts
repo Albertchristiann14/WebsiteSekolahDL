@@ -103,3 +103,4 @@ export const TenantStore = {
     return TENANTS[tenantId] || TENANTS.portal;
   },
 };
+

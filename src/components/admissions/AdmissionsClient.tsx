@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   CheckCircle2,
   Clock,
@@ -45,6 +46,7 @@ import {
   Toast,
 } from "@/components/ui/DesignSystem";
 import { publicApi } from "@/lib/api";
+import { SecurityUtils } from "@/lib/security";
 
 const DRAFT_STORAGE_KEY = "dl_spmb_draft_v2";
 
@@ -414,12 +416,30 @@ export function AdmissionsClient() {
   };
 
   const handleSubmitFinalSpmb = async () => {
+    // 1. Cek Honeypot Anti-Bot (OWASP)
+    const honeypotVal = (document.getElementById("website_url_hp") as HTMLInputElement)?.value;
+    if (honeypotVal) {
+      setSubmittingSpmb(false);
+      return;
+    }
+
+    // 2. Cek Persetujuan Kebenaran Data
     if (!form.statementAgreed) {
       setStepError(
         "Harap centang pernyataan kebenaran data sebelum mengirim pendaftaran."
       );
       return;
     }
+
+    // 3. Cek Persetujuan Eksplisit UU PDP
+    const pdpConsent = (document.getElementById("pdp_consent_checkbox") as HTMLInputElement)?.checked;
+    if (!pdpConsent) {
+      setStepError(
+        "Harap centang persetujuan pemrosesan data pribadi spesifik anak sesuai ketentuan UU PDP No. 27/2022."
+      );
+      return;
+    }
+
     setStepError(null);
     setSubmittingSpmb(true);
 
@@ -1605,9 +1625,9 @@ export function AdmissionsClient() {
                       </strong>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">NIK / NISN:</span>
+                      <span className="text-slate-500 block">NIK / NISN (Tersamarkan):</span>
                       <strong className="font-mono text-primary-950">
-                        {form.nik} / {form.nisn || "-"}
+                        {SecurityUtils.maskIdentifier(form.nik)} / {form.nisn ? SecurityUtils.maskIdentifier(form.nisn, 3, 2) : "-"}
                       </strong>
                     </div>
                     <div>
@@ -1636,7 +1656,19 @@ export function AdmissionsClient() {
                     </div>
                   </div>
 
-                  <label className="flex items-start gap-3 p-4 rounded-2xl bg-amber-50/70 border border-amber-200 cursor-pointer">
+                  {/* Honeypot Field untuk Anti-Bot (OWASP A04) */}
+                  <input
+                    type="text"
+                    name="website_url_hp"
+                    id="website_url_hp"
+                    className="hidden"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
+
+                  {/* Checkbox 1: Pernyataan Keabsahan Data */}
+                  <label className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={form.statementAgreed}
@@ -1647,6 +1679,28 @@ export function AdmissionsClient() {
                     />
                     <span className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
                       Saya menyatakan bahwa seluruh data dan berkas dokumen yang diunggah adalah benar dan dapat dipertanggungjawabkan sesuai ketentuan Penerimaan Peserta Didik Baru (SPMB) Sekolah Dharma Loka Pekanbaru.
+                    </span>
+                  </label>
+
+                  {/* Checkbox 2: Persetujuan Eksplisit Pemrosesan Data Pribadi Anak (UU PDP No. 27/2022) */}
+                  <label className="flex items-start gap-3 p-4 rounded-2xl bg-blue-50/80 border border-blue-200 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      id="pdp_consent_checkbox"
+                      defaultChecked={false}
+                      required
+                      className="mt-1 w-4 h-4 accent-royal"
+                    />
+                    <span className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
+                      Saya selaku orang tua / wali murid sah memberikan persetujuan eksplisit kepada Yayasan Pendidikan Dharma Loka untuk memproses, memverifikasi, dan mengamankan data pribadi spesifik anak saya (NIK, No. KK, Akta Lahir) sesuai dengan{" "}
+                      <Link
+                        href="/privacy"
+                        target="_blank"
+                        className="text-royal font-bold underline hover:text-royal-dark inline-flex items-center gap-0.5"
+                      >
+                        Kebijakan Privasi & UU PDP No. 27/2022 ↗
+                      </Link>
+                      . Persetujuan ini dicatat bersama stempel waktu digital.
                     </span>
                   </label>
                 </div>
