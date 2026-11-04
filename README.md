@@ -1,6 +1,25 @@
-# Sekolah Dharma Loka Pekanbaru — Premium School Profile Website
+# Sekolah Dharma Loka Pekanbaru — Premium School Profile & Admin CMS
 
-Website profil resmi dan portal penerimaan peserta didik baru (PPDB) untuk **Sekolah Dharma Loka Pekanbaru**, dirancang dan dikembangkan dengan standar estetika institusi pendidikan premium oleh **Krevia Digital**.
+Website profil resmi dan portal penerimaan peserta didik baru (PPDB) untuk **Sekolah Dharma Loka Pekanbaru**, dirancang dan dikembangkan dengan standar estetika institusi pendidikan premium serta sistem backend terintegrasi oleh **Krevia Digital**.
+
+> 📖 **Dokumentasi Lengkap:** Silakan baca [PROJECT_DOCUMENTATION.md](file:///d:/Perkuliahan/Krevia/Portofolio/Sekolah/PROJECT_DOCUMENTATION.md) untuk rincian arsitektur, ERD basis data, endpoint API, dan panduan teknis mendalam.  
+> ⚡ **Panduan Menjalankan:** Silakan baca [README_RUN.md](file:///d:/Perkuliahan/Krevia/Portofolio/Sekolah/README_RUN.md) atau jalankan `start-dev.bat`.
+
+---
+
+## ⚡ Cara Menjalankan Cepat (1-Klik)
+
+1. Pastikan **Laragon** (MySQL) aktif.
+2. Klik ganda berkas **`start-dev.bat`** di folder proyek.
+3. Buka di browser:
+   - **Situs Publik:** [http://localhost:3000](http://localhost:3000)
+   - **Portal Admin CMS:** [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
+   - **Backend REST API:** [http://127.0.0.1:8000/api](http://127.0.0.1:8000/api)
+
+### Akun Demo Staf Admin:
+- **Super Admin:** `superadmin@dharmaloka.sch.id` | Sandi: `DharmaLoka@2026!`
+- **School Admin:** `admin@dharmaloka.sch.id` | Sandi: `DharmaLoka@2026!`
+- **Editor:** `editor@dharmaloka.sch.id` | Sandi: `DharmaLoka@2026!`
 
 ---
 
