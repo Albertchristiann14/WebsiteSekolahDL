@@ -9,13 +9,14 @@ import {
   ChevronDown,
   GraduationCap,
   ArrowRight,
-  ShieldCheck,
   MessageCircle,
   Phone,
   Award,
+  Lock,
+  Building,
 } from "lucide-react";
 import { useTenant } from "@/lib/tenantContext";
-import { TENANT_LIST, TenantId } from "@/config/tenants";
+import { UNIT_TENANTS, TenantId } from "@/config/tenants";
 
 const profileLinks = [
   { name: "Sambutan Kepala Sekolah", href: "/about#sambutan", desc: "Pesan & komitmen pimpinan sekolah" },
@@ -38,7 +39,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<"profil" | "akademik" | null>(null);
   const pathname = usePathname();
-  const { tenant, tenantId, setTenantId } = useTenant();
+  const { tenant, tenantId, navigateToTenant } = useTenant();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -51,7 +52,7 @@ export function Navbar() {
     setOpenDropdown(null);
   }, [pathname]);
 
-  // Jangan tampilkan Navbar publik di halaman Admin CMS atau di halaman Portal Utama (Gateway)
+  // Sembunyikan Navbar jika sedang di /admin atau di Halaman Pusat Gateway (/)
   if (pathname?.startsWith("/admin") || (pathname === "/" && tenantId === "portal")) {
     return null;
   }
@@ -59,12 +60,6 @@ export function Navbar() {
   const whatsappUrl = `https://wa.me/${tenant.contact.whatsapp}?text=${encodeURIComponent(
     tenant.contact.whatsappDefaultText
   )}`;
-
-  const handleSelectTenant = (id: TenantId) => {
-    setTenantId(id);
-    setOpenDropdown(null);
-    setMobileMenuOpen(false);
-  };
 
   return (
     <header
@@ -74,34 +69,49 @@ export function Navbar() {
           : "bg-white border-b border-slate-200/70"
       }`}
     >
-      {/* Top Bar: Pilih Jenjang & Informasi Singkat */}
+      {/* Top Bar: Navigasi Pusat, Unit Jenjang, & Kontak */}
       <div className="bg-slate-50 border-b border-slate-200/60 text-xs text-slate-600">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between gap-4">
-          {/* Kiri: Pilihan Unit Jenjang Sekolah */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-            <span className="hidden sm:inline font-semibold text-slate-500 mr-1 whitespace-nowrap">
-              Unit Pendidikan:
+          {/* Kiri: Tombol JELAS Kembali ke Halaman Pusat + Pemilih Unit Jenjang */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+            <button
+              type="button"
+              onClick={() => navigateToTenant("portal")}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 hover:bg-royal hover:text-white text-royal font-extrabold text-xs transition-colors cursor-pointer shrink-0 shadow-2xs"
+              title="Kembali ke Halaman Gerbang Utama (Yayasan Pendidikan Panca Dharma)"
+            >
+              <Building className="w-3.5 h-3.5" />
+              <span>Halaman Pusat Yayasan</span>
+            </button>
+
+            <span className="hidden sm:inline font-semibold text-slate-400 mx-0.5">|</span>
+            <span className="hidden sm:inline font-semibold text-slate-500 mr-0.5 whitespace-nowrap">
+              Unit:
             </span>
-            {TENANT_LIST.map((item) => {
-              const active = item.id === tenantId;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => handleSelectTenant(item.id)}
-                  className={`px-3 py-1 rounded-full font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
-                    active
-                      ? "bg-royal text-white shadow-xs"
-                      : "text-slate-600 hover:bg-slate-200/70 hover:text-primary-950"
-                  }`}
-                >
-                  {item.id === "portal" ? "← Portal Utama" : item.levelCode}
-                </button>
-              );
-            })}
+
+            <div className="flex items-center gap-1">
+              {UNIT_TENANTS.map((item) => {
+                const active = item.id === tenantId;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => navigateToTenant(item.id)}
+                    className={`px-2.5 py-1 rounded-full font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
+                      active
+                        ? "bg-royal text-white shadow-xs"
+                        : "text-slate-600 hover:bg-slate-200/70 hover:text-primary-950"
+                    }`}
+                    title={`Pindah ke ${item.shortName}`}
+                  >
+                    {item.levelCode}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Kanan: Info Akreditasi, Telepon & Akses Admin */}
+          {/* Kanan: Akreditasi, Telepon, & Akses Login Khusus Guru / Staf */}
           <div className="flex items-center gap-4 shrink-0 whitespace-nowrap">
             <span className="hidden md:inline-flex items-center gap-1.5 text-slate-600 font-medium">
               <Award className="w-3.5 h-3.5 text-amber-500" />
@@ -117,42 +127,55 @@ export function Navbar() {
             <div className="hidden md:block w-px h-3.5 bg-slate-300" />
             <Link
               href="/admin"
-              className="inline-flex items-center gap-1.5 text-slate-600 hover:text-royal font-semibold transition-colors"
+              className="inline-flex items-center gap-1.5 text-slate-500 hover:text-royal font-semibold transition-colors text-xs"
+              title="Akses Sistem Administrasi & Manajemen CMS (Khusus Guru & Staf)"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-royal" />
-              <span>Portal Admin</span>
+              <Lock className="w-3.5 h-3.5 text-slate-400" />
+              <span>Login Staf Guru</span>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Main Bar: Logo, Navigasi Utama & Tombol Pendaftaran */}
+      {/* Main Bar: Logo Unit, Navigasi Halaman & Tombol Aksi */}
       <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-6">
-          {/* 1. Brand Logo (Kiri) */}
-          <Link
-            href="/"
-            className="flex items-center gap-3.5 group focus:outline-none shrink-0"
-          >
-            <div
-              className="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105 shrink-0"
+          {/* 1. Brand Logo Unit Sekolah */}
+          <div className="flex items-center gap-3.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => navigateToTenant(tenantId === "portal" ? "portal" : tenantId)}
+              className="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-sm transition-transform hover:scale-105 shrink-0 cursor-pointer"
               style={{ backgroundColor: tenant.theme.primary }}
+              title={tenant.name}
             >
               <GraduationCap className="w-6 h-6" />
-            </div>
+            </button>
             <div className="flex flex-col whitespace-nowrap">
-              <span className="font-extrabold text-lg tracking-tight text-primary-950 leading-tight">
-                {tenant.id === "portal" ? "Sekolah Dharma Loka" : tenant.shortName}
-              </span>
-              <span className="text-xs font-medium text-slate-500">
-                {tenant.id === "portal"
-                  ? "TK • SD • SMP • SMA — Pekanbaru"
-                  : `${tenant.name} • Pekanbaru`}
-              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => navigateToTenant(tenantId === "portal" ? "portal" : tenantId)}
+                  className="font-extrabold text-lg tracking-tight text-primary-950 leading-tight hover:text-royal text-left cursor-pointer"
+                >
+                  {tenant.shortName}
+                </button>
+                <span className="px-2 py-0.5 rounded-md bg-blue-50 text-royal border border-blue-200 text-[10px] font-extrabold uppercase">
+                  {tenant.levelCode}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => navigateToTenant("portal")}
+                className="text-[11px] font-semibold text-royal hover:underline text-left inline-flex items-center gap-1 cursor-pointer pt-0.5"
+                title="Klik untuk kembali ke Halaman Pusat Yayasan"
+              >
+                <span>← Kembali ke Halaman Pusat</span>
+              </button>
             </div>
-          </Link>
+          </div>
 
-          {/* 2. Navigasi Desktop (Tengah - Semua 1 Baris & Lega) */}
+          {/* 2. Navigasi Desktop */}
           <nav
             className="hidden lg:flex items-center gap-1 xl:gap-2"
             aria-label="Navigasi Utama"
@@ -318,9 +341,8 @@ export function Navbar() {
             </Link>
           </nav>
 
-          {/* 3. Tombol Aksi Kanan (Rapi, Satu Baris, Tidak Sempit) */}
+          {/* 3. Tombol Aksi Kanan */}
           <div className="flex items-center gap-2.5 shrink-0">
-            {/* Tombol Konsultasi WA */}
             <a
               href={whatsappUrl}
               target="_blank"
@@ -332,7 +354,6 @@ export function Navbar() {
               <MessageCircle className="w-5 h-5" />
             </a>
 
-            {/* Tombol Utama: Daftar SPMB */}
             <Link
               href="/admissions"
               className="inline-flex items-center justify-center gap-2 h-11 px-5 text-sm font-bold text-white bg-royal hover:bg-royal-dark rounded-xl transition-all shadow-sm whitespace-nowrap"
@@ -341,7 +362,7 @@ export function Navbar() {
               <ArrowRight className="w-4 h-4 hidden sm:inline" />
             </Link>
 
-            {/* Tombol Menu Mobile */}
+            {/* Hamburger Mobile */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -359,29 +380,37 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Menu Layar Penuh untuk Mobile & Tablet */}
+      {/* Menu Layar Penuh untuk Mobile */}
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-x-0 top-[120px] bottom-0 bg-white z-50 overflow-y-auto border-t border-slate-200 px-5 py-6 space-y-6">
-          {/* Pemilih Jenjang di Mobile */}
+          {/* Tombol Utama: Kembali ke Halaman Pusat di Mobile */}
+          <button
+            type="button"
+            onClick={() => navigateToTenant("portal")}
+            className="w-full flex items-center justify-center gap-2.5 h-12 rounded-xl bg-blue-100 text-royal font-extrabold text-sm border border-blue-200 shadow-2xs"
+          >
+            <Building className="w-4 h-4" />
+            <span>🏛️ Kembali ke Halaman Pusat (Yayasan)</span>
+          </button>
+
+          {/* Pemilih Unit di Mobile */}
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
-              Pilih Unit Jenjang Pendidikan
+              Pilih Unit Jenjang Sekolah:
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {TENANT_LIST.map((item) => (
+              {UNIT_TENANTS.map((item) => (
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => handleSelectTenant(item.id)}
+                  onClick={() => navigateToTenant(item.id)}
                   className={`px-3.5 py-2.5 rounded-xl text-xs font-bold text-left border transition ${
                     item.id === tenantId
                       ? "bg-royal text-white border-royal"
                       : "bg-white text-primary-950 border-slate-200"
                   }`}
                 >
-                  <span className="block font-extrabold">
-                    {item.id === "portal" ? "← Portal Utama" : item.levelCode}
-                  </span>
+                  <span className="block font-extrabold">{item.levelCode}</span>
                   <span
                     className={`block text-[11px] truncate ${
                       item.id === tenantId ? "text-blue-100" : "text-slate-500"
@@ -432,15 +461,13 @@ export function Navbar() {
               <span>Daftar SPMB Sekarang</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-sm"
+            <Link
+              href="/admin"
+              className="flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-slate-100 text-slate-700 border border-slate-200 font-semibold text-xs"
             >
-              <MessageCircle className="w-4 h-4" />
-              <span>Tanya via WhatsApp</span>
-            </a>
+              <Lock className="w-3.5 h-3.5 text-slate-500" />
+              <span>Login Guru & Staf (Admin)</span>
+            </Link>
           </div>
         </div>
       )}

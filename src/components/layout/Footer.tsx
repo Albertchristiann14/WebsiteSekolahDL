@@ -12,6 +12,7 @@ import {
   ArrowUpRight,
   ShieldCheck,
   Globe,
+  Lock,
 } from "lucide-react";
 import { useTenant } from "@/lib/tenantContext";
 import { TENANT_LIST } from "@/config/tenants";
@@ -19,7 +20,7 @@ import { schoolInfo } from "@/data/schoolInfo";
 
 export function Footer() {
   const pathname = usePathname();
-  const { tenant, setTenantId } = useTenant();
+  const { tenant, navigateToTenant } = useTenant();
   const currentYear = new Date().getFullYear();
 
   if (pathname?.startsWith("/admin") || (pathname === "/" && tenant.id === "portal")) {
@@ -129,14 +130,13 @@ export function Footer() {
                   <button
                     type="button"
                     onClick={() => {
-                      setTenantId(item.id);
-                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      navigateToTenant(item.id);
                     }}
                     className="w-full text-left p-2.5 rounded-xl bg-white hover:bg-blue-50 border border-blue-100 transition group cursor-pointer flex items-center justify-between"
                   >
                     <div>
                       <span className="text-xs font-extrabold text-primary-950 group-hover:text-royal block">
-                        {item.shortName}
+                        {item.id === "portal" ? "🏛️ Halaman Pusat (Yayasan)" : item.shortName}
                       </span>
                       <span className="text-[11px] font-mono text-slate-500">
                         https://{item.subdomain}
@@ -207,10 +207,11 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-5">
             <Link
               href="/admin"
-              className="inline-flex items-center gap-1.5 text-royal hover:text-royal-dark font-bold transition-colors"
+              className="inline-flex items-center gap-1.5 text-slate-500 hover:text-royal font-semibold transition-colors"
+              title="Akses Sistem Administrasi Guru & Staf"
             >
-              <ShieldCheck className="w-4 h-4" />
-              <span>Portal Admin CMS</span>
+              <Lock className="w-3.5 h-3.5" />
+              <span>Login Staf Guru (Admin)</span>
             </Link>
             <Link
               href="/admissions"

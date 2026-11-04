@@ -42,7 +42,7 @@ import { publicApi } from "@/lib/api";
 import { PancaDharmaGateway } from "./PancaDharmaGateway";
 
 export function MultiTenantHome() {
-  const { tenant, tenantId, setTenantId, isPortal } = useTenant();
+  const { tenant, tenantId, setTenantId, navigateToTenant, isPortal } = useTenant();
   const [slideIndex, setSlideIndex] = useState(0);
   const [achievementIndex, setAchievementIndex] = useState(0);
   const [youtubePlaying, setYoutubePlaying] = useState(false);
@@ -107,7 +107,7 @@ export function MultiTenantHome() {
     }).format(num);
 
   if (isPortal) {
-    return <PancaDharmaGateway onSelectUnit={(unit) => setTenantId(unit)} />;
+    return <PancaDharmaGateway onSelectUnit={(unit) => navigateToTenant(unit)} />;
   }
 
   return (
@@ -280,8 +280,7 @@ export function MultiTenantHome() {
                       <button
                         type="button"
                         onClick={() => {
-                          setTenantId(unit.id);
-                          window.scrollTo({ top: 0, behavior: "smooth" });
+                          navigateToTenant(unit.id);
                         }}
                         className="w-full min-h-[44px] px-4 py-2.5 rounded-2xl bg-royal hover:bg-royal-dark text-white text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition cursor-pointer shadow-sm"
                       >
@@ -349,10 +348,10 @@ export function MultiTenantHome() {
                     </Link>
                     <button
                       type="button"
-                      onClick={() => setTenantId("portal")}
+                      onClick={() => navigateToTenant("portal")}
                       className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-royal cursor-pointer"
                     >
-                      ← Kembali ke Portal Induk Yayasan
+                      ← Kembali ke Halaman Pusat Yayasan
                     </button>
                   </div>
                 </div>

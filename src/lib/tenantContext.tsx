@@ -6,12 +6,14 @@ import {
   TenantConfig,
   TenantId,
   resolveTenantId,
+  getTenantUrl,
 } from "@/config/tenants";
 
 interface TenantContextValue {
   tenantId: TenantId;
   tenant: TenantConfig;
   setTenantId: (id: TenantId) => void;
+  navigateToTenant: (id: TenantId) => void;
   isPortal: boolean;
 }
 
@@ -19,6 +21,7 @@ const TenantContext = createContext<TenantContextValue>({
   tenantId: "portal",
   tenant: TENANTS.portal,
   setTenantId: () => {},
+  navigateToTenant: () => {},
   isPortal: true,
 });
 
@@ -43,28 +46,54 @@ export function TenantProvider({
     const params = new URLSearchParams(window.location.search);
     const queryJenjang = params.get("jenjang");
     const hostTenant = resolveTenantId(window.location.hostname, null);
-    const savedCookie = getCookie("dl_tenant");
-    const savedStorage = window.localStorage.getItem("dl_tenant");
+    const isRootHomepage = window.location.pathname === "/" && hostTenant === "portal";
 
     if (queryJenjang && queryJenjang in TENANTS) {
       const resolved = queryJenjang as TenantId;
       setTenantIdState(resolved);
-      window.localStorage.setItem("dl_tenant", resolved);
-      document.cookie = `dl_tenant=${resolved}; path=/; max-age=2592000; SameSite=Lax`;
+      if (resolved === "portal") {
+        window.localStorage.removeItem("dl_tenant");
+        document.cookie = "dl_tenant=; path=/; max-age=0; SameSite=Lax";
+      } else {
+        window.localStorage.setItem("dl_tenant", resolved);
+        document.cookie = `dl_tenant=${resolved}; path=/; max-age=2592000; SameSite=Lax`;
+      }
     } else if (hostTenant !== "portal") {
       setTenantIdState(hostTenant);
-    } else if (savedCookie && savedCookie in TENANTS) {
-      setTenantIdState(savedCookie as TenantId);
-    } else if (savedStorage && savedStorage in TENANTS) {
-      setTenantIdState(savedStorage as TenantId);
+    } else if (isRootHomepage) {
+      // Pada homepage domain utama tanpa ?jenjang, selalu kembalikan ke Halaman Pusat (Gateway)
+      setTenantIdState("portal");
+      window.localStorage.removeItem("dl_tenant");
+      document.cookie = "dl_tenant=; path=/; max-age=0; SameSite=Lax";
+    } else {
+      const savedCookie = getCookie("dl_tenant");
+      const savedStorage = window.localStorage.getItem("dl_tenant");
+      if (savedCookie && savedCookie in TENANTS) {
+        setTenantIdState(savedCookie as TenantId);
+      } else if (savedStorage && savedStorage in TENANTS) {
+        setTenantIdState(savedStorage as TenantId);
+      }
     }
   }, []);
 
   const setTenantId = (id: TenantId) => {
     setTenantIdState(id);
     if (typeof window !== "undefined") {
-      window.localStorage.setItem("dl_tenant", id);
-      document.cookie = `dl_tenant=${id}; path=/; max-age=2592000; SameSite=Lax`;
+      if (id === "portal") {
+        window.localStorage.removeItem("dl_tenant");
+        document.cookie = "dl_tenant=; path=/; max-age=0; SameSite=Lax";
+      } else {
+        window.localStorage.setItem("dl_tenant", id);
+        document.cookie = `dl_tenant=${id}; path=/; max-age=2592000; SameSite=Lax`;
+      }
+    }
+  };
+
+  const navigateToTenant = (id: TenantId) => {
+    setTenantId(id);
+    if (typeof window !== "undefined") {
+      const targetUrl = getTenantUrl(id);
+      window.location.href = targetUrl;
     }
   };
 
@@ -88,6 +117,7 @@ export function TenantProvider({
         tenantId,
         tenant,
         setTenantId,
+        navigateToTenant,
         isPortal: tenantId === "portal",
       }}
     >

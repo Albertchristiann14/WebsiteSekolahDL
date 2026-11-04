@@ -1035,3 +1035,39 @@ export function getTenantConfig(tenantId?: string | null): TenantConfig {
   return TENANTS.portal;
 }
 
+/**
+ * Membangun URL absolut atau relatif untuk berpindah antar-jenjang dan kembali ke Halaman Pusat.
+ * Mendukung localhost dan subdomain riil (tk/sd/smp/sma/smk.dharmaloka.sch.id).
+ */
+export function getTenantUrl(targetId: TenantId): string {
+  if (typeof window === "undefined") {
+    return targetId === "portal" ? "/?jenjang=portal" : `/?jenjang=${targetId}`;
+  }
+
+  const { hostname, port, protocol } = window.location;
+  const isLocalhost =
+    hostname === "localhost" ||
+    hostname.endsWith(".localhost") ||
+    hostname === "127.0.0.1";
+
+  const rootDomain =
+    process.env.NEXT_PUBLIC_ROOT_DOMAIN || "dharmaloka.sch.id";
+
+  if (targetId === "portal") {
+    if (isLocalhost) {
+      const portStr = port ? `:${port}` : "";
+      return `${protocol}//localhost${portStr}/?jenjang=portal`;
+    }
+    return `${protocol}//${rootDomain}/?jenjang=portal`;
+  }
+
+  if (isLocalhost) {
+    const portStr = port ? `:${port}` : "";
+    return `${protocol}//localhost${portStr}/?jenjang=${targetId}`;
+  }
+
+  const targetConfig = TENANTS[targetId];
+  return `${protocol}//${targetConfig?.subdomain || `${targetId}.${rootDomain}`}/`;
+}
+
+

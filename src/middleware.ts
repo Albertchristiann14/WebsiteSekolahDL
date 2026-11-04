@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { resolveTenantId, TenantId } from "@/config/tenants";
+import { resolveTenantId, TenantId, TENANTS } from "@/config/tenants";
 
 /**
  * Multi-Tenant Middleware untuk Sekolah Dharma Loka Pekanbaru
@@ -22,16 +22,27 @@ export function middleware(request: NextRequest) {
   const queryJenjang = searchParams.get("jenjang");
   const cookieJenjang = request.cookies.get("dl_tenant")?.value;
 
-  // Prioritas: 1. Query param (?jenjang=sd) -> 2. Subdomain (sd.dharmaloka.sch.id) -> 3. Cookie (dl_tenant) -> 4. Portal Induk
+  // Prioritas deteksi tenant:
+  // 1. Query param (?jenjang=sd atau ?jenjang=portal) selalu menang
+  // 2. Subdomain spesifik (mis. sd.dharmaloka.sch.id / sd.localhost)
+  // 3. Jika mengakses homepage "/" pada root domain, selalu buka Halaman Pusat (portal gateway)
+  // 4. Jika di subpage (mis. /about), baca cookie dl_tenant
   const hostTenant = resolveTenantId(host, null);
   let activeTenant: TenantId = "portal";
 
-  if (queryJenjang) {
-    activeTenant = resolveTenantId(host, queryJenjang);
+  if (queryJenjang && queryJenjang in TENANTS) {
+    activeTenant = queryJenjang as TenantId;
   } else if (hostTenant !== "portal") {
     activeTenant = hostTenant;
-  } else if (cookieJenjang) {
-    activeTenant = resolveTenantId(host, cookieJenjang);
+  } else if (pathname === "/") {
+    activeTenant = "portal";
+  } else {
+    const cookieJenjang = request.cookies.get("dl_tenant")?.value;
+    if (cookieJenjang && cookieJenjang in TENANTS) {
+      activeTenant = cookieJenjang as TenantId;
+    } else {
+      activeTenant = "portal";
+    }
   }
 
   const requestHeaders = new Headers(request.headers);
@@ -46,12 +57,19 @@ export function middleware(request: NextRequest) {
 
   response.headers.set("x-tenant-id", activeTenant);
 
+  // Bersihkan atau perbarui cookie sesuai kondisi
   if (queryJenjang) {
-    response.cookies.set("dl_tenant", activeTenant, {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 30, // 30 hari
-      sameSite: "lax",
-    });
+    if (queryJenjang === "portal") {
+      response.cookies.delete("dl_tenant");
+    } else {
+      response.cookies.set("dl_tenant", activeTenant, {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 30, // 30 hari
+        sameSite: "lax",
+      });
+    }
+  } else if (pathname === "/" && hostTenant === "portal") {
+    response.cookies.delete("dl_tenant");
   }
 
   return response;

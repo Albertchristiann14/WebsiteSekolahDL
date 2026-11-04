@@ -223,11 +223,11 @@ function LoginFormContent() {
 
           <div className="mt-6 text-center">
             <Link
-              href="/"
+              href="/?jenjang=portal"
               className="text-sm font-bold text-slate-600 hover:text-royal transition inline-flex items-center gap-1.5"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Kembali ke Beranda Website Sekolah</span>
+              <span>Kembali ke Halaman Pusat Yayasan</span>
             </Link>
           </div>
         </div>

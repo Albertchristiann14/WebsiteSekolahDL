@@ -264,12 +264,12 @@ export function AdminLayout({
         {/* Footer Actions */}
         <div className="p-4 border-t border-blue-100 bg-slate-50/60 space-y-2">
           <Link
-            href="/"
+            href="/?jenjang=portal"
             className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-royal hover:bg-white border border-transparent hover:border-blue-100 transition-all"
           >
             <span className="flex items-center gap-2">
               <ExternalLink className="w-4 h-4 text-royal" />
-              Kembali ke Situs Publik
+              Kembali ke Halaman Pusat
             </span>
             <ChevronRight className="w-4 h-4 text-slate-400" />
           </Link>
