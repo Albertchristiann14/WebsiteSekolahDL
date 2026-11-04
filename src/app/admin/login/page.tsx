@@ -24,8 +24,8 @@ function LoginFormContent() {
   const searchParams = useSearchParams();
   const { user, login } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("superadmin@dharmaloka.sch.id");
+  const [password, setPassword] = useState("DharmaLoka@2026!");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -36,7 +36,7 @@ function LoginFormContent() {
     }
 
     if (searchParams?.get("expired")) {
-      setErrorMessage("Sesi login Anda telah berakhir. Silakan masuk kembali.");
+      setErrorMessage("Sesi login Anda telah berakhir atau belum terautentikasi. Silakan klik Masuk di bawah.");
     }
   }, [user, router, searchParams]);
 
@@ -63,10 +63,24 @@ function LoginFormContent() {
     }
   };
 
-  const handleQuickFill = (demoEmail: string) => {
+  const handleQuickFillAndLogin = async (demoEmail: string, demoPass: string = "DharmaLoka@2026!") => {
     setEmail(demoEmail);
-    setPassword("DharmaLoka@2026!");
+    setPassword(demoPass);
     setErrorMessage("");
+    setLoading(true);
+
+    try {
+      const res = await adminApi.login({ email: demoEmail, password: demoPass });
+      if (res.status === 200 && res.data?.token) {
+        login(res.data.token, res.data.user);
+      } else {
+        setErrorMessage(res.error || "Gagal masuk.");
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message || "Terjadi gangguan koneksi.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -190,34 +204,34 @@ function LoginFormContent() {
             <div className="flex items-center gap-2 mb-3">
               <Sparkles className="w-4 h-4 text-royal" />
               <span className="text-xs sm:text-sm font-bold text-primary-950">
-                Isi Otomatis Akun Demo (Klik Salah Satu):
+                Akses Instan Demo (Klik 1x untuk Langsung Masuk):
               </span>
             </div>
             <div className="grid grid-cols-3 gap-2.5">
               <button
                 type="button"
-                onClick={() => handleQuickFill("superadmin@dharmaloka.sch.id")}
-                className="px-3 py-2.5 rounded-xl bg-blue-50 hover:bg-royal hover:text-white border border-blue-200 text-xs font-bold text-royal text-center transition cursor-pointer"
+                onClick={() => handleQuickFillAndLogin("superadmin@dharmaloka.sch.id")}
+                className="px-3 py-3 rounded-xl bg-royal text-white hover:bg-royal-dark text-xs font-bold text-center transition cursor-pointer shadow-xs"
               >
-                Super Admin
+                ⚡ Super Admin
               </button>
               <button
                 type="button"
-                onClick={() => handleQuickFill("admin@dharmaloka.sch.id")}
-                className="px-3 py-2.5 rounded-xl bg-blue-50 hover:bg-royal hover:text-white border border-blue-200 text-xs font-bold text-royal text-center transition cursor-pointer"
+                onClick={() => handleQuickFillAndLogin("admin@dharmaloka.sch.id")}
+                className="px-3 py-3 rounded-xl bg-blue-50 hover:bg-royal hover:text-white border border-blue-200 text-xs font-bold text-royal text-center transition cursor-pointer"
               >
-                School Admin
+                ⚡ School Admin
               </button>
               <button
                 type="button"
-                onClick={() => handleQuickFill("editor@dharmaloka.sch.id")}
-                className="px-3 py-2.5 rounded-xl bg-blue-50 hover:bg-royal hover:text-white border border-blue-200 text-xs font-bold text-royal text-center transition cursor-pointer"
+                onClick={() => handleQuickFillAndLogin("editor@dharmaloka.sch.id")}
+                className="px-3 py-3 rounded-xl bg-blue-50 hover:bg-royal hover:text-white border border-blue-200 text-xs font-bold text-royal text-center transition cursor-pointer"
               >
-                Editor
+                ⚡ Editor
               </button>
             </div>
             <p className="mt-2.5 text-xs text-slate-500 text-center">
-              Password default: <code className="font-mono font-semibold text-royal">DharmaLoka@2026!</code>
+              Password didukung: <code className="font-mono font-semibold text-royal">DharmaLoka@2026!</code> atau <code className="font-mono font-semibold text-royal">password</code>
             </p>
           </div>
 
