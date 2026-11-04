@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   GraduationCap,
   MapPin,
@@ -17,7 +20,12 @@ import { schoolInfo } from "@/data/schoolInfo";
 import { academicLevels } from "@/data/academics";
 
 export function Footer() {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <footer className="bg-gradient-to-b from-blue-50/70 via-blue-50/40 to-white text-slate-600 border-t border-blue-100">

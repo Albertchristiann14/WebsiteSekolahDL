@@ -88,17 +88,17 @@ export default function AdminSettingsPage() {
       <form onSubmit={handleSave} className="max-w-4xl mx-auto space-y-6">
         
         {/* Header Action Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-blue-100">
           <div>
-            <h2 className="text-xl font-bold text-white tracking-tight">Identitas & Kontak Institusi</h2>
-            <p className="text-xs text-slate-400">
+            <h2 className="text-xl font-extrabold text-primary-950 tracking-tight">Identitas & Kontak Institusi</h2>
+            <p className="text-sm text-slate-600 mt-0.5">
               Perubahan di sini langsung memengaruhi footer, halaman kontak, dan metadata situs publik.
             </p>
           </div>
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gold hover:bg-gold-light text-primary-950 font-bold text-xs sm:text-sm shadow-md transition cursor-pointer self-start sm:self-auto disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-royal hover:bg-royal-dark text-white font-bold text-xs sm:text-sm shadow-sm shadow-blue-900/10 transition cursor-pointer self-start sm:self-auto disabled:opacity-50"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             <span>Simpan Pengaturan</span>
@@ -107,198 +107,198 @@ export default function AdminSettingsPage() {
 
         {/* Toast */}
         {toast && (
-          <div className={`p-4 rounded-xl border text-sm flex items-center justify-between ${
-            toast.type === "success" ? "bg-emerald-950/80 border-emerald-500/50 text-emerald-300" : "bg-red-950/80 border-red-500/50 text-red-300"
+          <div className={`p-4 rounded-xl border text-sm font-medium flex items-center justify-between ${
+            toast.type === "success" ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-red-50 border-red-200 text-red-800"
           }`}>
             <div className="flex items-center gap-2.5">
-              {toast.type === "success" ? <CheckCircle className="w-5 h-5 text-emerald-400" /> : <AlertCircle className="w-5 h-5 text-red-400" />}
+              {toast.type === "success" ? <CheckCircle className="w-5 h-5 text-emerald-600" /> : <AlertCircle className="w-5 h-5 text-red-600" />}
               <span>{toast.message}</span>
             </div>
-            <button onClick={() => setToast(null)}><span className="text-slate-400">×</span></button>
+            <button onClick={() => setToast(null)}><span className="text-slate-400 hover:text-slate-600">×</span></button>
           </div>
         )}
 
         {/* Card 1: School Identity */}
-        <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-4 shadow-xl">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
-            <Building className="w-5 h-5 text-gold" />
-            <h3 className="text-base font-bold text-white">Identitas Sekolah</h3>
+        <div className="p-6 bg-white border border-blue-100 rounded-2xl space-y-4 shadow-sm">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <Building className="w-5 h-5 text-royal" />
+            <h3 className="text-base font-extrabold text-primary-950">Identitas Sekolah</h3>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Nama Resmi Sekolah
               </label>
               <input
                 type="text"
                 value={settings.school_name || ""}
                 onChange={(e) => handleChange("school_name", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Akreditasi BAN-S/M
               </label>
               <input
                 type="text"
                 value={settings.accreditation || ""}
                 onChange={(e) => handleChange("accreditation", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Yayasan Penyelenggara
               </label>
               <input
                 type="text"
                 value={settings.foundation || ""}
                 onChange={(e) => handleChange("foundation", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Tahun Ajaran PPDB Aktif
               </label>
               <input
                 type="text"
                 value={settings.active_academic_year || ""}
                 onChange={(e) => handleChange("active_academic_year", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Motto / Slogan Pendidikan
               </label>
               <input
                 type="text"
                 value={settings.school_motto || ""}
                 onChange={(e) => handleChange("school_motto", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
           </div>
         </div>
 
         {/* Card 2: Contact Details */}
-        <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-4 shadow-xl">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
-            <Phone className="w-5 h-5 text-gold" />
-            <h3 className="text-base font-bold text-white">Kontak & Operasional</h3>
+        <div className="p-6 bg-white border border-blue-100 rounded-2xl space-y-4 shadow-sm">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <Phone className="w-5 h-5 text-royal" />
+            <h3 className="text-base font-extrabold text-primary-950">Kontak & Operasional</h3>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Email Resmi
               </label>
               <input
                 type="email"
                 value={settings.email || ""}
                 onChange={(e) => handleChange("email", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Nomor Telepon Kantor
               </label>
               <input
                 type="text"
                 value={settings.phone || ""}
                 onChange={(e) => handleChange("phone", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Hotline WhatsApp PPDB
               </label>
               <input
                 type="text"
                 value={settings.whatsapp || ""}
                 onChange={(e) => handleChange("whatsapp", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Jam Layanan Tata Usaha
               </label>
               <input
                 type="text"
                 value={settings.office_hours || ""}
                 onChange={(e) => handleChange("office_hours", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Alamat Kampus Lengkap
               </label>
               <textarea
                 rows={2}
                 value={settings.address || ""}
                 onChange={(e) => handleChange("address", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
           </div>
         </div>
 
         {/* Card 3: Social Media Channels */}
-        <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-4 shadow-xl">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
-            <Globe className="w-5 h-5 text-gold" />
-            <h3 className="text-base font-bold text-white">Media Sosial Resmi</h3>
+        <div className="p-6 bg-white border border-blue-100 rounded-2xl space-y-4 shadow-sm">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <Globe className="w-5 h-5 text-royal" />
+            <h3 className="text-base font-extrabold text-primary-950">Media Sosial Resmi</h3>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Instagram URL
               </label>
               <input
                 type="url"
                 value={settings.instagram_url || ""}
                 onChange={(e) => handleChange("instagram_url", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 Facebook URL
               </label>
               <input
                 type="url"
                 value={settings.facebook_url || ""}
                 onChange={(e) => handleChange("facebook_url", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
                 YouTube Channel URL
               </label>
               <input
                 type="url"
                 value={settings.youtube_url || ""}
                 onChange={(e) => handleChange("youtube_url", e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
           </div>

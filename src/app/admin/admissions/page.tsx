@@ -3,22 +3,16 @@
 import React, { useState, useEffect } from "react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { adminApi } from "@/lib/api";
-import { 
-  Users, 
-  Search, 
-  Filter, 
-  Phone, 
-  Mail, 
-  CheckCircle, 
-  Clock, 
-  AlertCircle, 
-  X, 
-  MessageSquare, 
-  FileText, 
+import {
+  Search,
+  Phone,
+  Mail,
+  CheckCircle,
+  AlertCircle,
+  X,
+  FileText,
   RefreshCw,
   Loader2,
-  ExternalLink,
-  ChevronDown
 } from "lucide-react";
 
 export default function AdminAdmissionsPage() {
@@ -30,7 +24,10 @@ export default function AdminAdmissionsPage() {
   const [notesModal, setNotesModal] = useState<any | null>(null);
   const [notesInput, setNotesInput] = useState("");
   const [savingNotes, setSavingNotes] = useState(false);
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [toast, setToast] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const showToast = (type: "success" | "error", message: string) => {
     setToast({ type, message });
@@ -66,7 +63,9 @@ export default function AdminAdmissionsPage() {
 
   const handleStatusChange = async (id: number, newStatus: string) => {
     try {
-      const res = await adminApi.updateAdmissionStatus(id, { status: newStatus });
+      const res = await adminApi.updateAdmissionStatus(id, {
+        status: newStatus,
+      });
       if (res.status === 200) {
         showToast("success", "Status calon siswa berhasil diperbarui");
         loadData();
@@ -80,7 +79,7 @@ export default function AdminAdmissionsPage() {
 
   const openNotesModal = (item: any) => {
     setNotesModal(item);
-    setNotesInput(item.notes || "");
+    setNotesInput(item.admin_notes || item.notes || "");
   };
 
   const saveNotes = async () => {
@@ -108,200 +107,243 @@ export default function AdminAdmissionsPage() {
   return (
     <AdminLayout title="Manajemen Calon Siswa (PPDB CRM)">
       <div className="space-y-6">
-        
         {/* Header Action Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-xl font-bold text-white tracking-tight">Pendaftaran Calon Siswa Baru</h2>
-            <p className="text-xs text-slate-400">
-              Pipeline tindak lanjut (follow-up) orang tua murid dan calon siswa baru Dharma Loka.
+            <h2 className="text-xl sm:text-2xl font-extrabold text-primary-950 tracking-tight">
+              Pendaftaran Calon Siswa Baru (PPDB)
+            </h2>
+            <p className="text-sm text-slate-600 mt-0.5">
+              Pantau dan tindak lanjuti pengajuan pendaftaran dari orang tua calon siswa.
             </p>
           </div>
           <button
             onClick={loadData}
             disabled={loading}
-            className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition self-start sm:self-auto flex items-center gap-2 text-xs"
+            className="px-4 py-2.5 rounded-xl bg-white hover:bg-blue-50 text-royal font-bold border border-blue-200 transition self-start sm:self-auto flex items-center gap-2 text-xs sm:text-sm shadow-xs cursor-pointer"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-            <span>Segarkan</span>
+            <span>Segarkan Data</span>
           </button>
         </div>
 
         {/* Toast */}
         {toast && (
-          <div className={`p-4 rounded-xl border text-sm flex items-center justify-between ${
-            toast.type === "success" ? "bg-emerald-950/80 border-emerald-500/50 text-emerald-300" : "bg-red-950/80 border-red-500/50 text-red-300"
-          }`}>
+          <div
+            className={`p-4 rounded-2xl border text-sm font-medium flex items-center justify-between ${
+              toast.type === "success"
+                ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+                : "bg-red-50 border-red-200 text-red-800"
+            }`}
+          >
             <div className="flex items-center gap-2.5">
-              {toast.type === "success" ? <CheckCircle className="w-5 h-5 text-emerald-400" /> : <AlertCircle className="w-5 h-5 text-red-400" />}
+              {toast.type === "success" ? (
+                <CheckCircle className="w-5 h-5 text-emerald-600" />
+              ) : (
+                <AlertCircle className="w-5 h-5 text-red-600" />
+              )}
               <span>{toast.message}</span>
             </div>
-            <button onClick={() => setToast(null)}><X className="w-4 h-4 text-slate-400" /></button>
+            <button onClick={() => setToast(null)}>
+              <X className="w-4 h-4 text-slate-500" />
+            </button>
           </div>
         )}
 
         {/* Filters and Search */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between">
-          <form onSubmit={handleSearchSubmit} className="flex-1 w-full flex items-center gap-2">
+        <div className="p-5 rounded-2xl bg-white border border-blue-100 shadow-xs flex flex-col md:flex-row gap-4 items-center justify-between">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="flex-1 w-full flex items-center gap-2.5"
+          >
             <div className="relative flex-1">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
-                placeholder="Cari nama siswa, orang tua, atau nomor HP..."
+                placeholder="Cari nama orang tua, siswa, atau nomor HP..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-primary-950 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
             <button
               type="submit"
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold border border-slate-700"
+              className="px-5 py-2.5 bg-royal hover:bg-royal-dark text-white rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer"
             >
               Cari
             </button>
           </form>
 
           <div className="flex items-center gap-3 w-full md:w-auto">
-            {/* Status Select */}
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-slate-950 border border-slate-800 text-xs text-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gold"
+              className="bg-slate-50 border border-slate-200 text-xs sm:text-sm font-semibold text-primary-950 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-royal"
             >
               <option value="all">Semua Status</option>
-              <option value="new">Baru (Perlu Dihubungi)</option>
-              <option value="contacted">Sedang Diproses</option>
-              <option value="enrolled">Diterima / Terdaftar</option>
+              <option value="new">Baru Masuk</option>
+              <option value="contacted">Sudah Dihubungi</option>
+              <option value="enrolled">Resmi Terdaftar</option>
               <option value="cancelled">Dibatalkan</option>
             </select>
 
-            {/* Level Select */}
             <select
               value={levelFilter}
               onChange={(e) => setLevelFilter(e.target.value)}
-              className="bg-slate-950 border border-slate-800 text-xs text-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gold"
+              className="bg-slate-50 border border-slate-200 text-xs sm:text-sm font-semibold text-primary-950 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-royal"
             >
               <option value="all">Semua Jenjang</option>
-              <option value="tk">TK</option>
-              <option value="sd">SD</option>
-              <option value="smp">SMP</option>
-              <option value="sma">SMA</option>
-              <option value="smk">SMK</option>
+              <option value="TK">TK</option>
+              <option value="SD">SD</option>
+              <option value="SMP">SMP</option>
+              <option value="SMA">SMA</option>
+              <option value="SMK">SMK</option>
             </select>
           </div>
         </div>
 
         {/* Data Table */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+        <div className="bg-white border border-blue-100 rounded-3xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
-              <thead className="bg-slate-950 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800 font-mono">
+            <table className="w-full text-left text-sm text-slate-700">
+              <thead className="bg-blue-50/60 text-xs uppercase tracking-wider text-royal border-b border-blue-100 font-extrabold">
                 <tr>
-                  <th className="py-3 px-4">Calon Siswa</th>
-                  <th className="py-3 px-4">Jenjang</th>
-                  <th className="py-3 px-4">Orang Tua / Kontak</th>
-                  <th className="py-3 px-4">Asal Sekolah</th>
-                  <th className="py-3 px-4">Status Pipeline</th>
-                  <th className="py-3 px-4 text-right">Catatan & Aksi</th>
+                  <th className="py-4 px-6">Wali / Calon Siswa</th>
+                  <th className="py-4 px-6">Jenjang</th>
+                  <th className="py-4 px-6">Kontak Orang Tua</th>
+                  <th className="py-4 px-6">Pesan / Pertanyaan</th>
+                  <th className="py-4 px-6">Status Pipeline</th>
+                  <th className="py-4 px-6 text-right">Catatan Panitia</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-100">
                 {loading ? (
                   <tr>
-                    <td colSpan={6} className="py-12 text-center text-xs text-slate-400">
-                      <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-gold" />
+                    <td
+                      colSpan={6}
+                      className="py-14 text-center text-sm text-slate-500"
+                    >
+                      <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-royal" />
                       Memuat daftar pendaftaran PPDB...
                     </td>
                   </tr>
                 ) : inquiries.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="py-12 text-center text-xs text-slate-400">
-                      Tidak ada pendaftar yang cocok dengan filter.
+                    <td
+                      colSpan={6}
+                      className="py-14 text-center text-sm text-slate-500"
+                    >
+                      Tidak ada data pendaftar yang cocok dengan filter.
                     </td>
                   </tr>
                 ) : (
-                  inquiries.map((item) => (
-                    <tr key={item.id} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="py-3.5 px-4">
-                        <div>
-                          <p className="font-semibold text-white">{item.student_name}</p>
-                          <p className="text-[11px] text-slate-500 font-mono mt-0.5">
-                            Daftar: {new Date(item.created_at).toLocaleDateString("id-ID")} • TA {item.academic_year || "2026/2027"}
+                  inquiries.map((item) => {
+                    const level =
+                      item.student_level || item.target_level || "Umum";
+                    const name =
+                      item.student_name || item.parent_name || "Calon Siswa";
+                    const hasNotes = Boolean(item.admin_notes || item.notes);
+
+                    return (
+                      <tr
+                        key={item.id}
+                        className="hover:bg-blue-50/30 transition-colors"
+                      >
+                        <td className="py-4 px-6">
+                          <div>
+                            <p className="font-bold text-primary-950 text-base">
+                              {name}
+                            </p>
+                            <p className="text-xs text-slate-500 mt-0.5">
+                              Tanggal:{" "}
+                              {new Date(item.created_at).toLocaleDateString(
+                                "id-ID"
+                              )}
+                            </p>
+                          </div>
+                        </td>
+
+                        <td className="py-4 px-6">
+                          <span className="px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-royal text-xs font-extrabold uppercase">
+                            {level}
+                          </span>
+                        </td>
+
+                        <td className="py-4 px-6 text-xs sm:text-sm">
+                          <p className="font-bold text-primary-950">
+                            {item.parent_name}
                           </p>
-                        </div>
-                      </td>
-
-                      <td className="py-3.5 px-4">
-                        <span className="px-2 py-1 rounded bg-primary-900/60 border border-gold/30 text-gold-light text-xs font-bold font-mono uppercase">
-                          {item.target_level}
-                        </span>
-                      </td>
-
-                      <td className="py-3.5 px-4 text-xs">
-                        <p className="font-medium text-slate-200">{item.parent_name}</p>
-                        <div className="flex items-center gap-3 mt-1 text-slate-400">
-                          <a 
-                            href={`https://wa.me/${item.phone.replace(/^0/, "62").replace(/[^\d]/g, "")}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-emerald-400 hover:underline"
-                            title="Hubungi via WhatsApp"
-                          >
-                            <Phone className="w-3 h-3" />
-                            <span>{item.phone}</span>
-                          </a>
-                          {item.email && (
+                          <div className="flex items-center gap-3 mt-1 text-slate-600">
                             <a
-                              href={`mailto:${item.email}`}
-                              className="inline-flex items-center gap-1 hover:text-white"
-                              title="Kirim Email"
+                              href={`https://wa.me/${(item.phone || "")
+                                .replace(/^0/, "62")
+                                .replace(/[^\d]/g, "")}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-emerald-700 font-bold hover:underline"
                             >
-                              <Mail className="w-3 h-3" />
+                              <Phone className="w-3.5 h-3.5" />
+                              <span>{item.phone}</span>
                             </a>
-                          )}
-                        </div>
-                      </td>
+                            {item.email && (
+                              <a
+                                href={`mailto:${item.email}`}
+                                className="inline-flex items-center gap-1 text-royal hover:underline"
+                              >
+                                <Mail className="w-3.5 h-3.5" />
+                                <span>{item.email}</span>
+                              </a>
+                            )}
+                          </div>
+                        </td>
 
-                      <td className="py-3.5 px-4 text-xs text-slate-400">
-                        {item.previous_school || "—"}
-                      </td>
+                        <td className="py-4 px-6 text-xs sm:text-sm text-slate-600 max-w-xs">
+                          <p className="line-clamp-2">
+                            {item.message || item.previous_school || "—"}
+                          </p>
+                        </td>
 
-                      <td className="py-3.5 px-4">
-                        <select
-                          value={item.status}
-                          onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                          className={`text-xs font-semibold rounded-lg px-2.5 py-1.5 border focus:outline-none cursor-pointer ${
-                            item.status === "new"
-                              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/40"
-                              : item.status === "contacted"
-                              ? "bg-blue-500/10 text-blue-400 border-blue-500/40"
-                              : item.status === "enrolled"
-                              ? "bg-gold/10 text-gold-light border-gold/40"
-                              : "bg-slate-800 text-slate-400 border-slate-700"
-                          }`}
-                        >
-                          <option value="new">Baru Masuk</option>
-                          <option value="contacted">Sudah Dihubungi</option>
-                          <option value="enrolled">Resmi Terdaftar</option>
-                          <option value="cancelled">Dibatalkan</option>
-                        </select>
-                      </td>
+                        <td className="py-4 px-6">
+                          <select
+                            value={item.status}
+                            onChange={(e) =>
+                              handleStatusChange(item.id, e.target.value)
+                            }
+                            className={`text-xs font-bold rounded-xl px-3 py-2 border focus:outline-none cursor-pointer ${
+                              item.status === "new"
+                                ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                : item.status === "contacted"
+                                ? "bg-blue-50 text-royal border-blue-200"
+                                : item.status === "enrolled"
+                                ? "bg-indigo-50 text-indigo-700 border-indigo-200"
+                                : "bg-slate-100 text-slate-600 border-slate-200"
+                            }`}
+                          >
+                            <option value="new">Baru Masuk</option>
+                            <option value="contacted">Sudah Dihubungi</option>
+                            <option value="enrolled">Resmi Terdaftar</option>
+                            <option value="cancelled">Dibatalkan</option>
+                          </select>
+                        </td>
 
-                      <td className="py-3.5 px-4 text-right">
-                        <button
-                          onClick={() => openNotesModal(item)}
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition ${
-                            item.notes 
-                              ? "bg-gold/10 text-gold border-gold/30 hover:bg-gold/20"
-                              : "bg-slate-800 text-slate-400 border-slate-700 hover:text-white"
-                          }`}
-                        >
-                          <FileText className="w-3.5 h-3.5" />
-                          <span>{item.notes ? "Lihat Catatan" : "+ Catatan"}</span>
-                        </button>
-                      </td>
-                    </tr>
-                  ))
+                        <td className="py-4 px-6 text-right">
+                          <button
+                            onClick={() => openNotesModal(item)}
+                            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border transition cursor-pointer ${
+                              hasNotes
+                                ? "bg-blue-50 text-royal border-blue-200 hover:bg-blue-100"
+                                : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-blue-50 hover:text-royal"
+                            }`}
+                          >
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>
+                              {hasNotes ? "Lihat Catatan" : "+ Catatan"}
+                            </span>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
@@ -310,60 +352,73 @@ export default function AdminAdmissionsPage() {
 
         {/* Follow-up Notes Modal */}
         {notesModal && (
-          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="fixed inset-0 bg-primary-950/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+            <div className="bg-white border border-blue-100 rounded-3xl max-w-md w-full p-7 space-y-5 shadow-2xl">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2.5">
-                  <FileText className="w-5 h-5 text-gold" />
-                  <h3 className="text-base font-bold text-white">Catatan Tindak Lanjut PPDB</h3>
+                  <FileText className="w-5 h-5 text-royal" />
+                  <h3 className="text-lg font-extrabold text-primary-950">
+                    Catatan Tindak Lanjut PPDB
+                  </h3>
                 </div>
-                <button onClick={() => setNotesModal(null)} className="text-slate-400 hover:text-white">
+                <button
+                  onClick={() => setNotesModal(null)}
+                  className="text-slate-400 hover:text-primary-950"
+                >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div>
-                <p className="text-sm font-semibold text-white">{notesModal.student_name}</p>
-                <p className="text-xs text-slate-400">
-                  Jenjang {notesModal.target_level.toUpperCase()} • Ortu: {notesModal.parent_name} ({notesModal.phone})
+              <div className="p-4 rounded-2xl bg-blue-50/50 border border-blue-100">
+                <p className="text-sm font-extrabold text-primary-950">
+                  {notesModal.parent_name}
+                </p>
+                <p className="text-xs text-slate-600 mt-0.5">
+                  Jenjang{" "}
+                  {(
+                    notesModal.student_level ||
+                    notesModal.target_level ||
+                    "Umum"
+                  ).toUpperCase()}{" "}
+                  • WhatsApp: {notesModal.phone}
                 </p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                <label className="block text-xs font-extrabold uppercase tracking-wider text-primary-950 mb-2">
                   Catatan Internal Panitia PPDB
                 </label>
                 <textarea
                   rows={5}
                   value={notesInput}
                   onChange={(e) => setNotesInput(e.target.value)}
-                  placeholder="Contoh: Sudah dihubungi tgl 4 Nov. Orang tua berminat dengan program sains STEM SMA. Dijadwalkan kunjungan sekolah Sabtu ini."
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:ring-1 focus:ring-gold leading-relaxed"
+                  placeholder="Contoh: Sudah dihubungi via WhatsApp. Orang tua dijadwalkan kunjungan sekolah hari Sabtu pukul 09.00 WIB."
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white leading-relaxed"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
                 <button
                   onClick={() => setNotesModal(null)}
-                  className="px-4 py-2 rounded-lg bg-slate-800 text-xs font-semibold text-slate-300"
+                  className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700"
                 >
                   Tutup
                 </button>
                 <button
                   onClick={saveNotes}
                   disabled={savingNotes}
-                  className="px-4 py-2 rounded-lg bg-gold hover:bg-gold-light text-primary-950 text-xs font-bold transition flex items-center gap-2"
+                  className="px-5 py-2.5 rounded-xl bg-royal hover:bg-royal-dark text-white text-xs font-bold transition flex items-center gap-2 shadow-md shadow-royal/15 cursor-pointer"
                 >
-                  {savingNotes ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                  {savingNotes ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : null}
                   <span>Simpan Catatan</span>
                 </button>
               </div>
             </div>
           </div>
         )}
-
       </div>
     </AdminLayout>
   );
 }
-

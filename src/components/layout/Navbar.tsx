@@ -79,6 +79,10 @@ export function Navbar() {
     return pathname.startsWith(href);
   };
 
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <>
       {/* Top Bar: Bright Sky Blue Info Bar + Quick Admin Access */}
@@ -116,11 +120,10 @@ export function Navbar() {
 
       {/* Main Sticky Header */}
       <header
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled
+        className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled
             ? "bg-white/95 backdrop-blur-md shadow-[0_4px_24px_-4px_rgba(29,78,216,0.08)] border-b border-blue-100 py-3.5"
             : "bg-white border-b border-slate-100 py-5"
-        }`}
+          }`}
       >
         <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
           <div className="flex items-center justify-between gap-4">
@@ -161,17 +164,15 @@ export function Navbar() {
                         type="button"
                         onClick={() => setAcademicDropdownOpen((prev) => !prev)}
                         aria-expanded={academicDropdownOpen}
-                        className={`flex items-center gap-1.5 px-4 py-2.5 text-[15px] font-semibold rounded-xl transition-colors ${
-                          isActive(link.href)
+                        className={`flex items-center gap-1.5 px-4 py-2.5 text-[15px] font-semibold rounded-xl transition-colors ${isActive(link.href)
                             ? "text-royal bg-blue-50"
                             : "text-slate-700 hover:text-royal hover:bg-blue-50/60"
-                        }`}
+                          }`}
                       >
                         <span>{link.name}</span>
                         <ChevronDown
-                          className={`w-4 h-4 transition-transform duration-200 ${
-                            academicDropdownOpen ? "rotate-180 text-royal" : ""
-                          }`}
+                          className={`w-4 h-4 transition-transform duration-200 ${academicDropdownOpen ? "rotate-180 text-royal" : ""
+                            }`}
                           aria-hidden="true"
                         />
                       </button>
@@ -227,11 +228,10 @@ export function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`px-3.5 py-2.5 text-[15px] font-semibold rounded-xl transition-colors ${
-                      isActive(link.href)
+                    className={`px-3.5 py-2.5 text-[15px] font-semibold rounded-xl transition-colors ${isActive(link.href)
                         ? "text-royal bg-blue-50"
                         : "text-slate-700 hover:text-royal hover:bg-blue-50/60"
-                    }`}
+                      }`}
                   >
                     {link.name}
                   </Link>
@@ -300,9 +300,8 @@ export function Navbar() {
                       >
                         <span>{link.name}</span>
                         <ChevronDown
-                          className={`w-5 h-5 text-royal transition-transform ${
-                            mobileAcademicOpen ? "rotate-180" : ""
-                          }`}
+                          className={`w-5 h-5 text-royal transition-transform ${mobileAcademicOpen ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
                       {mobileAcademicOpen && (
@@ -336,11 +335,10 @@ export function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`block px-4 py-3.5 text-base font-bold rounded-xl ${
-                      isActive(link.href)
+                    className={`block px-4 py-3.5 text-base font-bold rounded-xl ${isActive(link.href)
                         ? "bg-blue-50 text-royal"
                         : "text-primary-950 hover:bg-blue-50/60"
-                    }`}
+                      }`}
                   >
                     {link.name}
                   </Link>

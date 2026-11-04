@@ -4,19 +4,17 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { adminApi } from "@/lib/api";
-import { 
-  PlusCircle, 
-  Search, 
-  Filter, 
-  Edit, 
-  Trash2, 
-  Eye, 
-  CheckCircle, 
+import {
+  PlusCircle,
+  Search,
+  Edit,
+  Trash2,
+  CheckCircle,
   AlertCircle,
   ExternalLink,
   Loader2,
   RefreshCw,
-  X
+  X,
 } from "lucide-react";
 
 export default function AdminNewsListPage() {
@@ -28,9 +26,15 @@ export default function AdminNewsListPage() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [page, setPage] = useState(1);
   const [meta, setMeta] = useState<any>(null);
-  const [deleteModal, setDeleteModal] = useState<{ id: number; title: string } | null>(null);
+  const [deleteModal, setDeleteModal] = useState<{
+    id: number;
+    title: string;
+  } | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [toast, setToast] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const showToast = (type: "success" | "error", message: string) => {
     setToast({ type, message });
@@ -79,7 +83,10 @@ export default function AdminNewsListPage() {
     try {
       const res = await adminApi.togglePublishNews(id);
       if (res.status === 200) {
-        showToast("success", res.message || "Status publikasi berhasil diperbarui");
+        showToast(
+          "success",
+          res.message || "Status publikasi berhasil diperbarui"
+        );
         loadData();
       } else {
         showToast("error", res.error || "Gagal memperbarui status publikasi");
@@ -113,18 +120,19 @@ export default function AdminNewsListPage() {
   return (
     <AdminLayout title="Manajemen Berita & Artikel">
       <div className="space-y-6">
-        
         {/* Header Action Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-xl font-bold text-white tracking-tight">Daftar Artikel & Berita</h2>
-            <p className="text-xs text-slate-400">
-              Kelola liputan kegiatan, pengumuman pers, dan wawasan edukasi.
+            <h2 className="text-xl sm:text-2xl font-extrabold text-primary-950 tracking-tight">
+              Daftar Artikel & Berita Sekolah
+            </h2>
+            <p className="text-sm text-slate-600 mt-0.5">
+              Kelola liputan kegiatan, prestasi siswa, dan artikel informasi untuk orang tua.
             </p>
           </div>
           <Link
             href="/admin/news/create"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gold hover:bg-gold-light text-primary-950 font-bold text-xs sm:text-sm shadow-md transition cursor-pointer self-start sm:self-auto"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-royal hover:bg-royal-dark text-white font-bold text-xs sm:text-sm shadow-md shadow-royal/15 transition cursor-pointer self-start sm:self-auto"
           >
             <PlusCircle className="w-4 h-4" />
             <span>Tulis Artikel Baru</span>
@@ -133,65 +141,75 @@ export default function AdminNewsListPage() {
 
         {/* Toast Notification */}
         {toast && (
-          <div className={`p-4 rounded-xl border text-sm flex items-center justify-between transition-all ${
-            toast.type === "success" 
-              ? "bg-emerald-950/80 border-emerald-500/50 text-emerald-300"
-              : "bg-red-950/80 border-red-500/50 text-red-300"
-          }`}>
+          <div
+            className={`p-4 rounded-2xl border text-sm font-medium flex items-center justify-between transition-all ${
+              toast.type === "success"
+                ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+                : "bg-red-50 border-red-200 text-red-800"
+            }`}
+          >
             <div className="flex items-center gap-2.5">
-              {toast.type === "success" ? <CheckCircle className="w-5 h-5 text-emerald-400" /> : <AlertCircle className="w-5 h-5 text-red-400" />}
+              {toast.type === "success" ? (
+                <CheckCircle className="w-5 h-5 text-emerald-600" />
+              ) : (
+                <AlertCircle className="w-5 h-5 text-red-600" />
+              )}
               <span>{toast.message}</span>
             </div>
-            <button onClick={() => setToast(null)} className="text-slate-400 hover:text-white">
+            <button
+              onClick={() => setToast(null)}
+              className="text-slate-400 hover:text-primary-950"
+            >
               <X className="w-4 h-4" />
             </button>
           </div>
         )}
 
         {/* Filter and Search Bar */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between">
-          <form onSubmit={handleSearchSubmit} className="flex-1 w-full flex items-center gap-2">
+        <div className="p-5 rounded-2xl bg-white border border-blue-100 shadow-xs flex flex-col md:flex-row gap-4 items-center justify-between">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="flex-1 w-full flex items-center gap-2.5"
+          >
             <div className="relative flex-1">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 placeholder="Cari berdasarkan judul berita..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gold"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-primary-950 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-royal focus:bg-white"
               />
             </div>
             <button
               type="submit"
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold border border-slate-700 transition"
+              className="px-5 py-2.5 bg-royal hover:bg-royal-dark text-white rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer"
             >
               Cari
             </button>
           </form>
 
           <div className="flex items-center gap-3 w-full md:w-auto">
-            {/* Status select */}
             <select
               value={statusFilter}
               onChange={(e) => {
                 setStatusFilter(e.target.value);
                 setPage(1);
               }}
-              className="bg-slate-950 border border-slate-800 text-xs text-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gold"
+              className="bg-slate-50 border border-slate-200 text-xs sm:text-sm font-semibold text-primary-950 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-royal"
             >
               <option value="all">Semua Status</option>
               <option value="published">Hanya Terbit</option>
               <option value="draft">Hanya Draft</option>
             </select>
 
-            {/* Category select */}
             <select
               value={categoryFilter}
               onChange={(e) => {
                 setCategoryFilter(e.target.value);
                 setPage(1);
               }}
-              className="bg-slate-950 border border-slate-800 text-xs text-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gold"
+              className="bg-slate-50 border border-slate-200 text-xs sm:text-sm font-semibold text-primary-950 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-royal"
             >
               <option value="">Semua Kategori</option>
               {categories.map((cat) => (
@@ -204,7 +222,7 @@ export default function AdminNewsListPage() {
             <button
               onClick={loadData}
               disabled={loading}
-              className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+              className="p-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-royal border border-blue-200 transition cursor-pointer"
               title="Segarkan"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
@@ -213,94 +231,118 @@ export default function AdminNewsListPage() {
         </div>
 
         {/* Data Table */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+        <div className="bg-white border border-blue-100 rounded-3xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
-              <thead className="bg-slate-950 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800 font-mono">
+            <table className="w-full text-left text-sm text-slate-700">
+              <thead className="bg-blue-50/60 text-xs uppercase tracking-wider text-royal border-b border-blue-100 font-extrabold">
                 <tr>
-                  <th className="py-3 px-4">Artikel</th>
-                  <th className="py-3 px-4">Kategori</th>
-                  <th className="py-3 px-4">Penulis</th>
-                  <th className="py-3 px-4 text-center">Status</th>
-                  <th className="py-3 px-4">Tanggal Terbit</th>
-                  <th className="py-3 px-4 text-right">Aksi</th>
+                  <th className="py-4 px-6">Artikel</th>
+                  <th className="py-4 px-6">Kategori</th>
+                  <th className="py-4 px-6">Penulis</th>
+                  <th className="py-4 px-6 text-center">Status</th>
+                  <th className="py-4 px-6">Tanggal Terbit</th>
+                  <th className="py-4 px-6 text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-slate-100">
                 {loading ? (
                   <tr>
-                    <td colSpan={6} className="py-12 text-center text-xs text-slate-400">
-                      <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-gold" />
+                    <td
+                      colSpan={6}
+                      className="py-14 text-center text-sm text-slate-500"
+                    >
+                      <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-royal" />
                       Memuat data artikel...
                     </td>
                   </tr>
                 ) : news.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="py-12 text-center text-xs text-slate-400">
+                    <td
+                      colSpan={6}
+                      className="py-14 text-center text-sm text-slate-500"
+                    >
                       Tidak ada artikel yang cocok dengan kriteria pencarian.
                     </td>
                   </tr>
                 ) : (
                   news.map((item) => (
-                    <tr key={item.id} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-3">
+                    <tr
+                      key={item.id}
+                      className="hover:bg-blue-50/30 transition-colors"
+                    >
+                      <td className="py-4 px-6">
+                        <div className="flex items-center gap-3.5">
                           {item.featured_image ? (
                             <img
                               src={item.featured_image}
                               alt={item.title}
-                              className="w-12 h-12 object-cover rounded-lg border border-slate-800 shrink-0"
+                              className="w-14 h-14 object-cover rounded-xl border border-blue-100 shrink-0"
                             />
                           ) : (
-                            <div className="w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500 shrink-0">
-                              No Img
+                            <div className="w-14 h-14 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-xs font-bold text-royal shrink-0">
+                              Foto
                             </div>
                           )}
                           <div className="min-w-0">
-                            <p className="font-semibold text-white truncate max-w-xs sm:max-w-md">
+                            <p className="font-bold text-primary-950 truncate max-w-xs sm:max-w-md text-base">
                               {item.title}
                             </p>
-                            <p className="text-xs text-slate-400 font-mono truncate max-w-xs">
-                              /{item.slug}
+                            <p className="text-xs text-slate-400 font-mono truncate max-w-xs mt-0.5">
+                              /news/{item.slug}
                             </p>
                           </div>
                         </div>
                       </td>
-                      <td className="py-3.5 px-4 text-xs">
-                        <span className="px-2 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 font-medium">
+                      <td className="py-4 px-6 text-xs">
+                        <span className="px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-royal font-bold">
                           {item.category?.name || "Umum"}
                         </span>
                       </td>
-                      <td className="py-3.5 px-4 text-xs text-slate-400">
+                      <td className="py-4 px-6 text-xs sm:text-sm font-medium text-slate-600">
                         {item.author?.name || "Admin"}
                       </td>
-                      <td className="py-3.5 px-4 text-center">
+                      <td className="py-4 px-6 text-center">
                         <button
                           onClick={() => handleTogglePublish(item.id)}
                           disabled={actionLoading}
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border transition cursor-pointer ${
+                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition cursor-pointer ${
                             item.status === "published"
-                              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20"
-                              : "bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20"
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                              : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
                           }`}
                           title="Klik untuk mengubah status"
                         >
-                          <span className={`w-1.5 h-1.5 rounded-full ${item.status === "published" ? "bg-emerald-400" : "bg-amber-400"}`} />
-                          <span>{item.status === "published" ? "Terbit" : "Draft"}</span>
+                          <span
+                            className={`w-2 h-2 rounded-full ${
+                              item.status === "published"
+                                ? "bg-emerald-500"
+                                : "bg-amber-500"
+                            }`}
+                          />
+                          <span>
+                            {item.status === "published" ? "Terbit" : "Draft"}
+                          </span>
                         </button>
                       </td>
-                      <td className="py-3.5 px-4 text-xs font-mono text-slate-400">
-                        {item.published_at 
-                          ? new Date(item.published_at).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+                      <td className="py-4 px-6 text-xs font-medium text-slate-500">
+                        {item.published_at
+                          ? new Date(item.published_at).toLocaleDateString(
+                              "id-ID",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )
                           : "Belum terbit"}
                       </td>
-                      <td className="py-3.5 px-4 text-right">
-                        <div className="inline-flex items-center gap-1">
+                      <td className="py-4 px-6 text-right">
+                        <div className="inline-flex items-center gap-1.5">
                           {item.status === "published" && (
                             <Link
                               href={`/news/${item.slug}`}
                               target="_blank"
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition"
+                              className="p-2 rounded-xl text-slate-500 hover:text-royal hover:bg-blue-50 transition"
                               title="Lihat Halaman Publik"
                             >
                               <ExternalLink className="w-4 h-4" />
@@ -308,14 +350,19 @@ export default function AdminNewsListPage() {
                           )}
                           <Link
                             href={`/admin/news/${item.id}/edit`}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-gold hover:bg-slate-800 transition"
+                            className="p-2 rounded-xl text-slate-500 hover:text-royal hover:bg-blue-50 transition"
                             title="Edit Artikel"
                           >
                             <Edit className="w-4 h-4" />
                           </Link>
                           <button
-                            onClick={() => setDeleteModal({ id: item.id, title: item.title })}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition"
+                            onClick={() =>
+                              setDeleteModal({
+                                id: item.id,
+                                title: item.title,
+                              })
+                            }
+                            className="p-2 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition cursor-pointer"
                             title="Hapus Artikel"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -331,20 +378,23 @@ export default function AdminNewsListPage() {
 
           {/* Pagination Controls */}
           {meta && meta.last_page > 1 && (
-            <div className="p-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-              <span>Halaman {meta.current_page} dari {meta.last_page} (Total {meta.total} artikel)</span>
+            <div className="p-5 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm text-slate-600">
+              <span>
+                Halaman <strong>{meta.current_page}</strong> dari{" "}
+                <strong>{meta.last_page}</strong> (Total {meta.total} artikel)
+              </span>
               <div className="flex items-center gap-2">
                 <button
                   disabled={page <= 1}
                   onClick={() => setPage(page - 1)}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-700 transition"
+                  className="px-4 py-2 rounded-xl bg-blue-50 text-royal font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-100 transition"
                 >
                   Sebelumnya
                 </button>
                 <button
                   disabled={page >= meta.last_page}
                   onClick={() => setPage(page + 1)}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-700 transition"
+                  className="px-4 py-2 rounded-xl bg-blue-50 text-royal font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-100 transition"
                 >
                   Berikutnya
                 </button>
@@ -355,40 +405,46 @@ export default function AdminNewsListPage() {
 
         {/* Delete Confirmation Modal */}
         {deleteModal && (
-          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl animate-in fade-in zoom-in-95">
-              <div className="flex items-center gap-3 text-red-400">
-                <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+          <div className="fixed inset-0 bg-primary-950/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+            <div className="bg-white border border-blue-100 rounded-3xl max-w-md w-full p-7 space-y-4 shadow-2xl">
+              <div className="flex items-center gap-3 text-red-600">
+                <div className="w-11 h-11 rounded-2xl bg-red-50 flex items-center justify-center">
                   <Trash2 className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-white">Konfirmasi Hapus Artikel</h3>
+                <h3 className="text-lg font-extrabold text-primary-950">
+                  Konfirmasi Hapus Artikel
+                </h3>
               </div>
-              <p className="text-xs sm:text-sm text-slate-300">
-                Apakah Anda yakin ingin menghapus artikel <strong className="text-white">"{deleteModal.title}"</strong>? Artikel akan dihapus (soft-delete).
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Apakah Anda yakin ingin menghapus artikel{" "}
+                <strong className="text-primary-950">
+                  &ldquo;{deleteModal.title}&rdquo;
+                </strong>
+                ?
               </p>
-              <div className="flex items-center justify-end gap-3 pt-2">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
                 <button
                   onClick={() => setDeleteModal(null)}
                   disabled={actionLoading}
-                  className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 transition"
+                  className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 transition"
                 >
                   Batal
                 </button>
                 <button
                   onClick={handleDelete}
                   disabled={actionLoading}
-                  className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-xs font-semibold text-white transition flex items-center gap-2"
+                  className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-xs font-bold text-white transition flex items-center gap-2 cursor-pointer"
                 >
-                  {actionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                  {actionLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : null}
                   <span>Hapus Sekarang</span>
                 </button>
               </div>
             </div>
           </div>
         )}
-
       </div>
     </AdminLayout>
   );
 }
-
