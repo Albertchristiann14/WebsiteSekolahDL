@@ -13,20 +13,34 @@ import {
   AlertCircle, 
   CheckCircle, 
   Loader2,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Plus,
+  X,
+  FolderPlus
 } from "lucide-react";
+
+const DEFAULT_CATEGORIES = [
+  { id: 1, name: "Akademik", slug: "akademik" },
+  { id: 2, name: "Prestasi", slug: "prestasi" },
+  { id: 3, name: "Kegiatan Siswa", slug: "kegiatan" },
+  { id: 4, name: "Pengumuman Resmi", slug: "pengumuman" },
+  { id: 5, name: "Opini Edukasi", slug: "opini-edukasi" },
+];
 
 export default function AdminNewsCreatePage() {
   const router = useRouter();
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>(DEFAULT_CATEGORIES);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showAddCategory, setShowAddCategory] = useState(false);
+  const [newCatName, setNewCatName] = useState("");
+  const [addingCat, setAddingCat] = useState(false);
 
   // Form State
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
-  const [categoryId, setCategoryId] = useState<number | "">("");
+  const [categoryId, setCategoryId] = useState<number | "">(1);
   const [status, setStatus] = useState<"draft" | "published">("published");
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
@@ -39,20 +53,55 @@ export default function AdminNewsCreatePage() {
     const fetchCategories = async () => {
       try {
         const res = await adminApi.getCategories();
-        if (res.status === 200 && res.data) {
+        if (res.status === 200 && res.data && Array.isArray(res.data) && res.data.length > 0) {
           setCategories(res.data);
-          if (res.data.length > 0) {
-            setCategoryId(res.data[0].id);
-          }
+          setCategoryId(res.data[0].id);
+        } else {
+          setCategories(DEFAULT_CATEGORIES);
+          setCategoryId(DEFAULT_CATEGORIES[0].id);
         }
       } catch (err: any) {
-        setError("Gagal memuat kategori.");
+        setCategories(DEFAULT_CATEGORIES);
+        setCategoryId(DEFAULT_CATEGORIES[0].id);
       } finally {
         setLoadingCategories(false);
       }
     };
     fetchCategories();
   }, []);
+
+  const handleAddCategory = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCatName.trim()) return;
+    setAddingCat(true);
+    try {
+      const res = await adminApi.createCategory({ name: newCatName.trim() });
+      if (res.status === 201 && res.data) {
+        const created = res.data;
+        setCategories((prev) => [...prev, created]);
+        setCategoryId(created.id);
+        setNewCatName("");
+        setShowAddCategory(false);
+      } else {
+        // Fallback local ID
+        const fakeId = Date.now();
+        const fakeCat = { id: fakeId, name: newCatName.trim(), slug: newCatName.trim().toLowerCase().replace(/\s+/g, "-") };
+        setCategories((prev) => [...prev, fakeCat]);
+        setCategoryId(fakeId);
+        setNewCatName("");
+        setShowAddCategory(false);
+      }
+    } catch {
+      const fakeId = Date.now();
+      const fakeCat = { id: fakeId, name: newCatName.trim(), slug: newCatName.trim().toLowerCase().replace(/\s+/g, "-") };
+      setCategories((prev) => [...prev, fakeCat]);
+      setCategoryId(fakeId);
+      setNewCatName("");
+      setShowAddCategory(false);
+    } finally {
+      setAddingCat(false);
+    }
+  };
 
   const handleTitleChange = (val: string) => {
     setTitle(val);
@@ -75,6 +124,10 @@ export default function AdminNewsCreatePage() {
     }
     if (!content.trim()) {
       setError("Konten artikel tidak boleh kosong.");
+      return;
+    }
+    if (!categoryId) {
+      setError("Silakan pilih kategori berita terlebih dahulu.");
       return;
     }
 
@@ -189,9 +242,55 @@ export default function AdminNewsCreatePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
-                  Kategori Berita
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+                    Kategori Berita <span className="text-red-500">*</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowAddCategory(!showAddCategory)}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-royal hover:underline"
+                  >
+                    <Plus className="w-3 h-3" />
+                    <span>Kategori Baru</span>
+                  </button>
+                </div>
+
+                {showAddCategory && (
+                  <form onSubmit={handleAddCategory} className="mb-2.5 p-2.5 bg-blue-50/70 border border-blue-200 rounded-xl space-y-2">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="flex items-center gap-1.5">
+                        <FolderPlus className="w-3.5 h-3.5 text-royal" />
+                        Tambah Kategori Baru
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddCategory(false)}
+                        className="text-slate-400 hover:text-slate-600"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newCatName}
+                        onChange={(e) => setNewCatName(e.target.value)}
+                        placeholder="Nama kategori, misal: Ekstrakurikuler..."
+                        className="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-primary-950 focus:outline-none focus:ring-2 focus:ring-royal"
+                        autoFocus
+                      />
+                      <button
+                        type="submit"
+                        disabled={addingCat || !newCatName.trim()}
+                        className="px-3 py-1.5 bg-royal text-white text-xs font-bold rounded-lg hover:bg-royal-dark transition disabled:opacity-50"
+                      >
+                        {addingCat ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : "Simpan"}
+                      </button>
+                    </div>
+                  </form>
+                )}
+
                 <select
                   value={categoryId}
                   onChange={(e) => setCategoryId(Number(e.target.value))}

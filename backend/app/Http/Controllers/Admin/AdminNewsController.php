@@ -228,5 +228,73 @@ class AdminNewsController extends Controller
             'message' => 'Artikel berita berhasil dihapus.',
         ]);
     }
+
+    public function categories()
+    {
+        $cats = NewsCategory::orderBy('order')->get();
+        if ($cats->isEmpty()) {
+            $defaults = [
+                ['name' => 'Akademik', 'slug' => 'akademik', 'description' => 'Warta kurikulum, jadwal ujian, dan KBM.', 'order' => 1],
+                ['name' => 'Prestasi', 'slug' => 'prestasi', 'description' => 'Pencapaian kejuaraan dan olimpiade sains/seni/olahraga.', 'order' => 2],
+                ['name' => 'Kegiatan Siswa', 'slug' => 'kegiatan', 'description' => 'Dokumentasi acara OSIS, ekstrakurikuler, dan pentas seni.', 'order' => 3],
+                ['name' => 'Pengumuman Resmi', 'slug' => 'pengumuman', 'description' => 'Informasi penting yayasan, surat edaran, dan agenda.', 'order' => 4],
+                ['name' => 'Opini Edukasi', 'slug' => 'opini-edukasi', 'description' => 'Artikel pedagogi dan pemikiran tenaga pendidik.', 'order' => 5],
+            ];
+            foreach ($defaults as $d) {
+                NewsCategory::firstOrCreate(['slug' => $d['slug']], $d);
+            }
+            $cats = NewsCategory::orderBy('order')->get();
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $cats,
+        ]);
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'slug' => 'nullable|string|max:100|unique:news_categories,slug',
+            'description' => 'nullable|string|max:255',
+        ]);
+
+        $slug = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['name']);
+        
+        $originalSlug = $slug;
+        $counter = 1;
+        while (NewsCategory::where('slug', $slug)->exists()) {
+            $slug = "{$originalSlug}-{$counter}";
+            $counter++;
+        }
+
+        $order = (int) NewsCategory::max('order') + 1;
+
+        $category = NewsCategory::create([
+            'name' => $validated['name'],
+            'slug' => $slug,
+            'description' => $validated['description'] ?? null,
+            'order' => $order,
+        ]);
+
+        if ($request->user()) {
+            ActivityLog::create([
+                'user_id' => $request->user()->id,
+                'action' => 'news_category_created',
+                'subject_type' => NewsCategory::class,
+                'subject_id' => $category->id,
+                'details' => ['name' => $category->name, 'slug' => $category->slug],
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kategori berhasil ditambahkan.',
+            'data' => $category,
+        ], 201);
+    }
 }
 

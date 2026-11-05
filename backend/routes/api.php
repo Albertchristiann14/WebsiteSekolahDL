@@ -42,8 +42,10 @@ Route::prefix('public')->group(function () {
 | Authentication Routes (Available as both /auth/... and /admin/...)
 |--------------------------------------------------------------------------
 */
-Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/login', [AuthController::class, 'login'])->name('login');
 Route::post('/admin/login', [AuthController::class, 'login']);
+Route::get('/admin/news-categories', [AdminNewsController::class, 'categories']);
+Route::get('/news-categories', [AdminNewsController::class, 'categories']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/me', [AuthController::class, 'me']);
@@ -64,6 +66,7 @@ Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // 2. News Management (Editor, School Admin, Super Admin)
+    Route::post('news-categories', [AdminNewsController::class, 'storeCategory']);
     Route::apiResource('news', AdminNewsController::class);
     Route::patch('news/{id}/toggle-publish', [AdminNewsController::class, 'togglePublish']);
 

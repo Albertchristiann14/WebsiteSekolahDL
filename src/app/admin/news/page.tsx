@@ -17,9 +17,17 @@ import {
   X,
 } from "lucide-react";
 
+const DEFAULT_CATEGORIES = [
+  { id: 1, name: "Akademik", slug: "akademik" },
+  { id: 2, name: "Prestasi", slug: "prestasi" },
+  { id: 3, name: "Kegiatan Siswa", slug: "kegiatan" },
+  { id: 4, name: "Pengumuman Resmi", slug: "pengumuman" },
+  { id: 5, name: "Opini Edukasi", slug: "opini-edukasi" },
+];
+
 export default function AdminNewsListPage() {
   const [news, setNews] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>(DEFAULT_CATEGORIES);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
