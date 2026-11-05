@@ -146,69 +146,69 @@ export default function AdminStudentsPage() {
         <div className="flex items-center gap-2">
           <Link
             href="/admin/admissions/conversion"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-bold hover:bg-slate-50 transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:bg-slate-50 transition-colors"
           >
             <span>+ Konversi dari SPMB</span>
           </Link>
           <button
             type="button"
             onClick={() => alert("Mengunduh template master data siswa...")}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-royal text-white text-xs sm:text-sm font-bold shadow-xs hover:bg-royal-dark transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-medium hover:bg-slate-800 transition-colors cursor-pointer"
           >
-            <Download className="w-4 h-4" />
-            <span>Ekspor Master Excel</span>
+            <Download className="w-3.5 h-3.5" />
+            <span>Ekspor Excel</span>
           </button>
         </div>
       }
     >
-      <div className="space-y-6">
+      <div className="space-y-4">
         {/* Search & Filter Bar */}
-        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="relative flex-1 max-w-md w-full">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+        <div className="p-3.5 rounded-xl bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="relative flex-1 max-w-sm w-full">
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Cari nama siswa, NIS, kelas..."
-              className="w-full h-10 pl-10 pr-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-royal/30"
+              placeholder="Cari nama, NIS, kelas..."
+              className="w-full h-8 pl-8 pr-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-slate-400 transition-colors"
             />
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-500">
-              Total {filtered.length} Siswa Aktif
+            <span className="text-xs font-mono tabular-nums text-slate-500">
+              {filtered.length} siswa aktif
             </span>
           </div>
         </div>
 
         {/* Tabel Siswa Aktif */}
-        <div className="rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden">
+        <div className="rounded-xl bg-white border border-slate-200 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-extrabold uppercase text-[11px]">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium text-xs">
                 <tr>
-                  <th className="py-4 px-4">NIS & NISN</th>
-                  <th className="py-4 px-3">Nama Siswa</th>
-                  <th className="py-4 px-3">Jenjang & Kelas</th>
-                  <th className="py-4 px-3">Tahun Masuk</th>
-                  <th className="py-4 px-3">WhatsApp Orang Tua</th>
-                  <th className="py-4 px-4 text-center">Status</th>
+                  <th className="py-3 px-4">NIS & NISN</th>
+                  <th className="py-3 px-3">Nama siswa</th>
+                  <th className="py-3 px-3">Jenjang & kelas</th>
+                  <th className="py-3 px-3">Tahun masuk</th>
+                  <th className="py-3 px-3">WhatsApp wali</th>
+                  <th className="py-3 px-4 text-center">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {filtered.map((stu) => (
-                  <tr key={stu.id} className="hover:bg-slate-50/70 transition">
-                    <td className="py-3.5 px-4">
-                      <span className="font-mono font-extrabold text-slate-900 block">
+                  <tr key={stu.id} className="hover:bg-slate-50/60 transition-colors">
+                    <td className="py-3 px-4">
+                      <span className="font-mono font-semibold text-slate-900 block">
                         {stu.nis}
                       </span>
                       <span className="text-[11px] font-mono text-slate-400">
                         NISN: {stu.nisn}
                       </span>
                     </td>
-                    <td className="py-3.5 px-3">
-                      <p className="font-extrabold text-slate-900">
+                    <td className="py-3 px-3">
+                      <p className="font-medium text-slate-900">
                         {stu.fullName}
                       </p>
                       <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
@@ -223,7 +223,7 @@ export default function AdminStudentsPage() {
                         <button
                           type="button"
                           onClick={() => toggleUnmaskNik(stu.id, stu.nik)}
-                          className="text-slate-400 hover:text-royal transition p-0.5 rounded cursor-pointer"
+                          className="text-slate-400 hover:text-slate-700 transition p-0.5 rounded cursor-pointer"
                           title={
                             unmaskedNiks[stu.id]
                               ? "Samarkan NIK kembali"
@@ -239,30 +239,30 @@ export default function AdminStudentsPage() {
                         <span>• {stu.gender === "L" ? "Laki-laki" : "Perempuan"}</span>
                       </div>
                     </td>
-                    <td className="py-3.5 px-3">
-                      <span className="font-extrabold text-royal block">
+                    <td className="py-3 px-3">
+                      <span className="font-medium text-slate-900 block">
                         {stu.className}
                       </span>
-                      <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">
+                      <span className="text-[10px] font-mono uppercase px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 border border-slate-200">
                         {stu.tenantId.toUpperCase()}
                       </span>
                     </td>
-                    <td className="py-3.5 px-3 font-semibold text-slate-700">
+                    <td className="py-3 px-3 font-mono text-slate-600">
                       {stu.academicYear}
                     </td>
-                    <td className="py-3.5 px-3">
+                    <td className="py-3 px-3">
                       <a
                         href={`https://wa.me/${stu.parentWhatsapp}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-bold text-emerald-700 hover:underline font-mono"
+                        className="font-mono text-slate-700 hover:underline"
                       >
                         {SecurityUtils.maskPhone(stu.parentWhatsapp)} ↗
                       </a>
                     </td>
-                    <td className="py-3.5 px-4 text-center">
-                      <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        Aktif Belajar
+                    <td className="py-3 px-4 text-center">
+                      <span className="inline-block px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        Aktif
                       </span>
                     </td>
                   </tr>

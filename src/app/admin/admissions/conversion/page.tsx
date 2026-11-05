@@ -127,22 +127,22 @@ export default function AdminConversionPage() {
 
       <div className="space-y-6">
         {/* Info Banner */}
-        <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50/40 to-white border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start sm:items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
-              <ShieldCheck className="w-5 h-5" />
+            <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-extrabold text-slate-900">
-                Integritas Data Master Siswa Terjamin
+              <h3 className="text-xs font-semibold text-slate-900">
+                Integritas data master siswa terjamin
               </h3>
-              <p className="text-xs text-slate-600 mt-0.5">
-                Pendaftar yang telah dinyatakan <strong>LULUS</strong> dan melunasi <strong>Uang Pangkal / Daftar Ulang</strong> siap dimasukkan ke buku induk sekolah tanpa input ulang.
+              <p className="text-xs text-slate-500 mt-0.5">
+                Pendaftar yang telah dinyatakan lulus dan melunasi biaya daftar ulang siap dialihkan ke basis data siswa aktif.
               </p>
             </div>
           </div>
-          <span className="text-xs font-bold text-emerald-800 bg-white px-3 py-1.5 rounded-xl border border-emerald-200 shrink-0">
-            {eligibleApplicants.length} Calon Siswa Siap Dikonversi
+          <span className="text-xs font-mono tabular-nums text-slate-600 bg-white px-2.5 py-1 rounded-lg border border-slate-200 shrink-0">
+            {eligibleApplicants.length} calon siswa siap
           </span>
         </div>
 

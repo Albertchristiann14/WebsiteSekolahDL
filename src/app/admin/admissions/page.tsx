@@ -296,12 +296,12 @@ export default function AdminAdmissionsPage() {
         {/* ===================================================================
             2. TABEL DATA PENDAFTAR LENGKAP DENGAN HORIZONTAL SCROLL
         =================================================================== */}
-        <div className="rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden">
+        <div className="rounded-xl bg-white border border-slate-200 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 font-extrabold uppercase text-[11px] tracking-wider">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium text-xs">
                 <tr>
-                  <th className="p-4 w-10 text-center">
+                  <th className="py-3 px-3 w-10 text-center">
                     <input
                       type="checkbox"
                       checked={
@@ -309,17 +309,17 @@ export default function AdminAdmissionsPage() {
                         filteredList.length > 0
                       }
                       onChange={toggleSelectAll}
-                      className="rounded border-slate-300 text-royal focus:ring-royal"
+                      className="rounded border-slate-300 text-slate-900 focus:ring-slate-900"
                     />
                   </th>
-                  <th className="py-4 px-3">No. Registrasi</th>
-                  <th className="py-4 px-3">Nama Calon Siswa</th>
-                  <th className="py-4 px-3">Jenjang & Jalur</th>
-                  <th className="py-4 px-3">Asal Sekolah</th>
-                  <th className="py-4 px-3">Status Berkas</th>
-                  <th className="py-4 px-3">Status Bayar</th>
-                  <th className="py-4 px-3">Status Seleksi</th>
-                  <th className="py-4 px-4 text-center">Aksi</th>
+                  <th className="py-3 px-3">No. registrasi</th>
+                  <th className="py-3 px-3">Nama calon siswa</th>
+                  <th className="py-3 px-3">Jenjang & jalur</th>
+                  <th className="py-3 px-3">Asal sekolah</th>
+                  <th className="py-3 px-3">Status berkas</th>
+                  <th className="py-3 px-3">Status bayar</th>
+                  <th className="py-3 px-3">Status seleksi</th>
+                  <th className="py-3 px-3 text-center">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">

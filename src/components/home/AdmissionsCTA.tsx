@@ -15,7 +15,7 @@ export function AdmissionsCTA() {
             {/* Left Copy (7 cols) */}
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/15 border border-white/25 text-white text-xs sm:text-sm font-bold uppercase tracking-wider">
-                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-white" />
                 <span>Penerimaan Peserta Didik Baru (PPDB) T.A. 2026/2027</span>
               </div>
 
