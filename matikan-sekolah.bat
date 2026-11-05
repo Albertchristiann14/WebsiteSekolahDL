@@ -12,3 +12,4 @@ echo.
 echo [V] Seluruh layanan web dan backend telah dihentikan secara aman.
 echo.
 pause
+

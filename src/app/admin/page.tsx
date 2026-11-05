@@ -456,8 +456,8 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className="space-y-3.5 pt-1">
-              {auditLogs.map((log) => (
-                <div key={log.id} className="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1 text-xs">
+              {auditLogs.map((log, idx) => (
+                <div key={`${log.id || 'log'}-${idx}`} className="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1 text-xs">
                   <div className="flex items-center justify-between text-slate-500 text-[11px]">
                     <span className="font-extrabold text-slate-800">{log.userName}</span>
                     <span>{log.timestamp.split(" ")[1]}</span>

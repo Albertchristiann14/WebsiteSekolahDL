@@ -4,12 +4,14 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { AdminStore, AdminApplicant, ApplicantDocument, TenantCode } from "@/lib/adminData";
+import { SecurityUtils } from "@/lib/security";
 import {
   FileCheck2,
   CheckCircle2,
   XCircle,
   AlertCircle,
   Eye,
+  EyeOff,
   FileText,
   User,
   ArrowRight,
@@ -27,6 +29,7 @@ export default function AdminVerificationPage() {
   const [activeDocIndex, setActiveDocIndex] = useState(0);
   const [rejectionReason, setRejectionReason] = useState("");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isNikUnmasked, setIsNikUnmasked] = useState(false);
 
   const loadData = () => {
     const tenantFilter = AdminStore.getActiveTenantFilter();
@@ -50,6 +53,10 @@ export default function AdminVerificationPage() {
       window.removeEventListener("admin_tenant_changed", handleTenantChange);
     };
   }, []);
+
+  useEffect(() => {
+    setIsNikUnmasked(false);
+  }, [selectedApplicantId]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -299,9 +306,41 @@ export default function AdminVerificationPage() {
               </div>
 
               <div className="space-y-2 text-xs divide-y divide-slate-100">
-                <div className="pt-2 flex justify-between">
+                <div className="pt-2 flex justify-between items-center">
                   <span className="text-slate-500">NIK Calon Siswa:</span>
-                  <span className="font-bold text-slate-800">{selectedApp.nik}</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-bold font-mono text-slate-800">
+                      {isNikUnmasked
+                        ? selectedApp.nik
+                        : SecurityUtils.maskIdentifier(selectedApp.nik)}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = !isNikUnmasked;
+                        setIsNikUnmasked(next);
+                        if (next) {
+                          SecurityUtils.recordUnmaskAudit(
+                            selectedApp.id,
+                            "nik",
+                            "Pemeriksaan Verifikasi Dokumen"
+                          );
+                        }
+                      }}
+                      className="text-slate-400 hover:text-royal transition p-0.5 rounded cursor-pointer"
+                      title={
+                        isNikUnmasked
+                          ? "Samarkan NIK kembali"
+                          : "Buka NIK Lengkap (Tercatat di Audit Log)"
+                      }
+                    >
+                      {isNikUnmasked ? (
+                        <EyeOff className="w-3.5 h-3.5 text-royal" />
+                      ) : (
+                        <Eye className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  </div>
                 </div>
                 <div className="pt-2 flex justify-between">
                   <span className="text-slate-500">Tempat, Tanggal Lahir:</span>
@@ -317,9 +356,9 @@ export default function AdminVerificationPage() {
                     href={`https://wa.me/${selectedApp.parentWhatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-bold text-emerald-700 hover:underline"
+                    className="font-bold text-emerald-700 hover:underline font-mono"
                   >
-                    {selectedApp.parentWhatsapp} ↗
+                    {SecurityUtils.maskPhone(selectedApp.parentWhatsapp)} ↗
                   </a>
                 </div>
                 <div className="pt-2 flex justify-between">

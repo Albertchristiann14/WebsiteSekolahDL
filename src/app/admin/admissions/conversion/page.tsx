@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { AdminStore, AdminApplicant, TenantCode } from "@/lib/adminData";
+import { SecurityUtils } from "@/lib/security";
 import {
   UserPlus,
   CheckCircle2,
@@ -12,6 +13,8 @@ import {
   Building2,
   AlertCircle,
   ArrowRight,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 export default function AdminConversionPage() {
@@ -19,6 +22,15 @@ export default function AdminConversionPage() {
   const [applicants, setApplicants] = useState<AdminApplicant[]>([]);
   const [selectedClass, setSelectedClass] = useState<Record<string, string>>({});
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [unmaskedNiks, setUnmaskedNiks] = useState<Record<string, boolean>>({});
+
+  const toggleUnmaskNik = (id: string, nik: string) => {
+    const isCurrentlyUnmasked = !!unmaskedNiks[id];
+    setUnmaskedNiks((prev) => ({ ...prev, [id]: !isCurrentlyUnmasked }));
+    if (!isCurrentlyUnmasked) {
+      SecurityUtils.recordUnmaskAudit(id, "nik", "Konversi Calon Siswa ke Siswa Aktif");
+    }
+  };
 
   const loadData = () => {
     const tenantFilter = AdminStore.getActiveTenantFilter();
@@ -173,9 +185,32 @@ export default function AdminConversionPage() {
                           <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 uppercase">
                             {app.tenantId.toUpperCase()}
                           </span>
-                          <p className="text-xs text-slate-500 mt-0.5">
-                            NIK: {app.nik}
-                          </p>
+                          <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5">
+                            <span>
+                              NIK:{" "}
+                              <strong className="font-mono text-slate-700">
+                                {unmaskedNiks[app.id]
+                                  ? app.nik
+                                  : SecurityUtils.maskIdentifier(app.nik)}
+                              </strong>
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => toggleUnmaskNik(app.id, app.nik)}
+                              className="text-slate-400 hover:text-royal transition p-0.5 rounded cursor-pointer"
+                              title={
+                                unmaskedNiks[app.id]
+                                  ? "Samarkan NIK kembali"
+                                  : "Buka NIK Lengkap (Tercatat di Audit Log)"
+                              }
+                            >
+                              {unmaskedNiks[app.id] ? (
+                                <EyeOff className="w-3.5 h-3.5 text-royal" />
+                              ) : (
+                                <Eye className="w-3.5 h-3.5" />
+                              )}
+                            </button>
+                          </div>
                         </td>
                         <td className="py-3.5 px-3">
                           <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">

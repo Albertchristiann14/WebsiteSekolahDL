@@ -104,8 +104,8 @@ export default function AdminActivityLogsPage() {
                     </td>
                   </tr>
                 ) : (
-                  logs.map((item) => (
-                    <tr key={item.id} className="hover:bg-blue-50/30 transition">
+                  logs.map((item, idx) => (
+                    <tr key={`${item.id || 'log'}-${idx}`} className="hover:bg-blue-50/30 transition">
                       <td className="py-3.5 px-5 text-xs font-mono text-slate-500 whitespace-nowrap">
                         {new Date(item.created_at).toLocaleString("id-ID")}
                       </td>

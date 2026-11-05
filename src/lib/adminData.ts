@@ -1099,7 +1099,17 @@ export const AdminStore = {
         localStorage.setItem(STORAGE_KEYS.AUDIT_LOGS, JSON.stringify(INITIAL_AUDIT_LOGS));
         return INITIAL_AUDIT_LOGS;
       }
-      return JSON.parse(stored);
+      const parsed: AuditLogItem[] = JSON.parse(stored);
+      const seenIds = new Set<string>();
+      return parsed.map((item, idx) => {
+        if (!item.id || seenIds.has(item.id)) {
+          const uniqueId = `log-${Date.now()}-${idx}-${Math.random().toString(36).substring(2, 7)}`;
+          seenIds.add(uniqueId);
+          return { ...item, id: uniqueId };
+        }
+        seenIds.add(item.id);
+        return item;
+      });
     } catch {
       return INITIAL_AUDIT_LOGS;
     }
@@ -1115,7 +1125,7 @@ export const AdminStore = {
     ).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
 
     const newLog: AuditLogItem = {
-      id: `log-${Date.now()}`,
+      id: `log-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
       timestamp: timeStr,
       ipAddress: "180.252.164.88",
       ...entry,
