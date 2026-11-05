@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { resolveTenantId, TenantId, TENANTS } from "@/config/tenants";
 
 /**
- * Multi-Tenant Middleware untuk Sekolah Dharma Loka Pekanbaru
- * Mendeteksi jenjang pendidikan dari subdomain (tk.dharmaloka.sch.id, sd.dharmaloka.sch.id, dll.)
- * maupun query parameter (?jenjang=sd) atau cookie (dl_tenant) untuk simulasi lokal.
+ * Multi-Tenant Middleware untuk Sekolah Cendekia Bangsa
+ * Mendeteksi jenjang pendidikan dari subdomain maupun query parameter (?jenjang=sd)
+ * atau cookie (dl_tenant) untuk routing lokal/single-domain di Vercel atau localhost.
  */
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const host = request.headers.get("host") || "dharmaloka.sch.id";
+  const host = request.headers.get("host") || "cendekiabangsa.sch.id";
   const queryJenjang = searchParams.get("jenjang");
   const cookieJenjang = request.cookies.get("dl_tenant")?.value;
 

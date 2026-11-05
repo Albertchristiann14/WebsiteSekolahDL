@@ -1072,11 +1072,21 @@ export function getTenantConfig(tenantId?: string | null): TenantConfig {
 }
 
 /**
- * Membangun URL absolut atau relatif untuk berpindah antar-jenjang dan kembali ke Halaman Pusat.
- * Mendukung localhost dan subdomain riil (tk/sd/smp/sma/smk.dharmaloka.sch.id).
+ * Membangun URL untuk berpindah antar-jenjang dan kembali ke Halaman Pusat.
+ * Secara default (Localhost, Vercel, Tunnel, Portofolio single-domain), navigasi menggunakan
+ * query parameter (?jenjang=sd, ?jenjang=portal) agar tetap berada di domain yang sama tanpa perlu
+ * konfigurasi wildcard DNS subdomain.
+ * Subdomain riil (tk.cendekiabangsa.sch.id) hanya diaktifkan jika NEXT_PUBLIC_ENABLE_SUBDOMAINS === "true".
  */
 export function getTenantUrl(targetId: TenantId): string {
   if (typeof window === "undefined") {
+    return targetId === "portal" ? "/?jenjang=portal" : `/?jenjang=${targetId}`;
+  }
+
+  // Jika sub-domain riil tidak diaktifkan eksplisit (mode portofolio / vercel / local),
+  // pertahankan routing pada host/domain yang sama via query parameter.
+  const enableRealSubdomains = process.env.NEXT_PUBLIC_ENABLE_SUBDOMAINS === "true";
+  if (!enableRealSubdomains) {
     return targetId === "portal" ? "/?jenjang=portal" : `/?jenjang=${targetId}`;
   }
 
@@ -1087,7 +1097,7 @@ export function getTenantUrl(targetId: TenantId): string {
     hostname === "127.0.0.1";
 
   const rootDomain =
-    process.env.NEXT_PUBLIC_ROOT_DOMAIN || "dharmaloka.sch.id";
+    process.env.NEXT_PUBLIC_ROOT_DOMAIN || "cendekiabangsa.sch.id";
 
   if (targetId === "portal") {
     if (isLocalhost) {

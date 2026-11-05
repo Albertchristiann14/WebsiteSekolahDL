@@ -1,5 +1,6 @@
 /**
- * Official Institutional Information for Sekolah Dharma Loka Pekanbaru
+ * Official Institutional Information for Sekolah Cendekia Bangsa
+ * (Proyek Portofolio Sistem Informasi Sekolah & SPMB Terpadu)
  */
 
 export interface SchoolMeta {
@@ -50,16 +51,16 @@ export interface SchoolMeta {
 }
 
 export const schoolInfo: SchoolMeta = {
-  name: "Sekolah Dharma Loka Pekanbaru",
-  shortName: "Dharma Loka",
-  motto: "Prajña Pāramitā Hṛdaya",
-  mottoTranslation: "Mengembangkan Kebijaksanaan, Membina Budi Pekerti, Menggapai Prestasi Mulia",
-  foundation: "Yayasan Pendidikan Dharma Loka",
-  establishedYear: "1988",
+  name: "Sekolah Cendekia Bangsa",
+  shortName: "Cendekia Bangsa",
+  motto: "Integritas, Prestasi, dan Budi Luhur",
+  mottoTranslation: "Mengembangkan Intelektualitas, Membina Budi Pekerti, Menggapai Prestasi Dunia",
+  foundation: "Yayasan Pendidikan Cendekia Bangsa",
+  establishedYear: "2005",
   accreditation: "Terakreditasi A (Unggul)",
   address: {
-    street: "Jl. Tuanku Tambusai, Komp. Taman Anggrek / Pemancar TVRI",
-    subDistrict: "Labuh Baru Barat, Kec. Payung Sekaki",
+    street: "Jl. Pendidikan Terpadu No. 88",
+    subDistrict: "Komp. Edukasi Terpadu",
     city: "Kota Pekanbaru",
     province: "Riau",
     postalCode: "28292",
@@ -70,15 +71,15 @@ export const schoolInfo: SchoolMeta = {
     phone: "(0761) 859214",
     whatsapp: "6281275008899",
     whatsappFormatted: "+62 812-7500-8899",
-    email: "sekretariat@dharmaloka.sch.id",
+    email: "sekretariat@cendekiabangsa.sch.id",
     officeHours: "Senin – Jumat: 07.15 – 15.30 WIB",
     weekendHours: "Sabtu: 07.15 – 12.30 WIB",
   },
   socialMedia: {
-    instagram: "https://instagram.com/dharmaloka_official",
-    facebook: "https://facebook.com/sekolahdharmaloka",
-    youtube: "https://youtube.com/@sekolahdharmalokapekanbaru",
-    tiktok: "https://tiktok.com/@dharmalokaschool",
+    instagram: "https://instagram.com/cendekiabangsa_school",
+    facebook: "https://facebook.com/sekolahcendekiabangsa",
+    youtube: "https://youtube.com/@sekolahcendekiabangsa",
+    tiktok: "https://tiktok.com/@cendekiabangsa",
   },
   stats: [
     {
